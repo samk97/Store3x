@@ -1,6 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
+import PrivateRoutes   from './routes/private'
+import PublicRoutes from './routes/public'
+import PremiumRoutes from './routes/premium'
 import Shop from "./components/Shop/Shop";
 import Checkout from "./components/Checkout";
 import Product from "./components/Product/Product";
