@@ -28,6 +28,10 @@ const PopupWindow = ({ show, onClose }) => {
     setShowLogin(!showLogin);
   };
 
+  const handleLoginSuccess = () => {
+    onClose(); // Close the popup upon successful login
+  };
+
   return (
     show && (
       <div className="fixed text-left inset-0 flex items-center justify-center bg-gray-800 bg-opacity-80 z-50">
@@ -36,7 +40,7 @@ const PopupWindow = ({ show, onClose }) => {
           className="max-w-lg w-4/12 mx-auto shadow px-6 py-7 rounded overflow-hidden bg-white relative"
         >
           {showLogin ? (
-            <Login toggleForm={toggleForm} />
+            <Login toggleForm={toggleForm} onLoginSuccess={handleLoginSuccess} /> 
           ) : (
             <Signup toggleForm={toggleForm} />
           )}
