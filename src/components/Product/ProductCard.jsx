@@ -7,10 +7,17 @@ import {
   faMagnifyingGlass,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
-import Product1 from "../../assets/images/products/product1.jpg";
 import Alert from "../UI/Alert";
 
-const ProductCard = () => {
+const ProductCard = ({
+  title,
+  price,
+  addToCartHandler,
+  bgImage,
+  rating,
+  discount_percent,
+  productId,
+}) => {
   const [showAlert, setShowAlert] = useState(false);
 
   const handleAddToCart = () => {
@@ -21,7 +28,7 @@ const ProductCard = () => {
     <div className="bg-white shadow rounded overflow-hidden group">
       <div className="relative">
         <Link to="product">
-          <img src={Product1} alt="product 1" className="w-full" />
+          <img src={bgImage} alt={title} className="w-full h-60" />
 
           <div
             className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
@@ -47,12 +54,16 @@ const ProductCard = () => {
       <div className="pt-4 pb-3 px-4">
         <a href="#">
           <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-red-700 transition">
-            Guyer Chair
+            {title}
           </h4>
         </a>
         <div className="flex items-baseline mb-1 space-x-2">
-          <p className="text-xl text-red-700 font-semibold">$45.00</p>
-          <p className="text-sm text-gray-400 line-through">$55.90</p>
+          <p className="text-xl text-red-700 font-semibold">
+            ₹{Math.floor(price - (price % discount_percent) / 100)}
+          </p>
+          <p className="text-sm text-gray-400 line-through">
+            ₹{Math.floor(price)}
+          </p>
         </div>
         <div className="flex items-center">
           <div className="flex gap-1 text-sm text-yellow-400">
@@ -76,13 +87,18 @@ const ProductCard = () => {
         </div>
       </div>
       <button
-        onClick={handleAddToCart}
+        onClick={addToCartHandler}
         className="block w-full py-1 text-center text-white bg-red-700 border border-red-700 rounded-b hover:bg-transparent hover:text-red-700 transition"
       >
         Add to cart
       </button>
-      {showAlert && <Alert setShowAlert={setShowAlert} messageType="success" message="Item added to cart !" />}
-
+      {showAlert && (
+        <Alert
+          setShowAlert={setShowAlert}
+          messageType="success"
+          message="Item added to cart !"
+        />
+      )}
     </div>
   );
 };
