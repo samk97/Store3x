@@ -1,5 +1,11 @@
-import Bg from "../../assets/images/banner-bg.jpg"
+import React from "react";
+import Bg from "../../assets/images/banner-bg.jpg";
+
 const Banner = () => {
+  const handleButtonClick = () => {
+    console.log("Button clicked");
+  };
+
   return (
     <div
       className="bg-cover bg-no-repeat bg-center py-36"
@@ -16,16 +22,18 @@ const Banner = () => {
           odio
         </p>
         <div className="mt-12">
-          <a
-            href="#"
-            className="bg-red-700 border border-red-700 text-white px-8 py-3 font-medium 
+          <button
+            type="button"
+            onClick={handleButtonClick}
+            className="check bg-red-700 border border-red-700 text-white px-8 py-3 font-medium 
               rounded-md hover:bg-transparent hover:text-red-700"
           >
             Shop Now
-          </a>
+          </button>
         </div>
       </div>
     </div>
   );
 };
+
 export default Banner;

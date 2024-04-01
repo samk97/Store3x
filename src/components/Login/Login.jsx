@@ -1,18 +1,41 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Alert from "../UI/Alert";
-const Login = ({ toggleForm }) => {
+import { login } from "../../utils/Auth"; // Import the login function
 
+const Login = ({ toggleForm, onLoginSuccess }) => {
   const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = () => {
-    setShowAlert(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Handle submit called");
+    try {
+      const formData = {
+        email: email,
+        password: password,
+      };
+      const response = await login(formData);
+      if (response.success) {
+        setShowAlert(true);
+        onLoginSuccess();
+      } else {
+        setShowAlert(true); // Show failure alert
+      }
+      console.log(response.error);
+      setAlertMsg(response.error);
+    } catch (error) {
+      setShowAlert(true);
+      console.error("Login failed:", error.message);
+    }
   };
 
   return (
     <>
       <h2 className="text-2xl uppercase font-medium mb-1">Login</h2>
       <p className="text-gray-600 mb-6 text-sm">welcome back customer</p>
-      <form action="#" method="post" autoComplete="off">
+      <form onSubmit={handleSubmit} autoComplete="off">
         <div className="space-y-2">
           <div>
             <label htmlFor="email" className="text-gray-600 mb-2 block">
@@ -20,6 +43,8 @@ const Login = ({ toggleForm }) => {
             </label>
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               name="email"
               id="email"
               className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-400"
@@ -32,6 +57,8 @@ const Login = ({ toggleForm }) => {
             </label>
             <input
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               name="password"
               id="password"
               className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-400"
@@ -61,36 +88,12 @@ const Login = ({ toggleForm }) => {
         <div className="mt-4">
           <button
             type="submit"
-            onClick={handleSubmit}
             className="block w-full py-2 text-center text-white bg-red-700 border border-red-700 rounded hover:bg-transparent hover:text-red-700 transition uppercase font-roboto font-medium"
           >
             Login
           </button>
         </div>
       </form>
-      {/* login with */}
-      {/* <div className="mt-6 flex justify-center relative">
-        <div className="text-gray-600 uppercase px-3 bg-white z-10 relative">
-          Or login with
-        </div>
-        <div className="absolute left-0 top-3 w-full border-b-2 border-gray-200" />
-      </div>
-      <div className="mt-4 flex gap-4">
-        <a
-          href="#"
-          className="w-1/2 py-2 text-center text-white bg-blue-800 rounded uppercase font-roboto font-medium text-sm hover:bg-blue-700"
-        >
-          facebook
-        </a>
-        <a
-          href="#"
-          className="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500"
-        >
-          google
-        </a>
-      </div> */}
-      {/* ./login with */}
-
       <p className="mt-4 text-center text-gray-600">
         Don't have an account?{" "}
         <button
@@ -101,8 +104,13 @@ const Login = ({ toggleForm }) => {
         </button>
       </p>
 
-      {showAlert && <Alert setShowAlert={setShowAlert} messageType="fail" message="login Success !!" />}
-
+      {showAlert && (
+        <Alert
+          setShowAlert={setShowAlert}
+          messageType="fail"
+          message={alertMsg}
+        />
+      )}
     </>
   );
 };

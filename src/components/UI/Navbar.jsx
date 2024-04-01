@@ -1,16 +1,5 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom';
-
-import {
-  faFacebook,
-  faFacebookF,
-  faFacebookSquare,
-  faGithubSquare,
-  faInstagram,
-  faInstagramSquare,
-  faTwitter,
-  faTwitterSquare,
-} from "@fortawesome/free-brands-svg-icons";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Sofa from "../../assets/images/icons/sofa.svg";
@@ -20,9 +9,12 @@ import Bed from "../../assets/images/icons/bed.svg";
 import Bed2 from "../../assets/images/icons/bed-2.svg";
 import OutdoorCafe from "../../assets/images/icons/outdoor-cafe.svg";
 import PopupWindow from "../Login/PopupWindow";
+import { fetchUser,logout } from "../../utils/Auth";
 
 const Navbar = () => {
   const [showLogin, setShowLogin] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   const handleLoginButtonClick = () => {
     setShowLogin(true);
@@ -31,6 +23,25 @@ const Navbar = () => {
   const handleClosePopup = () => {
     setShowLogin(false);
   };
+
+  const handleLogout = () => {
+    logout(); // Call the logout function
+    setLoggedIn(false);
+    setUser(null);
+  };
+
+  useEffect(() => {
+    console.log("Navbar useEffect");
+    const checkUser = fetchUser();
+    if (checkUser) {
+      setLoggedIn(true);
+      setUser(checkUser);
+      console.log(user);
+    } else {
+      setLoggedIn(false);
+      setUser(null);
+    }
+  }, []);
 
   return (
     <nav className="bg-gray-800">
@@ -106,10 +117,7 @@ const Navbar = () => {
         </div>
         <div className="flex items-center justify-between flex-grow md:pl-12 py-5">
           <div className="flex items-center space-x-6 capitalize">
-          <Link
-              to="/"
-              className="text-gray-200 hover:text-white transition"
-            >
+            <Link to="/" className="text-gray-200 hover:text-white transition">
               Home
             </Link>
             <Link
@@ -132,13 +140,25 @@ const Navbar = () => {
               Contact us
             </Link>
           </div>
-
-          <button
-            onClick={handleLoginButtonClick}
-            className="text-gray-200 hover:text-white transition"
-          >
-            Login
-          </button>
+          {loggedIn ? (
+            <>
+              
+              <button
+                onClick={handleLogout}
+                className="text-gray-200 hover:text-white transition"
+              >
+                <p>{user.fname} {user.lname}</p>
+                Logout
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={handleLoginButtonClick}
+              className="text-gray-200 hover:text-white transition"
+            >
+              Login
+            </button>
+          )}
 
           <PopupWindow show={showLogin} onClose={handleClosePopup} />
         </div>
