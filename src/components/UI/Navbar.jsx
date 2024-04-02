@@ -15,6 +15,7 @@ const Navbar = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [loginSucc, setLoginSucc] = useState(false);
 
   const handleLoginButtonClick = () => {
     setShowLogin(true);
@@ -41,7 +42,7 @@ const Navbar = () => {
       setLoggedIn(false);
       setUser(null);
     }
-  }, []);
+  }, [loginSucc]);
 
   return (
     <nav className="bg-gray-800">
@@ -160,7 +161,7 @@ const Navbar = () => {
             </button>
           )}
 
-          <PopupWindow show={showLogin} onClose={handleClosePopup} />
+          <PopupWindow show={showLogin} setLoginSucc={setLoginSucc} onClose={handleClosePopup} />
         </div>
       </div>
     </nav>

@@ -4,7 +4,7 @@ const Alert = ({ setShowAlert, messageType, message }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowAlert(false);
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [setShowAlert]);

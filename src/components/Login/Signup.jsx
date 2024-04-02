@@ -1,11 +1,77 @@
-import React from "react";
+import React, { useState } from "react";
+import { signup } from "../../utils/Auth";
+import Alert from "../UI/Alert";
 
 const Signup = ({ toggleForm }) => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState(null);
+  const [alertMsgType, setAlertMsgType] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const fullName = e.target.elements.name.value;
+      const [fname, ...lnameArr] = fullName.split(" ");
+      const lname = lnameArr.join(" ");
+
+      const password1 = e.target.elements.password.value;
+      const password2 = e.target.elements.confirm.value;
+
+      if (password1 !== password2) {
+        setAlertMsg("Passwords do not match.");
+        setShowAlert(true);
+        return;
+      }
+
+      const email = e.target.elements.email.value;
+      if (!fullName || !email || !password1) {
+        setAlertMsg("Please fill in all details.");
+        setShowAlert(true);
+        return;
+      }
+
+      if (!validateEmail(email)) {
+        setAlertMsg("Please enter a valid email address.");
+        setShowAlert(true);
+        return;
+      }
+  
+      const formData = {
+        fname: fname,
+        lname: lname,
+        email: e.target.elements.email.value,
+        password: e.target.elements.password.value,
+        user_type: 1,
+      };
+  
+      const response = await signup(formData);
+      setShowAlert(true);
+      console.log(response);
+  
+      if (response.success) {
+        setAlertMsg(response.message);
+        setAlertMsgType("success");
+      } else {
+         console.log(response.message)
+        setAlertMsg(response.message);
+        setAlertMsgType("fail");
+      }
+    } catch (error) {
+      setAlertMsg(error.message);
+      setAlertMsgType("fail"); 
+    }
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   return (
     <>
       <h2 className="text-2xl uppercase font-medium mb-1">Create an account</h2>
       <p className="text-gray-600 mb-6 text-sm">Register for new cosutumer</p>
-      <form action="#" method="post" autoComplete="off">
+      <form onSubmit={handleSubmit} autoComplete="off">
         <div className="space-y-2">
           <div>
             <label htmlFor="name" className="text-gray-600 mb-2 block">
@@ -24,7 +90,7 @@ const Signup = ({ toggleForm }) => {
               Email address
             </label>
             <input
-              type="email"
+              type="text"
               name="email"
               id="email"
               className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-400"
@@ -84,28 +150,8 @@ const Signup = ({ toggleForm }) => {
           </button>
         </div>
       </form>
-      {/* login with */}
-      {/* <div className="mt-6 flex justify-center relative">
-        <div className="text-gray-600 uppercase px-3 bg-white z-10 relative">
-          Or signup with
-        </div>
-        <div className="absolute left-0 top-3 w-full border-b-2 border-gray-200" />
-      </div>
-      <div className="mt-4 flex gap-4">
-        <a
-          href="#"
-          className="w-1/2 py-2 text-center text-white bg-blue-800 rounded uppercase font-roboto font-medium text-sm hover:bg-blue-700"
-        >
-          facebook
-        </a>
-        <a
-          href="#"
-          className="w-1/2 py-2 text-center text-white bg-red-600 rounded uppercase font-roboto font-medium text-sm hover:bg-red-500"
-        >
-          google
-        </a>
-      </div> */}
       
+
       <p className="mt-4 text-center text-gray-600">
         Already have an account?{" "}
         <button
@@ -115,6 +161,13 @@ const Signup = ({ toggleForm }) => {
           Login now
         </button>
       </p>
+      {showAlert && (
+        <Alert
+          setShowAlert={setShowAlert}
+          messageType={alertMsgType}
+          message={alertMsg}
+        />
+      )}
     </>
   );
 };
