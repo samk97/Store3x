@@ -1,21 +1,128 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Dashboard from "./Dashboard";
-import AdminHeader from './AdminHeader';
+import AdminHeader from "./AdminHeader";
 import Sidebar from "./Sidebar";
+import { random } from "../../utils/Seller";
+import Swal from "sweetalert2";
+
+const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
 
 const AddProduct = () => {
+  let sellerId = "vipin@gmail.com";
+  const [formData, setFormData] = useState({
+    product_id: random(),
+    name: "",
+    seller_id: sellerId,
+    price: "",
+    rating: 0,
+    review_count: 0,
+    category_id: 0,
+    description: "",
+    discount_percent: 0,
+    available_units: 0,
+    color: "",
+    in_stock: 0,
+    weight: "",
+    carrier_id: 1,
+    image_url: "",
+  });
+
+  const [category, setCategory] = useState([]);
+  useEffect(() => {
+    async function fetchCategoryData() {
+      try {
+        const response = await fetch("https://localhost:4003/category");
+        if (!response.ok) {
+          throw new Error("Failed to fetch category data");
+        }
+        const data = await response.json();
+        setCategory(data);
+      } catch (error) {
+        console.error("Error fetching category data:", error);
+      }
+    }
+    fetchCategoryData();
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  console.log(category);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(JSON.stringify(formData));
+    try {
+      const response = await fetch(productsApiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        handleClickUnsc();
+        throw new Error("Failed to add product");
+      }
+      const responseData = await response.json();
+      console.log("Product added:", responseData);
+      handleClickAnm();
+
+      // Clear form after successful submission
+      setFormData({
+        product_id: 0,
+        name: "",
+        seller_id: sellerId,
+        price: "",
+        rating: 0,
+        review_count: 0,
+        category_id: 0,
+        description: "",
+        discount_percent: 0,
+        available_units: 999,
+        color: "",
+        in_stock: 0,
+        weight: "",
+        carrier_id: 1,
+        image_url: "",
+      });
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
+  const handleClickAnm = () => {
+    Swal.fire({
+      icon: "success",
+      title: "Product Added !!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
+  const handleClickUnsc = () => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
   return (
     <>
-      <AdminHeader/>
-      <Sidebar/>
+      <AdminHeader />
+      <Sidebar />
       <section className="bg-white dark:bg-gray-900 pt-20">
         <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
           <div className="flex justify-center items-center">
             <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-              Add a new product
+              Add a New Product
             </h2>
           </div>
-          <form action="#">
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div className="sm:col-span-2">
                 <label
@@ -30,23 +137,8 @@ const AddProduct = () => {
                   id="name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Type product name"
-                  required=""
-                />
-              </div>
-              <div className="w-full">
-                <label
-                  htmlFor="brand"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Brand
-                </label>
-                <input
-                  type="text"
-                  name="brand"
-                  id="brand"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Product brand"
-                  required=""
+                  required
+                  onChange={handleChange}
                 />
               </div>
               <div className="w-full">
@@ -57,62 +149,15 @@ const AddProduct = () => {
                   Price
                 </label>
                 <input
-                  type="text"
-                  name="brand"
-                  id="brand"
+                  type="number"
+                  name="price"
+                  id="price"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Product brand"
-                  required=""
+                  required
+                  onChange={handleChange}
                 />
               </div>
-              <div className="w-full">
-                <label
-                  htmlFor="brand"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Rating
-                </label>
-                <input
-                  type="text"
-                  name="brand"
-                  id="brand"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Product brand"
-                  required=""
-                />
-              </div>
-              <div className="w-full">
-                <label
-                  htmlFor="brand"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Review Count
-                </label>
-                <input
-                  type="text"
-                  name="brand"
-                  id="brand"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Product brand"
-                  required=""
-                />
-              </div>
-              <div className="w-full">
-                <label
-                  htmlFor="brand"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Category Id
-                </label>
-                <input
-                  type="text"
-                  name="brand"
-                  id="brand"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Product brand"
-                  required=""
-                />
-              </div>
+
               <div className="w-full">
                 <label
                   htmlFor="brand"
@@ -122,11 +167,12 @@ const AddProduct = () => {
                 </label>
                 <input
                   type="text"
-                  name="brand"
-                  id="brand"
+                  name="color"
+                  id="color"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Product brand"
-                  required=""
+                  required
+                  onChange={handleChange}
                 />
               </div>
               <div className="w-full">
@@ -137,12 +183,12 @@ const AddProduct = () => {
                   In stock
                 </label>
                 <input
-                  type="text"
-                  name="brand"
-                  id="brand"
+                  type="number"
+                  name="in_stock"
+                  id="in_stock"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Product brand"
-                  required=""
+                  required
+                  onChange={handleChange}
                 />
               </div>
               <div className="w-full">
@@ -154,11 +200,12 @@ const AddProduct = () => {
                 </label>
                 <input
                   type="text"
-                  name="price"
-                  id="price"
+                  name="image_url"
+                  id="image_url"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="www.simlify3x.com"
-                  required=""
+                  required
+                  onChange={handleChange}
                 />
               </div>
               <div>
@@ -169,30 +216,57 @@ const AddProduct = () => {
                   Category
                 </label>
                 <select
-                  id="category"
+                  id="category_id"
+                  name="category_id"
+                  type="number"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  onChange={handleChange}
                 >
-                  <option selected="">Select category</option>
-                  <option value="TV">TV/Monitors</option>
-                  <option value="PC">PC</option>
-                  <option value="GA">Gaming/Console</option>
-                  <option value="PH">Phones</option>
+                  {category.length > 0 &&
+                    category.map((cat) => (
+                      <option
+                        key={cat.category_id}
+                        value={cat.category_id}
+                        selected={cat.category_id}
+                      >
+                        {cat.category_name}
+                      </option>
+                    ))}
                 </select>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="item-weight"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Item Weight (gram)
+                </label>
+                <input
+                  type="number"
+                  name="weight"
+                  id="weight"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  placeholder={12}
+                  required
+                  onChange={handleChange}
+                />
               </div>
               <div>
                 <label
                   htmlFor="item-weight"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Item Weight (kg)
+                  Discount(%)
                 </label>
                 <input
                   type="number"
-                  name="item-weight"
-                  id="item-weight"
+                  name="discount_percent"
+                  id="discount_percent"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder={12}
-                  required=""
+                  required
+                  onChange={handleChange}
                 />
               </div>
               <div className="sm:col-span-2">
@@ -204,10 +278,13 @@ const AddProduct = () => {
                 </label>
                 <textarea
                   id="description"
+                  name="description"
+                  type="text"
                   rows={8}
                   className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Your description here"
-                  defaultValue={""}
+                  required
+                  onChange={handleChange}
                 />
               </div>
             </div>

@@ -1,13 +1,85 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Dashboard from "./Dashboard";
 import Sidebar from "./Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import Swal from "sweetalert2";
 import { faTrashAlt, faEdit, faAdd } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import AdminHeader from './AdminHeader';
+import AdminHeader from "./AdminHeader";
 
 const ProductHandle = () => {
+  let user = "vipin@gmail.com";
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `https://localhost:4003/Seller/products/${user}`
+      );
+      const data = await response.json();
+      console.log(data);
+      setProducts(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleEdit = (productId) => {
+    // Redirect or navigate to edit page with productId
+    console.log("Edit product:", productId);
+  };
+
+  const handleDelete = async (productId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(
+            `https://localhost:4003/Products/${productId}`,
+            {
+              method: "DELETE",
+            }
+          );
+          if (response.ok) {
+            // Delete successful, update the state or fetch data again
+            fetchData();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+            console.log("Product deleted successfully.");
+          } else {
+            console.error("Failed to delete product.");
+            Swal.fire({
+              title: "Failed to delete!",
+              text: "Please try again later.",
+              icon: "error",
+            });
+          }
+        } catch (error) {
+          console.error("Error deleting product:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "An error occurred while deleting the product.",
+            icon: "error",
+          });
+        }
+      }
+    });
+  };
+
   return (
     <>
       <AdminHeader />
@@ -61,69 +133,46 @@ const ProductHandle = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  Apple MacBook Pro 17"
-                </th>
-                <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">Laptop</td>
-                <td className="px-6 py-4">₹2999</td>
-                <td className="px-6 py-4">₹2999</td>
-                <td className="px-6 py-4">₹2999</td>
-                <td className="px-6 py-4">₹2999</td>
-                <td className="px-6 py-4">₹2999</td>
-                <td className="px-6 py-4">₹2999</td>
-                <td className="px-6 py-4">
-                  <FontAwesomeIcon icon={faTrashAlt} className="px-2" />
-
-                  <FontAwesomeIcon icon={faEdit} />
-                </td>
-              </tr>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  Microsoft Surface Pro
-                </th>
-                <td className="px-6 py-4">White</td>
-                <td className="px-6 py-4">Laptop PC</td>
-                <td className="px-6 py-4">₹1999</td>
-                <td className="px-6 py-4">₹1999</td>
-                <td className="px-6 py-4">₹1999</td>
-                <td className="px-6 py-4">₹1999</td>
-                <td className="px-6 py-4">₹1999</td>
-                <td className="px-6 py-4">₹1999</td>
-                <td className="px-6 py-4">
-                  <FontAwesomeIcon icon={faTrashAlt} className="px-2" />
-
-                  <FontAwesomeIcon icon={faEdit} />
-                </td>
-              </tr>
-              <tr className="bg-white dark:bg-gray-800">
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  Magic Mouse 2
-                </th>
-                <td className="px-6 py-4">Black</td>
-                <td className="px-6 py-4">Accessories</td>
-                <td className="px-6 py-4">₹99</td>
-                <td className="px-6 py-4">₹99</td>
-                <td className="px-6 py-4">₹99</td>
-                <td className="px-6 py-4">₹99</td>
-                <td className="px-6 py-4">₹99</td>
-                <td className="px-6 py-4">₹99</td>
-                <td className="px-6 py-4">
-                  <FontAwesomeIcon icon={faTrashAlt} className="px-2" />
-
-                  <FontAwesomeIcon icon={faEdit} />
-                </td>
-              </tr>
+              {products.length > 0 &&
+                products.map((product) => (
+                  <tr
+                    key={product.id}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                  >
+                    <td className="px-6 py-4">{product.product_id}</td>
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      {product.name}
+                    </th>
+                    <td className="px-6 py-4">{product.color}</td>
+                    <td className="px-6 py-4">{product.discount_percent}</td>
+                    <td className="px-6 py-4">{product.category_id}</td>
+                    <td className="px-6 py-4">{product.available_units}</td>
+                    <td className="px-6 py-4">{product.rating}</td>
+                    <td className="px-6 py-4">{product.review_count}</td>
+                    <td className="px-6 py-4">₹{product.price}</td>
+                    <td className="px-6 py-4">
+                      <div>
+                        <button
+                          onClick={() => handleDelete(product.product_id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrashAlt}
+                            style={{ padding: "10px" }}
+                          />
+                        </button>
+                        <button onClick={() => handleEdit(product.product_id)}>
+                          <FontAwesomeIcon
+                            icon={faEdit}
+                            style={{ padding: "10px" }}
+                          />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
