@@ -5,12 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faTrashAlt, faEdit, faAdd } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import AdminHeader from './AdminHeader';
 
 const ProductHandle = () => {
   return (
     <>
-      <Dashboard />
-      <div className="outer-table-container flex items-center justify-center">
+      <AdminHeader />
+      <Sidebar />
+
+      <div className="outer-table-container flex items-center justify-center pt-24 px-20">
         <div className="flex flex-col items-center w-max overflow-x-auto justify-center">
           <div className="add-btn-wrapper flex justify-end w-full py-3">
             <Link to="/add-product">
@@ -67,12 +70,12 @@ const ProductHandle = () => {
                 </th>
                 <td className="px-6 py-4">Silver</td>
                 <td className="px-6 py-4">Laptop</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">$2999</td>
+                <td className="px-6 py-4">₹2999</td>
+                <td className="px-6 py-4">₹2999</td>
+                <td className="px-6 py-4">₹2999</td>
+                <td className="px-6 py-4">₹2999</td>
+                <td className="px-6 py-4">₹2999</td>
+                <td className="px-6 py-4">₹2999</td>
                 <td className="px-6 py-4">
                   <FontAwesomeIcon icon={faTrashAlt} className="px-2" />
 
@@ -88,12 +91,12 @@ const ProductHandle = () => {
                 </th>
                 <td className="px-6 py-4">White</td>
                 <td className="px-6 py-4">Laptop PC</td>
-                <td className="px-6 py-4">$1999</td>
-                <td className="px-6 py-4">$1999</td>
-                <td className="px-6 py-4">$1999</td>
-                <td className="px-6 py-4">$1999</td>
-                <td className="px-6 py-4">$1999</td>
-                <td className="px-6 py-4">$1999</td>
+                <td className="px-6 py-4">₹1999</td>
+                <td className="px-6 py-4">₹1999</td>
+                <td className="px-6 py-4">₹1999</td>
+                <td className="px-6 py-4">₹1999</td>
+                <td className="px-6 py-4">₹1999</td>
+                <td className="px-6 py-4">₹1999</td>
                 <td className="px-6 py-4">
                   <FontAwesomeIcon icon={faTrashAlt} className="px-2" />
 
@@ -109,12 +112,12 @@ const ProductHandle = () => {
                 </th>
                 <td className="px-6 py-4">Black</td>
                 <td className="px-6 py-4">Accessories</td>
-                <td className="px-6 py-4">$99</td>
-                <td className="px-6 py-4">$99</td>
-                <td className="px-6 py-4">$99</td>
-                <td className="px-6 py-4">$99</td>
-                <td className="px-6 py-4">$99</td>
-                <td className="px-6 py-4">$99</td>
+                <td className="px-6 py-4">₹99</td>
+                <td className="px-6 py-4">₹99</td>
+                <td className="px-6 py-4">₹99</td>
+                <td className="px-6 py-4">₹99</td>
+                <td className="px-6 py-4">₹99</td>
+                <td className="px-6 py-4">₹99</td>
                 <td className="px-6 py-4">
                   <FontAwesomeIcon icon={faTrashAlt} className="px-2" />
 

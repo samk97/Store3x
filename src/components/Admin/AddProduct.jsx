@@ -1,11 +1,14 @@
 import React from "react";
 import Dashboard from "./Dashboard";
+import AdminHeader from './AdminHeader';
+import Sidebar from "./Sidebar";
 
 const AddProduct = () => {
   return (
     <>
-      <Dashboard />
-      <section className="bg-white dark:bg-gray-900">
+      <AdminHeader/>
+      <Sidebar/>
+      <section className="bg-white dark:bg-gray-900 pt-20">
         <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
           <div className="flex justify-center items-center">
             <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">

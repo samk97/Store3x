@@ -1,10 +1,14 @@
 import React from 'react'
+import Dashboard from './Dashboard';
+import AdminHeader from './AdminHeader';
 
 const SellerProfile = () => {
   return (
     <>
-      <div className="bg-white w-full flex flex-col gap-5 px-3 md:px-16 lg:px-28 md:flex-row text-[#161931]">
-        <aside className="hidden py-4 md:w-1/3 lg:w-1/4 md:block">
+    <AdminHeader/>
+     
+      <div className="bg-white w-full flex flex-col gap-5 px-3 md:px-16 lg:px-28 md:flex-row text-[#161931] ">
+        <aside className="hidden pt-24 py-4 md:w-1/3 lg:w-1/4 md:block">
           <div className="sticky flex flex-col gap-2 p-4 text-sm border-r border-indigo-100 top-12">
             <h2 className="pl-3 mb-4 text-2xl font-semibold">Settings</h2>
             <a
@@ -31,13 +35,13 @@ const SellerProfile = () => {
           <div className="p-2 md:p-4">
             <div className="w-full px-6 pb-8 mt-8 sm:max-w-xl sm:rounded-lg">
               <h2 className="pl-6 text-2xl font-bold sm:text-xl">
-                Public Profile
+                Seller Profile
               </h2>
               <div className="grid max-w-2xl mx-auto mt-8">
                 <div className="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
                   <img
                     className="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-red-500 dark:ring-red-700"
-                    src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlUbd_IE84Z_IxxjEY8biVPqsd1xrZIxckTDfgb2asuEbaoIRaYaqhjeiWsgAx5ZGwUjw&usqp=CAU"
                     alt="Bordered avatar"
                   />
                   <div className="flex flex-col space-y-5 sm:ml-8">
@@ -69,7 +73,6 @@ const SellerProfile = () => {
                         id="first_name"
                         className="bg-red-50 border border-red-300 text-red-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 "
                         placeholder="Your first name"
-                        defaultValue="Jane"
                         required=""
                       />
                     </div>
@@ -85,7 +88,6 @@ const SellerProfile = () => {
                         id="last_name"
                         className="bg-red-50 border border-red-300 text-red-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 "
                         placeholder="Your last name"
-                        defaultValue="Ferguson"
                         required=""
                       />
                     </div>
@@ -110,7 +112,7 @@ const SellerProfile = () => {
                       htmlFor="profession"
                       className="block mb-2 text-sm font-medium text-red-900 dark:text-white"
                     >
-                      Profession
+                      Shop Name
                     </label>
                     <input
                       type="text"
