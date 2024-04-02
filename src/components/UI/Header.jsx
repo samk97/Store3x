@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Logo from "../../assets/images/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt, faCog,faClipboardList,faStore } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart,
   faShoppingCart,
@@ -9,9 +10,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Cart from "../Cart/Cart";
 import { Link } from "react-router-dom";
+import { fetchUser,logout } from "../../utils/Auth";
 
 const Header = () => {
   const [cartPopupOpen, setCartPopupOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
 
   const wishlistItems = ["Item 1", "Item 2", "Item 3"]; // Example wishlist items
   const cartItems = ["Item A", "Item B"]; // Example cart items
@@ -22,6 +26,12 @@ const Header = () => {
 
   const handleCartLeave = () => {
     setCartPopupOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout(); // Call the logout function
+    setLoggedIn(false);
+    setUser(null);
   };
 
   return (
@@ -79,16 +89,70 @@ const Header = () => {
             {cartPopupOpen && <Cart />}
           </div>
 
-          {/* Account */}
-          <a
-            href="#"
-            className="text-center text-gray-700 hover:text-red-700 transition relative"
-          >
+          <div className=" relative text-center text-gray-700 hover:text-red-700 transition   relative group">
             <div className="text-2xl">
               <FontAwesomeIcon icon={faUser} />
             </div>
             <div className="text-xs leading-3">Account</div>
-          </a>
+
+            {/* dropdown */}
+            <div className="absolute right-0 bg-white shadow-md py-2 px-2 rounded-md  border-t-2  border-gray-800 z-50 shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
+              <a
+                href="#"
+                className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
+              >
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className="w-5 h-5 object-contain"
+                />
+                <span className="ml-6  text-sm">Profile</span>
+              </a>
+              <a
+                href="#"
+                className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
+              >
+                <FontAwesomeIcon
+                  icon={faClipboardList}
+                  className="w-5 h-5 object-contain"
+                />
+                <span className="ml-6  text-sm">Orders</span>
+              </a>
+              <a
+                href="#"
+                className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
+              >
+                <FontAwesomeIcon
+                  icon={faStore}
+                  className="w-5 h-5 object-contain"
+                />
+                <span className="ml-6  text-sm">
+                  Seller Account
+                </span>
+              </a>
+              <a
+                href="#"
+                className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
+              >
+                <FontAwesomeIcon
+                  icon={faCog}
+                  className="w-5 h-5 object-contain"
+                />
+                <span className="ml-6  text-sm">setting</span>
+              </a>
+
+              <button
+                onClick={handleLogout}
+                className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
+              >
+                <FontAwesomeIcon
+                  icon={faSignOutAlt}
+                  className="w-5 h-5 object-contain"
+                  
+                />
+                <span className="ml-6  text-sm">Logout</span>
+                </button>
+            </div>
+          </div>
         </div>
       </div>
     </header>
