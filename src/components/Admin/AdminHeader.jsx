@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Logo from "../../assets/images/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHeart,
-  faShoppingCart,
+  faBell,
+  faCog,
   faSearch,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
@@ -25,7 +25,7 @@ const Header = () => {
   };
 
   return (
-    <header className="py-4 shadow-sm bg-white">
+    <header className="py-4 shadow-sm bg-white fixed w-screen">
       <div className="container flex items-center justify-between">
         <Link to="/">
           <img src={Logo} alt="Logo" className="w-52" />
@@ -54,12 +54,10 @@ const Header = () => {
           <Link to="wishlist">
             <div className="relative text-center text-gray-700 hover:text-red-700 transition">
               <div className="text-2xl">
-                <FontAwesomeIcon icon={faHeart} />
+                <FontAwesomeIcon icon={faCog} />
               </div>
-              <div className="text-xs leading-3">Wishlist</div>
-              <div className="absolute right-0 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-red-700 text-white text-xs">
-                {wishlistItems.length}
-              </div>
+              <div className="text-xs leading-3"></div>
+              
             </div>
           </Link>
 
@@ -70,9 +68,9 @@ const Header = () => {
             onMouseLeave={handleCartLeave}
           >
             <div className="text-2xl">
-              <FontAwesomeIcon icon={faShoppingCart} />
+              <FontAwesomeIcon icon={faBell} />
             </div>
-            <div className="text-xs leading-3">Cart</div>
+            <div className="text-xs leading-3"></div>
             <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-red-700 text-white text-xs">
               {cartItems.length}
             </div>
@@ -80,15 +78,16 @@ const Header = () => {
           </div>
 
           {/* Account */}
-          <a
-            href="#"
+          <Link
+            to="/seller-profile"
             className="text-center text-gray-700 hover:text-red-700 transition relative"
           >
             <div className="text-2xl">
               <FontAwesomeIcon icon={faUser} />
             </div>
-            <div className="text-xs leading-3">Account</div>
-          </a>
+
+            <div className="text-xs leading-3"></div>
+          </Link>
         </div>
       </div>
     </header>
