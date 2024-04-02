@@ -1,13 +1,10 @@
 import axios from "axios";
 
-const URL_LOGIN =
-  process.env.REACT_APP_Login_API_URL || "http://localhost:4001/login/";
-const URL_LOGOUT =
-  process.env.REACT_APP_Logout_API_URL || "http://localhost:4001/logout/";
+const URL_AUTH = process.env.Auth_API_URL || "http://localhost:4001";
 
 export const login = async (formData) => {
   try {
-    const response = await axios.post(URL_LOGIN, formData, {
+    const response = await axios.post(`${URL_AUTH}/login`, formData, {
       withCredentials: true,
     });
 
@@ -26,9 +23,30 @@ export const login = async (formData) => {
   }
 };
 
+export const signup = async (formData) => {
+  try {
+    const response = await axios.post(`${URL_AUTH}/signup`, formData);
+    if (response.status === 201) {
+      return { success: true, message: response.data.message };
+    } else {
+      return { success: false, message: response.data.message };
+    }
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      return { success: false, message: error.response.data.message };
+    } else {
+      return {
+        success: false,
+        message: "Connection error. Please try again later !!!!",
+      };
+    }
+  }
+};
+
+
 export const logout = async () => {
   try {
-    await axios.post(URL_LOGOUT, {}, { withCredentials: true });
+    await axios.post(`${URL_AUTH}/logout`, {}, { withCredentials: true });
     document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
     window.location.href = "/";

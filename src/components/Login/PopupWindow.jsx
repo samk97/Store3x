@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Login from "./Login";
 import Signup from "./Signup";
 
-const PopupWindow = ({ show, onClose }) => {
+const PopupWindow = ({ show, onClose, setLoginSucc }) => {
   const [showLogin, setShowLogin] = useState(true); // State to manage login form visibility
   const popupRef = useRef(null);
 
@@ -29,6 +29,7 @@ const PopupWindow = ({ show, onClose }) => {
   };
 
   const handleLoginSuccess = () => {
+    setLoginSucc(true);
     onClose(); // Close the popup upon successful login
   };
 
