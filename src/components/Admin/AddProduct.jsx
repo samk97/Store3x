@@ -1,13 +1,103 @@
-import React from "react";
+import React, { useState } from "react";
 import Dashboard from "./Dashboard";
-import AdminHeader from './AdminHeader';
+import AdminHeader from "./AdminHeader";
 import Sidebar from "./Sidebar";
+import { random } from "../../utils/Seller";
+import Swal from "sweetalert2";
+
+const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
 
 const AddProduct = () => {
+  let sellerId = "vipin@gmail.com";
+  const [formData, setFormData] = useState({
+    product_id: random(),
+    name: "",
+    seller_id: sellerId,
+    price: "",
+    rating: 0,
+    review_count: 0,
+    category_id: 0,
+    description: "",
+    discount_percent: 0,
+    available_units: 0,
+    color: "",
+    in_stock: 0,
+    weight: "",
+    carrier_id: 1,
+    image_url: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(JSON.stringify(formData));
+    try {
+      const response = await fetch(productsApiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        handleClickUnsc();
+        throw new Error("Failed to add product");
+      }
+      const responseData = await response.json();
+      console.log("Product added:", responseData);
+      handleClickAnm();
+
+      // Clear form after successful submission
+      setFormData({
+        product_id: 0,
+        name: "",
+        seller_id: sellerId,
+        price: "",
+        rating: 0,
+        review_count: 0,
+        category_id: 0,
+        description: "",
+        discount_percent: 0,
+        available_units: 0,
+        color: "",
+        in_stock: 0,
+        weight: "",
+        carrier_id: 1,
+        image_url: "",
+      });
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
+  const handleClickAnm = () => {
+    Swal.fire({
+      icon: "success",
+      title: "Product Added !!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
+  const handleClickUnsc = () => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
   return (
     <>
-      <AdminHeader/>
-      <Sidebar/>
+      <AdminHeader />
+      <Sidebar />
       <section className="bg-white dark:bg-gray-900 pt-20">
         <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
           <div className="flex justify-center items-center">
@@ -65,54 +155,7 @@ const AddProduct = () => {
                   required=""
                 />
               </div>
-              <div className="w-full">
-                <label
-                  htmlFor="brand"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Rating
-                </label>
-                <input
-                  type="text"
-                  name="brand"
-                  id="brand"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Product brand"
-                  required=""
-                />
-              </div>
-              <div className="w-full">
-                <label
-                  htmlFor="brand"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Review Count
-                </label>
-                <input
-                  type="text"
-                  name="brand"
-                  id="brand"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Product brand"
-                  required=""
-                />
-              </div>
-              <div className="w-full">
-                <label
-                  htmlFor="brand"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Category Id
-                </label>
-                <input
-                  type="text"
-                  name="brand"
-                  id="brand"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Product brand"
-                  required=""
-                />
-              </div>
+
               <div className="w-full">
                 <label
                   htmlFor="brand"
