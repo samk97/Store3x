@@ -1,24 +1,5 @@
-import React, { useState } from "react";
-import Product1 from "../../assets/images/products/product1.jpg";
-const CartItem = ({
-  itemName,
-  quantity,
-  price,
-  imageUrl,
-  onQuantityChange,
-  onDelete,
-}) => {
-  const [currentQuantity, setCurrentQuantity] = useState(quantity);
-
-  const calculateTotalPrice = () => {
-    return currentQuantity * price;
-  };
-
-  const handleQuantityChange = (newQuantity) => {
-    newQuantity = Math.max(1, newQuantity);
-    setCurrentQuantity(newQuantity);
-    onQuantityChange(newQuantity);
-  };
+import React from "react";
+const CartItem = ({ itemName, price, imageUrl, onDelete }) => {
   return (
     <div className="flex items-center justify-between border-b border-gray-200 mb-2 ">
       <div className="w-32">
