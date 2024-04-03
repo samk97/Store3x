@@ -37,6 +37,7 @@ export const fetchCartProductData = (cartData) => {
 
 export const addToCartHandler = async (product_id, quantity = 1) => {
   const url = `${cartApiUrl}/AddToCart`;
+
   const data = {
     product_id: product_id,
     buyer_id: user,
@@ -44,33 +45,28 @@ export const addToCartHandler = async (product_id, quantity = 1) => {
   };
 
   try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await axios.post(url, data);
 
-    if (response.status == 201) {
+    if (response.status === 201) {
       return {
-        success:true,
-        message:"Item Added Successfully !!!"
-      }
-    } else if (response.status == 409) {
+        success: true,
+        message: "Item Added Successfully !!!",
+      };
+    } else {
       return {
-        success:false,
-        message:"Item already exists !!!"
-      }
-      
+        success: false,
+        message: "Error !!!",
+      };
     }
   } catch (error) {
-    return {
-      success:false,
-      message:"Error !!!!"
+    let errorMessage = "An error occurred while adding item to cart.";
+    if (error.response && error.response.data) {
+      errorMessage = error.response.data;
     }
-    
-    
+    return {
+      success: false,
+      message: errorMessage,
+    };
   }
 };
 

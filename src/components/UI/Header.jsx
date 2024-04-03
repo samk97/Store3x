@@ -1,37 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../assets/images/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt, faCog,faClipboardList,faStore } from "@fortawesome/free-solid-svg-icons";
+import Cart from "../Cart/Cart";
+import { Link } from "react-router-dom";
+import { logout } from "../../utils/Auth";
+import { UserCartItems } from "../../utils/Cart";
 import {
+  faSignOutAlt,
+  faCog,
+  faClipboardList,
+  faStore,
   faHeart,
   faShoppingCart,
   faSearch,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import Cart from "../Cart/Cart";
-import { Link } from "react-router-dom";
-import { fetchUser,logout } from "../../utils/Auth";
 
 const Header = () => {
   const [cartPopupOpen, setCartPopupOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
 
-  const wishlistItems = ["Item 1", "Item 2", "Item 3"]; // Example wishlist items
-  const cartItems = ["Item A", "Item B"]; // Example cart items
+  const [cartItems, setCartItems] = useState([]);
+
+  const wishlistItems = ["Item 1", "Item 2", "Item 3"];
+
+  useEffect(() => {
+    UserCartItems()
+      .then((data) => {
+        setCartItems(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user cart items:", error);
+      });
+  }, [cartItems]);
 
   const handleCartHover = () => {
     setCartPopupOpen(true);
   };
 
   const handleCartLeave = () => {
-    setCartPopupOpen(false);
+    setTimeout(() => {
+      setCartPopupOpen(false);
+    }, 200);
   };
 
   const handleLogout = () => {
-    logout(); // Call the logout function
-    setLoggedIn(false);
-    setUser(null);
+    logout();
   };
 
   return (
@@ -83,10 +96,12 @@ const Header = () => {
               <FontAwesomeIcon icon={faShoppingCart} />
             </div>
             <div className="text-xs leading-3">Cart</div>
-            <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-red-700 text-white text-xs">
-              {cartItems.length}
-            </div>
-            {cartPopupOpen && <Cart />}
+            {cartItems.length > 0 && (
+              <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-red-700 text-white text-xs">
+                {cartItems.length}
+              </div>
+            )}
+            {cartPopupOpen && cartItems.length > 0 && <Cart />}
           </div>
 
           <div className=" relative text-center text-gray-700 hover:text-red-700 transition   relative group">
@@ -125,9 +140,7 @@ const Header = () => {
                   icon={faStore}
                   className="w-5 h-5 object-contain"
                 />
-                <span className="ml-6  text-sm">
-                  Seller Account
-                </span>
+                <span className="ml-6  text-sm">Seller Account</span>
               </a>
               <a
                 href="#"
@@ -147,10 +160,9 @@ const Header = () => {
                 <FontAwesomeIcon
                   icon={faSignOutAlt}
                   className="w-5 h-5 object-contain"
-                  
                 />
                 <span className="ml-6  text-sm">Logout</span>
-                </button>
+              </button>
             </div>
           </div>
         </div>

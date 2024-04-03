@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
+import Alert from "../UI/Alert";
 import {
   UserCartItems,
   fetchCartProductData,
@@ -9,8 +10,11 @@ import {
 
 const Cart = (props) => {
   const [cartProduct, setCartProduct] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertMsgType, setAlertMsgType] = useState("");
 
-  useEffect(() => {
+  const refreshCart = () => {
     UserCartItems()
       .then((data) => {
         if (data.length > 0) {
@@ -25,10 +29,31 @@ const Cart = (props) => {
       .catch((error) => {
         console.error("Error:", error);
       });
+  };
+
+  useEffect(() => {
+    refreshCart();
   }, [props.user]);
 
+  const handleDeleteAndUpdateCart = async (productId) => {
+    try {
+      await handleDeleteItem(productId);
+      setAlertMsg("Item deleted from cart successfully !!!");
+      setShowAlert(true);
+      setAlertMsgType("success");
+    } catch (error) {
+      setAlertMsg("Error deleting item from cart !!!");
+      setShowAlert(true);
+      setAlertMsgType("fail");
+    }
+    refreshCart();
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 3000); // Hide the alert after 3 seconds
+  };
+
   return (
-    <div className="absolute top-15 right-0 w-96 bg-white shadow-md py-2 px-4 rounded-md  border-t-2  border-gray-800 z-50">
+    <div className="absolute top-15 right-0 w-96 bg-white shadow-md py-2 px-4 rounded-md border-t-2 border-gray-800 z-50">
       <div className="max-h-48 overflow-y-auto">
         <div className="w-11/12">
           {cartProduct.map((product) => (
@@ -38,7 +63,7 @@ const Cart = (props) => {
               quantity={1}
               price={product.price}
               imageUrl={product.image_url}
-              onDelete={() => handleDeleteItem(product.product_id)}
+              onDelete={() => handleDeleteAndUpdateCart(product.product_id)}
             />
           ))}
         </div>
@@ -46,7 +71,6 @@ const Cart = (props) => {
       <hr className="border-t border-gray-800 my-4" />
       <div className="flex justify-between gap-5 items-center">
         <p className="text-gray-600 mb-6 text-sm">Subtotal</p>
-
         <p className="text-red-700 text-sm font-semibold">$1280.00</p>
       </div>
 
@@ -61,6 +85,13 @@ const Cart = (props) => {
           Checkout Now
         </Link>
       </div>
+      {showAlert && (
+        <Alert
+          setShowAlert={setShowAlert}
+          messageType={alertMsgType}
+          message={alertMsg}
+        />
+      )}
     </div>
   );
 };

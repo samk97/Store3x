@@ -10,7 +10,6 @@ const Alert = ({ setShowAlert, messageType, message }) => {
   }, [setShowAlert]);
 
   let messageColor;
-  let svgPath;
 
   switch (messageType) {
     case "success":
