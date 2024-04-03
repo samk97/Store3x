@@ -12,6 +12,7 @@ import AdSidebar from './components/Admin/Sidebar';
 import ProductHandle from "./components/Admin/ProductHandle";
 import AddProduct from "./components/Admin/AddProduct";
 import SellerProfile from "./components/Admin/SellerProfile";
+import Address from "./components/Order/Address";
 function App() {
   return (
     <Routes>
@@ -22,13 +23,13 @@ function App() {
           <Route path="product/:productId" element={<Product />} />
         </Route>
         <Route path="wishlist" element={<Wishlist />} />
-        <Route path="checkout" element={<Checkout />} />
+        <Route path="address" element={<Address />} />
       </Route>
       <Route path="dashboard" element={<Dashboard />} />
-      <Route path="ad-sidebar" element={<AdSidebar/>} />
-      <Route path="product_handle" element={<ProductHandle/>} />
-      <Route path="add-product" element={<AddProduct/>} />
-      <Route path="seller-profile" element={<SellerProfile/>} />
+      <Route path="ad-sidebar" element={<AdSidebar />} />
+      <Route path="product_handle" element={<ProductHandle />} />
+      <Route path="add-product" element={<AddProduct />} />
+      <Route path="seller-profile" element={<SellerProfile />} />
     </Routes>
   );
 }
