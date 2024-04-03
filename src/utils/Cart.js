@@ -13,7 +13,6 @@ export const UserCartItems = () => {
 
       resolve(data);
     } catch (error) {
-      console.error("Error fetching cart data:", error);
       reject(error);
     }
   });

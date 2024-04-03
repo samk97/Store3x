@@ -1,18 +1,18 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  faTrash } from "@fortawesome/free-solid-svg-icons";
-import Product1 from "../assets/images/products/product1.jpg";
-import Product2 from "../assets/images/products/product2.jpg";
-import Product3 from "../assets/images/products/product3.jpg";
-import Product4 from "../assets/images/products/product4.jpg";
-import Product5 from "../assets/images/products/product5.jpg";
-import Product6 from "../assets/images/products/product6.jpg";
+import Product1 from "../../assets/images/products/product1.jpg";
+import Product2 from "../../assets/images/products/product2.jpg";
+import Product3 from "../../assets/images/products/product3.jpg";
+import Product4 from "../../assets/images/products/product4.jpg";
+import Product5 from "../../assets/images/products/product5.jpg";
+import Product6 from "../../assets/images/products/product6.jpg";
 
 const Wishlist = () => {
   return (
 <>
   {/* wishlist */}
-  <div className="col-span-9 space-y-4">
+  <div className="col-span-9 space-y-4 p-10">
     <div className="flex items-center justify-between border gap-6 p-4 border-gray-200 rounded">
       <div className="w-28">
         <img

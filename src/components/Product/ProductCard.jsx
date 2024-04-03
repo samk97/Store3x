@@ -27,7 +27,7 @@ const ProductCard = ({
   return (
     <div className="bg-white shadow rounded overflow-hidden group">
       <div className="relative">
-        <Link to="product">
+        <Link to={`product/${productId}`}>
           <img src={bgImage} alt={title} className="w-full h-60" />
 
           <div

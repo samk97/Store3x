@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Shop from "./components/Shop/Shop";
 import Checkout from "./components/Checkout";
 import Product from "./components/Product/Product";
-import Wishlist from "./components/Wishlist";
+import Wishlist from "./components/Wishlist/Wishlist";
 import Layout from "./components/Layouts/Layout";
 import HomeLayout from "./components/Home/Home";
 import ShopLayout from "./components/Layouts/ShopLayout";
@@ -19,7 +19,7 @@ function App() {
         <Route index element={<HomeLayout />} />
         <Route path="shop" element={<ShopLayout />}>
           <Route index element={<Shop />} />
-          <Route path="product" element={<Product />} />
+          <Route path="product/:productId" element={<Product />} />
         </Route>
         <Route path="wishlist" element={<Wishlist />} />
         <Route path="checkout" element={<Checkout />} />

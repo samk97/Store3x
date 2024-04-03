@@ -13,6 +13,7 @@ const Cart = (props) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
+  const [subtotal, setSubtotal] = useState(0);
 
   const refreshCart = () => {
     UserCartItems()
@@ -25,6 +26,7 @@ const Cart = (props) => {
       })
       .then((productData) => {
         setCartProduct(productData);
+        calculateSubtotal(productData);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -33,7 +35,12 @@ const Cart = (props) => {
 
   useEffect(() => {
     refreshCart();
-  }, [props.user]);
+  }, []);
+
+  const calculateSubtotal = (products) => {
+    const total = products.reduce((acc, curr) => acc + curr.price, 0);
+    setSubtotal(total);
+  };
 
   const handleDeleteAndUpdateCart = async (productId) => {
     try {
@@ -71,7 +78,7 @@ const Cart = (props) => {
       <hr className="border-t border-gray-800 my-4" />
       <div className="flex justify-between gap-5 items-center">
         <p className="text-gray-600 mb-6 text-sm">Subtotal</p>
-        <p className="text-red-700 text-sm font-semibold">$1280.00</p>
+        <p className="text-red-700 text-sm font-semibold">₹{subtotal.toFixed(2)}</p>
       </div>
 
       <div className="flex justify-center gap-5">
