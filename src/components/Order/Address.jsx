@@ -127,7 +127,9 @@ const Address = () => {
           </select>
         </div>
         {/* Checkout Form */}
-        <h3>Add Address</h3>
+        <h3 className="text-gray-800 font-medium text-center mb-5 text-3xl">
+          Add Address
+        </h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -266,7 +268,7 @@ const Address = () => {
               type="submit"
               className="bg-red-700 text-white px-4 py-2 rounded"
             >
-              Submit
+              Add
             </button>
           </div>
         </form>
@@ -283,13 +285,13 @@ const Address = () => {
               <p className="text-sm text-gray-600">Size: M</p>
             </div>
             <p className="text-gray-600">x3</p>
-            <p className="text-gray-800 font-medium">$320</p>
+            <p className="text-gray-800 font-medium">₹320</p>
           </div>
           {/* Add more order summary items here */}
         </div>
         <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
           <p>subtotal</p>
-          <p>$1280</p>
+          <p>₹1280</p>
         </div>
         <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
           <p>shipping</p>
@@ -297,7 +299,7 @@ const Address = () => {
         </div>
         <div className="flex justify-between text-gray-800 font-medium py-3 uppercas">
           <p className="font-semibold">Total</p>
-          <p>$1280</p>
+          <p>₹1280</p>
         </div>
         <div className="flex items-center mb-4 mt-2">
           <input
