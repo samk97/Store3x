@@ -31,7 +31,7 @@ const Header = () => {
       .catch((error) => {
         console.error("Error fetching user cart items:", error);
       });
-  }, [cartItems]);
+  }, []);
 
   const handleCartHover = () => {
     setCartPopupOpen(true);
@@ -104,14 +104,14 @@ const Header = () => {
             {cartPopupOpen && cartItems.length > 0 && <Cart />}
           </div>
 
-          <div className=" relative text-center text-gray-700 hover:text-red-700 transition   relative group">
+          <div className=" relative text-center text-gray-700 hover:text-red-700 transition group">
             <div className="text-2xl">
               <FontAwesomeIcon icon={faUser} />
             </div>
             <div className="text-xs leading-3">Account</div>
 
             {/* dropdown */}
-            <div className="absolute right-0 bg-white shadow-md py-2 px-2 rounded-md  border-t-2  border-gray-800 z-50 shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
+            <div className="absolute right-0 bg-white px-2 rounded-md  border-t-2  border-gray-800 z-50 shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
               <a
                 href="#"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
