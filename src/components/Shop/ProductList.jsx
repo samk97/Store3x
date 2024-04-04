@@ -1,14 +1,16 @@
+// ProductList.js
 import React, { useEffect, useState } from "react";
 import ProductCard from "../Product/ProductCard";
 import { fetchData } from "../../utils/Shop";
 import { addToCartHandler } from "../../utils/Cart";
 import Alert from "../UI/Alert";
 
-const ProductList = () => {
+const ProductList = ({ categoriesFilter, sortingOption }) => {
   const [products, setProducts] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -21,6 +23,26 @@ const ProductList = () => {
     };
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    const filterProducts = () => {
+      const filtered = products.filter(product =>
+        categoriesFilter.length === 0 || categoriesFilter.includes(product.category_id)
+      );
+      setFilteredProducts(filtered);
+    };
+    filterProducts();
+  }, [categoriesFilter, products]);
+
+  const sortProducts = (products, sortingOption) => {
+    if (sortingOption === "price-low-to-high") {
+      return products.slice().sort((a, b) => a.price - b.price);
+    } else if (sortingOption === "price-high-to-low") {
+      return products.slice().sort((a, b) => b.price - a.price);
+    } else {
+      return products;
+    }
+  };
 
   const handleAddToCart = async (productId) => {
     try {
@@ -41,6 +63,7 @@ const ProductList = () => {
     }
   };
 
+
   return (
     <>
       {showAlert && (
@@ -51,7 +74,8 @@ const ProductList = () => {
         />
       )}
       <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
-        {products.map((product) => (
+        {/* Sort products before mapping */}
+        {sortProducts(filteredProducts, sortingOption).map((product) => (
           <ProductCard
             key={product.product_id}
             productId={product.product_id}
