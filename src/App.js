@@ -12,6 +12,8 @@ import AdSidebar from './components/Admin/Sidebar';
 import ProductHandle from "./components/Admin/ProductHandle";
 import AddProduct from "./components/Admin/AddProduct";
 import SellerProfile from "./components/Admin/SellerProfile";
+import Contact from "./components/Home/Contact";
+import OrderHistory from "./components/Order/OrderHistory";
 function App() {
   return (
     <Routes>
@@ -23,6 +25,8 @@ function App() {
         </Route>
         <Route path="wishlist" element={<Wishlist />} />
         <Route path="checkout" element={<Checkout />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="order-history" element={<OrderHistory/>} />
       </Route>
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="ad-sidebar" element={<AdSidebar/>} />
