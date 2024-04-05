@@ -78,7 +78,9 @@ const Cart = (props) => {
       <hr className="border-t border-gray-800 my-4" />
       <div className="flex justify-between gap-5 items-center">
         <p className="text-gray-600 mb-6 text-sm">Subtotal</p>
-        <p className="text-red-700 text-sm font-semibold">₹{subtotal.toFixed(2)}</p>
+        <p className="text-red-700 text-sm font-semibold">
+          ₹{subtotal.toFixed(2)}
+        </p>
       </div>
 
       <div className="flex justify-center gap-5">
@@ -86,7 +88,7 @@ const Cart = (props) => {
           View Cart
         </button>
         <Link
-          to="checkout"
+          to="address"
           className="px-3 py-1 text-sm text-white bg-red-700 border border-red-700 rounded hover:bg-transparent hover:text-red-700 transition uppercase font-roboto font-medium"
         >
           Checkout Now

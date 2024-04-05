@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Shop from "./components/Shop/Shop";
-import Checkout from "./components/Checkout";
 import Product from "./components/Product/Product";
 import Wishlist from "./components/Wishlist/Wishlist";
 import Layout from "./components/Layouts/Layout";
