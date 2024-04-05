@@ -15,9 +15,8 @@ const Contact = () => {
                   GET IN TOUCH WITH US
                 </h2>
                 <p className="mb-9 text-base leading-relaxed text-body-color dark:text-dark-6">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eius tempor incididunt ut labore e dolore magna aliqua. Ut
-                  enim adiqua minim veniam quis nostrud exercitation ullamco
+                  We would love to hear from our customers! Simplify3x fill out
+                  all the necessary fields and we'll get back to your shortly!
                 </p>
                 <div className="mb-8 flex w-full max-w-[370px]">
                   <div className="mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded bg-primary/5 text-primary sm:h-[70px] sm:max-w-[70px]">
@@ -39,7 +38,9 @@ const Contact = () => {
                       Our Location
                     </h4>
                     <p className="text-base text-body-color dark:text-dark-6">
-                      99 S.t Jomblo Park Pekanbaru 28292. Indonesia
+                      Bengaluru, India Head Office: BCIT, Block 1, Ground Floor
+                      Bhartiya City, RK Hegde Nagar, Bangalore. +91 9019407023
+                      (Mon - Fri) info@simplify3x.com
                     </p>
                   </div>
                 </div>
@@ -104,7 +105,7 @@ const Contact = () => {
                       Email Address
                     </h4>
                     <p className="text-base text-body-color dark:text-dark-6">
-                      info@yourdomain.com
+                      store3X@gmail.com
                     </p>
                   </div>
                 </div>
@@ -137,7 +138,7 @@ const Contact = () => {
                   <div>
                     <button
                       type="submit"
-                      className="w-full rounded border border-primary bg-primary p-3 text-white transition hover:bg-opacity-90"
+                      className="w-full rounded border border-primary bg-red-700 p-3 text-white transition hover:bg-opacity-90"
                     >
                       Send Message
                     </button>

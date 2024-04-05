@@ -4,12 +4,7 @@ const OrderHistory = () => {
   return (
     <section className="py-24 relative">
       <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
-        <h2 className="font-manrope font-bold text-4xl leading-10 text-black text-center">
-          Payment Successful
-        </h2>
-        <p className="mt-4 font-normal text-lg leading-8 text-gray-500 mb-11 text-center">
-          Thanks for making a purchase you can check our order summary frm below
-        </p>
+       
         <div className="main-box border border-gray-200 rounded-xl pt-6 max-w-xl max-lg:mx-auto lg:max-w-full">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between px-6 pb-6 border-b border-gray-200">
             <div className="data">

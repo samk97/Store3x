@@ -1,4 +1,54 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+const PaymentSuccessfulPopup = ({ onClose }) => {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+      <div className="bg-white p-8 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">
+          Payment Successful
+        </h2>
+        <p className="text-gray-600 mb-4">Thank you for your purchase!</p>
+
+        <div>
+          <button
+            onClick={onClose}
+            className=" mr-2 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Close
+          </button>
+
+          <Link to="/order">
+            <button
+              onClick={onClose}
+              className="ml-2 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              View Order
+            </button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Checkout = () => {
+
+  const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
+
+  const handlePlaceOrder = () => {
+    // Perform logic to place the order here
+    // For demo purposes, just simulate the success after 2 seconds
+    setTimeout(() => {
+      setIsPaymentSuccessful(true);
+    }, 1000);
+  };
+
+  const handleClosePopup = () => {
+    setIsPaymentSuccessful(false);
+  };
+
+
   return (
     <div className="container grid grid-cols-12 items-start pb-16 pt-4 gap-6">
       <div className="col-span-8 border border-gray-200 p-4 rounded">
@@ -159,12 +209,15 @@ const Checkout = () => {
             </a>
           </label>
         </div>
-        <a
-          href="#"
+        <button
+          onClick={handlePlaceOrder}
           className="block w-full py-3 px-4 text-center text-white bg-red-700 border border-red-700 rounded-md hover:bg-transparent hover:text-red-700 transition font-medium"
         >
           Place order
-        </a>
+        </button>
+        {isPaymentSuccessful && (
+          <PaymentSuccessfulPopup onClose={handleClosePopup} />
+        )}
       </div>
     </div>
   );
