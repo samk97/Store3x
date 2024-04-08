@@ -19,14 +19,9 @@ const Navbar = () => {
     setShowLogin(false);
   };
 
-  const handleLogout = () => {
-    logout(); // Call the logout function
-    setLoggedIn(false);
-    setUser(null);
-  };
+  
 
   useEffect(() => {
-    console.log("Navbar useEffect");
     const checkUser = fetchUser();
     if (checkUser) {
       setLoggedIn(true);

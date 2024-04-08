@@ -5,7 +5,12 @@ import { fetchData } from "../../utils/Shop";
 import { addToCartHandler } from "../../utils/Cart";
 import Alert from "../UI/Alert";
 
-const ProductList = ({ categoriesFilter, sortingOption }) => {
+const ProductList = ({
+  categoriesFilter,
+  sortingOption,
+  minPrice,
+  maxPrice,
+}) => {
   const [products, setProducts] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
@@ -26,13 +31,18 @@ const ProductList = ({ categoriesFilter, sortingOption }) => {
 
   useEffect(() => {
     const filterProducts = () => {
-      const filtered = products.filter(product =>
-        categoriesFilter.length === 0 || categoriesFilter.includes(product.category_id)
+      const filtered = products.filter(
+        (product) =>
+          (categoriesFilter.length === 0 ||
+            categoriesFilter.includes(product.category_id)) &&
+          (minPrice === "" ||
+            parseFloat(product.price) >= parseFloat(minPrice)) &&
+          (maxPrice === "" || parseFloat(product.price) <= parseFloat(maxPrice))
       );
       setFilteredProducts(filtered);
     };
     filterProducts();
-  }, [categoriesFilter, products]);
+  }, [categoriesFilter, products, minPrice, maxPrice]);
 
   const sortProducts = (products, sortingOption) => {
     if (sortingOption === "price-low-to-high") {
@@ -48,7 +58,6 @@ const ProductList = ({ categoriesFilter, sortingOption }) => {
     try {
       const response = await addToCartHandler(productId);
       setShowAlert(true);
-      console.log(response);
 
       if (response.success) {
         setAlertMsg(response.message);
@@ -62,7 +71,6 @@ const ProductList = ({ categoriesFilter, sortingOption }) => {
       setAlertMsgType("fail");
     }
   };
-
 
   return (
     <>

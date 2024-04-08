@@ -34,6 +34,7 @@ const Product = () => {
       try {
         const response = await getProductById(productId);
         setProduct(response);
+        console.log(product);
 
         const categoryData = await fetchCategoriesById(response.category_id);
         setCategoryName(categoryData.category_name);

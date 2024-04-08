@@ -30,7 +30,7 @@ const PopupWindow = ({ show, onClose, setLoginSucc }) => {
 
   const handleLoginSuccess = () => {
     setLoginSucc(true);
-    onClose(); // Close the popup upon successful login
+    onClose(); 
   };
 
   return (

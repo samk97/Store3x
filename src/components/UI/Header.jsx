@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cart from "../Cart/Cart";
 import { Link } from "react-router-dom";
 import { logout } from "../../utils/Auth";
-import { UserCartItems } from "../../utils/Cart";
 import {
   faSignOutAlt,
   faCog,
@@ -15,23 +14,16 @@ import {
   faSearch,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [cartPopupOpen, setCartPopupOpen] = useState(false);
 
-  const [cartItems, setCartItems] = useState([]);
+  const cartItemCount = useSelector((state)=>state.count.value);
 
   const wishlistItems = ["Item 1", "Item 2", "Item 3"];
 
-  useEffect(() => {
-    UserCartItems()
-      .then((data) => {
-        setCartItems(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching user cart items:", error);
-      });
-  }, []);
+ 
 
   const handleCartHover = () => {
     setCartPopupOpen(true);
@@ -96,12 +88,12 @@ const Header = () => {
               <FontAwesomeIcon icon={faShoppingCart} />
             </div>
             <div className="text-xs leading-3">Cart</div>
-            {cartItems.length > 0 && (
+            {cartItemCount > 0 && (
               <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-red-700 text-white text-xs">
-                {cartItems.length}
+                {cartItemCount}
               </div>
             )}
-            {cartPopupOpen && cartItems.length > 0 && <Cart />}
+            {cartPopupOpen && cartItemCount > 0 && <Cart />}
           </div>
 
           <div className=" relative text-center text-gray-700 hover:text-red-700 transition group">
@@ -112,8 +104,7 @@ const Header = () => {
 
             {/* dropdown */}
             <div className="absolute right-0 bg-white px-2 rounded-md  border-t-2  border-gray-800 z-50 shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
-              <a
-                href="#"
+              <Link to="/profile"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
               >
                 <FontAwesomeIcon
@@ -121,7 +112,7 @@ const Header = () => {
                   className="w-5 h-5 object-contain"
                 />
                 <span className="ml-6  text-sm">Profile</span>
-              </a>
+              </Link>
               <a
                 href="#"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"

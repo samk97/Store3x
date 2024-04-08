@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 const ADDRESS_APIURL = "https://localhost:4002/api/Address";
 const Address = () => {
-  let user = "vipin@gmail.com";
+  let user = "sandeepsingh150797@gmail.com";
   const [address, setAddress] = useState({
     user_id: user,
     address_id: random(),
@@ -31,7 +31,6 @@ const Address = () => {
     console.log(address);
   };
 
-  //previous Address
 
   async function fetchCategoryData() {
     try {
