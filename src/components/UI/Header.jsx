@@ -19,11 +19,9 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const [cartPopupOpen, setCartPopupOpen] = useState(false);
 
-  const cartItemCount = useSelector((state)=>state.count.value);
+  const cartItemCount = useSelector((state) => state.count.value);
 
   const wishlistItems = ["Item 1", "Item 2", "Item 3"];
-
- 
 
   const handleCartHover = () => {
     setCartPopupOpen(true);
@@ -104,7 +102,8 @@ const Header = () => {
 
             {/* dropdown */}
             <div className="absolute right-0 bg-white px-2 rounded-md  border-t-2  border-gray-800 z-50 shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
-              <Link to="/profile"
+              <Link
+                to="/profile"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
               >
                 <FontAwesomeIcon
@@ -113,8 +112,8 @@ const Header = () => {
                 />
                 <span className="ml-6  text-sm">Profile</span>
               </Link>
-              <a
-                href="#"
+              <Link
+                to="/order"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
               >
                 <FontAwesomeIcon

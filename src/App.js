@@ -7,24 +7,17 @@ import Layout from "./components/Layouts/Layout";
 import HomeLayout from "./components/Home/Home";
 import ShopLayout from "./components/Layouts/ShopLayout";
 import Dashboard from "./components/Admin/Dashboard";
-import AdSidebar from './components/Admin/Sidebar';
+import AdSidebar from "./components/Admin/Sidebar";
 import ProductHandle from "./components/Admin/ProductHandle";
 import AddProduct from "./components/Admin/AddProduct";
 import Profile from "./components/Profile/Profile";
 import Address from "./components/Order/Address";
-import PublicRoutes
- from "./routes/public";
-import OrderHistory from "./components/Order/OrderHistory";
-import Payement from "./components/Order/Payement";
+import PublicRoutes from "./routes/public";
 import Ecommerce from "./components/Admin/NewLayout/Ecommerce";
-import Contact from "./components/Home/Contact";
-import About from "./components/Home/About";
+import SellerProfile from "./components/Profile/Profile";
 function App() {
   return (
     <Routes>
-      
-
-
       <Route path="/" element={<Layout />}>
         <Route index element={<HomeLayout />} />
         <Route path="shop" element={<ShopLayout />}>
@@ -34,8 +27,8 @@ function App() {
         <Route path="wishlist" element={<Wishlist />} />
         <Route path="address" element={<Address />} />
         <Route element={<PublicRoutes />}>
-      <Route path="profile" element={<Profile />} />
-      </Route>
+          <Route path="profile" element={<Profile />} />
+        </Route>
       </Route>
       <Route path="dashboard" element={<Dashboard />} />
       {/* <Route path="ad-sidebar" element={<AdSidebar />} /> */}
@@ -43,7 +36,7 @@ function App() {
       <Route path="add-product" element={<AddProduct />} />
       <Route path="seller-profile" element={<SellerProfile />} />
 
-      <Route path="ecommerce" element={<Ecommerce/>} />
+      <Route path="ecommerce" element={<Ecommerce />} />
     </Routes>
   );
 }
