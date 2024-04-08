@@ -62,7 +62,7 @@ const Recomendation = () => {
             key={product.productId} // Assuming productId is unique
             title={product.name}
             price={product.price}
-            addToCartHandler={() => addToCartHandler(product.productId)}
+            addToCartHandler={() => handleAddToCart(product.productId)}
             bgImage={product.image_url}
             rating={product.rating}
             discount_percent={product.discount_percent}

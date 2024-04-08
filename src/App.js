@@ -17,6 +17,7 @@ import Ecommerce from "./components/Admin/NewLayout/Ecommerce";
 import SellerProfile from "./components/Profile/Profile";
 import About from "./components/Home/About";
 import Contact from "./components/Home/Contact";
+import OrderHistory from "./components/Order/OrderHistory";
 function App() {
   return (
     <Routes>

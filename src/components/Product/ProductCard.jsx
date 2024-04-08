@@ -59,28 +59,17 @@ const ProductCard = ({
         </a>
         <div className="flex items-baseline mb-1 space-x-2">
           <p className="text-xl text-red-700 font-semibold">
-            ₹{Math.floor(price - (price % discount_percent) / 100)}
+            ₹{Math.floor(price - (price * discount_percent) / 100)}
           </p>
           <p className="text-sm text-gray-400 line-through">
             ₹{Math.floor(price)}
           </p>
+          <p className="text-sm text-green-400 ">{discount_percent}% off</p>
         </div>
         <div className="flex items-center">
-          <div className="flex gap-1 text-sm text-yellow-400">
+          <div className="flex gap-1 text-sm text-white bg-green-500 px-1">
             <span>
-              <FontAwesomeIcon icon={faStar} />
-            </span>
-            <span>
-              <FontAwesomeIcon icon={faStar} />
-            </span>
-            <span>
-              <FontAwesomeIcon icon={faStar} />
-            </span>
-            <span>
-              <FontAwesomeIcon icon={faStar} />
-            </span>
-            <span>
-              <FontAwesomeIcon icon={faStar} />
+              {rating} <FontAwesomeIcon icon={faStar} />
             </span>
           </div>
           <div className="text-xs text-gray-500 ml-3">(150)</div>

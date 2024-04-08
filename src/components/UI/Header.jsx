@@ -15,14 +15,38 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import { fetchData } from "../../utils/Shop";
 
 const Header = () => {
   const [cartPopupOpen, setCartPopupOpen] = useState(false);
 
   const cartItemCount = useSelector((state) => state.count.value);
-
+  const [products, setProducts] = useState([]);
   const wishlistItems = ["Item 1", "Item 2", "Item 3"];
+  const [searchText, setSearchText] = useState("");
+  const [showResults, setShowResults] = useState(false);
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const listData = await fetchData();
+        setProducts(listData);
+        console.log(products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const handleSearchChange = (event) => {
+    setSearchText(event.target.value);
+    setShowResults(event.target.value !== "");
+  };
+
+  const handleSearch = () => {
+    console.log("Searching for:", searchText);
+  };
   const handleCartHover = () => {
     setCartPopupOpen(true);
   };
@@ -44,21 +68,51 @@ const Header = () => {
           <img src={Logo} alt="Logo" className="w-52" />
         </Link>
 
-        {/* Search Bar */}
         <div className="w-full max-w-xl relative flex">
-          <span className="absolute left-4 top-3 text-lg text-gray-400">
+          <span className="absolute left-4 top-3 text-lg text-gray-400 outline-none">
             <FontAwesomeIcon icon={faSearch} />
           </span>
           <input
             type="text"
             name="search"
             id="search"
+            value={searchText}
+            onChange={handleSearchChange}
             className="w-full border border-red-700 border-r-0 pl-12 py-3 pr-3 rounded-l-md focus:outline-none hidden md:flex"
             placeholder="search"
           />
-          <button className="bg-red-700 border border-red-700 text-white px-8 rounded-r-md hover:bg-transparent hover:text-red-700 transition hidden md:flex items-center justify-center">
+          <button
+            onClick={handleSearch}
+            className="bg-red-700 border border-red-700 text-white px-8 rounded-r-md hover:bg-transparent hover:text-red-700 transition hidden md:flex items-center justify-center"
+          >
             Search
           </button>
+
+          {showResults && (
+            <div className="absolute left-0 mt-12 z-50 w-full text-gray-400 bg-white border border-red-700 rounded-md p-4 max-h-96 overflow-y-scroll">
+              {products
+                .filter((product) =>
+                  product.name.toLowerCase().includes(searchText.toLowerCase())
+                )
+                .map((product) => (
+                  <div key={product.product_id} className="mb-4">
+                    <img
+                      src={product.image_url}
+                      alt={product.name}
+                      className="w-16 h-16 inline-block mr-2"
+                    />
+                    <div className="inline-block">
+                      <p className="font-semibold">{product.name}</p>
+                      <p>{product.description}</p>
+                      <p className="text-red-700">{product.price}</p>
+                    </div>
+                  </div>
+                ))}
+              {products.filter((product) =>
+                product.name.toLowerCase().includes(searchText.toLowerCase())
+              ).length === 0 && <p>No products found</p>}
+            </div>
+          )}
         </div>
 
         {/* User Icons */}
