@@ -15,6 +15,7 @@ import Address from "./components/Order/Address";
 import PublicRoutes from "./routes/public";
 import Ecommerce from "./components/Admin/NewLayout/Ecommerce";
 import SellerProfile from "./components/Profile/Profile";
+import OrderHistory from "./components/Order/OrderHistory";
 function App() {
   return (
     <Routes>
@@ -26,6 +27,7 @@ function App() {
         </Route>
         <Route path="wishlist" element={<Wishlist />} />
         <Route path="address" element={<Address />} />
+        <Route path="order" element={<OrderHistory />} />
         <Route element={<PublicRoutes />}>
           <Route path="profile" element={<Profile />} />
         </Route>
