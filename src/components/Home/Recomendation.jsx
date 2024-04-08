@@ -60,10 +60,10 @@ const Recomendation = () => {
         {products.slice(0, 8).map((product) => (
           <ProductCard
             key={product.productId} // Assuming productId is unique
-            title={product.title}
+            title={product.name}
             price={product.price}
-            addToCartHandler={() => addToCartHandler(product.productId)}
-            bgImage={product.bgImage}
+            addToCartHandler={() => handleAddToCart(product.productId)}
+            bgImage={product.image_url}
             rating={product.rating}
             discount_percent={product.discount_percent}
             productId={product.productId}
