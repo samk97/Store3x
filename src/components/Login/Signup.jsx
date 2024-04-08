@@ -13,7 +13,7 @@ const Signup = ({ toggleForm }) => {
       const fullName = e.target.elements.name.value;
       const [fname, ...lnameArr] = fullName.split(" ");
       const lname = lnameArr.join(" ");
-
+                
       const password1 = e.target.elements.password.value;
       const password2 = e.target.elements.confirm.value;
 
@@ -22,6 +22,7 @@ const Signup = ({ toggleForm }) => {
         setShowAlert(true);
         return;
       }
+      
 
       const email = e.target.elements.email.value;
       if (!fullName || !email || !password1) {

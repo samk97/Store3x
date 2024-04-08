@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Dashboard from "./Dashboard";
-import Sidebar from "./Sidebar";
+import Dashboard from "../Dashboard";
+import Sidebar from "../Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Swal from "sweetalert2";
 import { faTrashAlt, faEdit, faAdd } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import AdminHeader from "./AdminHeader";
+import AdminHeader from "../AdminHeader";
 
 const ProductHandle = () => {
   let user = "seller123";

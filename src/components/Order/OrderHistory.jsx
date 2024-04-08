@@ -80,7 +80,7 @@ const OrderHistory = () => {
                           Expected Delivery Time
                         </p>
                         <p className="font-medium text-base whitespace-nowrap leading-7 lg:mt-3 text-emerald-500">
-                          23rd March 2021
+                          23rd March 2024
                         </p>
                       </div>
                     </div>
