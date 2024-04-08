@@ -123,7 +123,7 @@ const Header = () => {
                 <span className="ml-6  text-sm">Profile</span>
               </a>
               <Link
-                to="/order-history"
+                to="/order"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
               >
                 <FontAwesomeIcon
