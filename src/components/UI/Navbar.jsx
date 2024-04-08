@@ -61,7 +61,7 @@ const Navbar = () => {
               About us
             </Link>
             <Link
-              to="/Contact"
+              to="/contact"
               className="text-gray-200 hover:text-white transition"
             >
               Contact us
