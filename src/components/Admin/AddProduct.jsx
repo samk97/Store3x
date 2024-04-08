@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
 
 const AddProduct = () => {
-  let sellerId = "vipin@gmail.com";
+  let sellerId = "seller123";
   const [formData, setFormData] = useState({
     product_id: random(),
     name: "",
@@ -16,7 +16,7 @@ const AddProduct = () => {
     price: "",
     rating: 0,
     review_count: 0,
-    category_id: 0,
+    category_id: 1,
     description: "",
     discount_percent: 0,
     available_units: 0,

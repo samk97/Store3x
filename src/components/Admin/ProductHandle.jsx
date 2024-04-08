@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import AdminHeader from "./AdminHeader";
 
 const ProductHandle = () => {
-  let user = "vipin@gmail.com";
+  let user = "seller123";
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -83,98 +83,102 @@ const ProductHandle = () => {
   return (
     <>
       <AdminHeader />
-      <Sidebar />
 
-      <div className="outer-table-container flex items-center justify-center pt-24 px-20">
-        <div className="flex flex-col items-center w-max overflow-x-auto justify-center">
-          <div className="add-btn-wrapper flex justify-end w-full py-3">
-            <Link to="/add-product">
-              <button
-                type="button"
-                className="bg-red-700 px-5 py-1 rounded text-white font-bold"
-              >
-                Add +
-              </button>
-            </Link>
-          </div>
-          <table className="w-max text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400    ">
-            <thead className="text-xs  text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  ID
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Product
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Color
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Discount(%)
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  category
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Quantity
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Rating
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Review
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Price
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.length > 0 &&
-                products.map((product) => (
-                  <tr
-                    key={product.id}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                  >
-                    <td className="px-6 py-4">{product.product_id}</td>
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+      <div className="flex flex-wrap">
+        <div className="w-full md:w-1/5 mb-4 md:mb-0">
+          <Sidebar />
+        </div>
+
+        <div className="w-full md:w-4/5 px-4">
+          <div className="outer-table-container pt-24">
+            <div className="add-btn-wrapper flex justify-end py-3">
+              <Link to="/add-product">
+                <button
+                  type="button"
+                  className="bg-red-700 px-5 py-1 rounded text-white font-bold"
+                >
+                  Add +
+                </button>
+              </Link>
+            </div>
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className="text-xs  text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    ID
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Product
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Color
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Discount(%)
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Category
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Quantity
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Rating
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Review
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Price
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.length > 0 &&
+                  products.map((product) => (
+                    <tr
+                      key={product.id}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                     >
-                      {product.name}
-                    </th>
-                    <td className="px-6 py-4">{product.color}</td>
-                    <td className="px-6 py-4">{product.discount_percent}</td>
-                    <td className="px-6 py-4">{product.category_id}</td>
-                    <td className="px-6 py-4">{product.available_units}</td>
-                    <td className="px-6 py-4">{product.rating}</td>
-                    <td className="px-6 py-4">{product.review_count}</td>
-                    <td className="px-6 py-4">₹{product.price}</td>
-                    <td className="px-6 py-4">
-                      <div>
-                        <button
-                          onClick={() => handleDelete(product.product_id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrashAlt}
-                            style={{ padding: "10px" }}
-                          />
-                        </button>
-                        <button onClick={() => handleEdit(product.product_id)}>
-                          <FontAwesomeIcon
-                            icon={faEdit}
-                            style={{ padding: "10px" }}
-                          />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+                      <td className="px-6 py-4">{product.product_id}</td>
+                      <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        {product.name}
+                      </td>
+                      <td className="px-6 py-4">{product.color}</td>
+                      <td className="px-6 py-4">{product.discount_percent}</td>
+                      <td className="px-6 py-4">{product.category_id}</td>
+                      <td className="px-6 py-4">{product.available_units}</td>
+                      <td className="px-6 py-4">{product.rating}</td>
+                      <td className="px-6 py-4">{product.review_count}</td>
+                      <td className="px-6 py-4">₹{product.price}</td>
+                      <td className="px-6 py-4">
+                        <div>
+                          <button
+                            onClick={() => handleDelete(product.product_id)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faTrashAlt}
+                              style={{ padding: "10px" }}
+                            />
+                          </button>
+                          <button
+                            onClick={() => handleEdit(product.product_id)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faEdit}
+                              style={{ padding: "10px" }}
+                            />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>
