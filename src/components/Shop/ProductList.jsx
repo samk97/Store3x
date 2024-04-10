@@ -4,6 +4,8 @@ import ProductCard from "../Product/ProductCard";
 import { fetchData } from "../../utils/Shop";
 import { addToCartHandler } from "../../utils/Cart";
 import Alert from "../UI/Alert";
+import { useSelector, useDispatch } from "react-redux";
+import { setCount } from "../../redux/slices/CountSlice";
 
 const ProductList = ({
   categoriesFilter,
@@ -11,6 +13,21 @@ const ProductList = ({
   minPrice,
   maxPrice,
 }) => {
+
+  //Dispatch Varaible
+  const dispatch = useDispatch();
+
+  //Selector -> store.value
+  const countValue = useSelector(state => {
+    return state.count.value;
+  })
+
+  //Handle Count Change
+  function handleCountChange(x) {
+
+      dispatch(setCount(countValue + x));
+  }
+
   const [products, setProducts] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
@@ -62,6 +79,7 @@ const ProductList = ({
       if (response.success) {
         setAlertMsg(response.message);
         setAlertMsgType("success");
+        handleCountChange(1);
       } else {
         setAlertMsg(response.message);
         setAlertMsgType("NA");

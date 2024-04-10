@@ -8,15 +8,15 @@ import Sidebar from "./Sidebar";
 const Shop = () => {
   const [categoriesFilter, setCategoriesFilter] = useState([]);
   const [sortingOption, setSortingOption] = useState("");
-  const [minPrice, setMinPrice] = useState(""); 
-  const [maxPrice, setMaxPrice] = useState(""); 
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   return (
     <div className="container grid md:grid-cols-4 grid-cols-2 gap-6 pt-4 pb-16 items-start">
       <Sidebar
         setCategoriesFilter={setCategoriesFilter}
-        setMinPrice={setMinPrice} 
-        setMaxPrice={setMaxPrice} 
+        setMinPrice={setMinPrice}
+        setMaxPrice={setMaxPrice}
       />
       <div className="col-span-3">
         <div className="flex items-center mb-4">
@@ -26,8 +26,8 @@ const Shop = () => {
         <ProductList
           categoriesFilter={categoriesFilter}
           sortingOption={sortingOption}
-          minPrice={minPrice} 
-          maxPrice={maxPrice} 
+          minPrice={minPrice}
+          maxPrice={maxPrice}
         />
       </div>
     </div>

@@ -26,6 +26,7 @@ const Header = () => {
   const [searchText, setSearchText] = useState("");
   const [showResults, setShowResults] = useState(false);
 
+   
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -37,7 +38,8 @@ const Header = () => {
       }
     };
     fetchProducts();
-  }, []);
+    console.log("Count Value : ",cartItemCount);
+  }, [cartItemCount]);
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
@@ -140,12 +142,12 @@ const Header = () => {
               <FontAwesomeIcon icon={faShoppingCart} />
             </div>
             <div className="text-xs leading-3">Cart</div>
-            {cartItemCount > 0 && (
+            {cartItemCount >= 0 && (
               <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-red-700 text-white text-xs">
                 {cartItemCount}
               </div>
             )}
-            {cartPopupOpen && cartItemCount > 0 && <Cart />}
+            {cartPopupOpen && <Cart />}
           </div>
 
           <div className=" relative text-center text-gray-700 hover:text-red-700 transition group">
