@@ -1,9 +1,48 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { fetchUser } from "../../utils/Auth";
-const Checkout = () => {
-  const [amt, setAmt] = useState(5002);
+import { fetchCartProductData, UserCartItems } from "../../utils/Cart";
+import { random } from "../../utils/Seller";
+
+const Checkout = (props) => {
+  console.log(props);
   const [user, setUser] = useState(null);
+  const [cartProduct, setCartProduct] = useState([]);
+  const [subtotal, setSubtotal] = useState(0);
+
+  const refreshCart = () => {
+    let fetchedData; // Define a variable to hold fetched data
+
+    UserCartItems()
+      .then((data) => {
+        fetchedData = data; // Store fetched data in a variable accessible in the next then block
+        if (data.length > 0) {
+          return fetchCartProductData(data);
+        } else {
+          return [];
+        }
+      })
+      .then((productData) => {
+        productData = productData.map((item) => ({
+          ...item,
+          quantity: fetchedData.find((d) => d.product_id === item.product_id)
+            .quantity,
+        }));
+        //console.log(productData);
+        setCartProduct(productData);
+        calculateSubtotal(productData);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+  const calculateSubtotal = (products) => {
+    const total = products.reduce(
+      (acc, curr) => acc + curr.price * curr.quantity,
+      0
+    );
+    setSubtotal(total);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,7 +53,8 @@ const Checkout = () => {
         console.error("Error fetching user data:", error);
       }
     };
-
+    getCurrentDate();
+    refreshCart();
     fetchData();
   }, []);
 
@@ -23,19 +63,24 @@ const Checkout = () => {
       const { data } = await axios.post(
         "http://localhost:4001/payment/createOrder",
         {
-          amount: amt,
+          amount: subtotal + (subtotal < 500 ? 40 : 0),
         }
       );
+      //handleCheckout();
       const options = {
         key: "rzp_test_xSDzoLnvm4FR57",
-        amount: amt,
+        amount: subtotal + (subtotal < 500 ? 40 : 0),
         currency: "INR",
         name: "Store3x",
         description: "Thank you for ordering!",
         image:
           "https://media.licdn.com/dms/image/C4E0BAQEE7R4tHkZo0g/company-logo_200_200/0/1634669013028/simplify3x_logo?e=2147483647&v=beta&t=cH6l8K_SmFd-szwWHVxZ8PmEjmIh-i68RkYoa8D0Cuk",
         order_id: data.id,
-        callback_url: "http://localhost:4001/payment/verifyPayment",
+        handler: function (response) {
+          handleCheckout(response.razorpay_payment_id);
+        },
+
+        callback_url: "http://localhost:3000/order",
         prefill: {
           name: user ? `${user.fname} ${user.lname}` : "",
           email: user ? user.email : "",
@@ -47,6 +92,11 @@ const Checkout = () => {
         theme: {
           color: "#b91c1c",
         },
+        modal: {
+          ondismiss: function () {
+            console.log("payment Failed");
+          },
+        },
       };
 
       // Initialize Razorpay
@@ -56,33 +106,83 @@ const Checkout = () => {
       console.error("Error during checkout:", error);
     }
   };
+
+  //order
+  const [currentDate, setCurrentDate] = useState(null);
+  const [delDate, setDelDate] = useState(null);
+  const getCurrentDate = () => {
+    const date = new Date();
+    setCurrentDate(date.toISOString());
+    date.setDate(date.getDate() + 2);
+    setDelDate(date.toISOString());
+  };
+
+  const handleCheckout = async (paymentId) => {
+    getCurrentDate();
+    const orderData = {
+      order_id: random(),
+      buyer_id: fetchUser().email,
+      card_id: 101,
+      total_price: subtotal + (subtotal < 500 ? 40 : 0),
+      order_date: currentDate,
+      tax: 1,
+      shipping_price: subtotal < 500 ? 40 : 0,
+      delivery_address_id: props.selectedAddress,
+      delivery_date: delDate,
+      order_status: "C",
+      quantity: 3,
+      payment_id: paymentId,
+    };
+
+    try {
+      // Make a POST request to your backend API
+      const response = await axios.post(
+        "https://localhost:4002/api/Orders",
+        orderData
+      );
+      console.log("Order inserted successfully(Payment Id):", paymentId);
+      // Handle any further actions after successful insertion, e.g., redirection to a thank you page
+    } catch (error) {
+      console.error("Error inserting order:", error.response.data);
+      // Handle error scenario, e.g., display an error message to the user
+    }
+    console.log(orderData);
+  };
+
   return (
     <div className="col-span-4 border border-gray-200 p-4 rounded">
       <h4 className="text-gray-800 text-lg mb-4 font-medium uppercase">
         order summary
       </h4>
       <div className="space-y-2">
-        <div className="flex justify-between">
-          <div>
-            <h5 className="text-gray-800 font-medium">Italian shape sofa</h5>
-            <p className="text-sm text-gray-600">Size: M</p>
+        {cartProduct.map((product) => (
+          <div className="flex justify-between" key={product.productId}>
+            <div>
+              <h5 className="text-gray-800 font-medium">{product.name}</h5>
+            </div>
+            <p className="text-gray-600">x{product.quantity}</p>
+            <p className="text-gray-800 font-medium">
+              ₹{product.price.toFixed(2)}
+            </p>
           </div>
-          <p className="text-gray-600">x3</p>
-          <p className="text-gray-800 font-medium">₹320</p>
-        </div>
-        {/* Add more order summary items here */}
+        ))}
       </div>
       <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
         <p>subtotal</p>
-        <p>₹1280</p>
+        <p>₹{subtotal.toFixed(2)}</p>
       </div>
       <div className="flex justify-between border-b border-gray-200 mt-1 text-gray-800 font-medium py-3 uppercas">
         <p>shipping</p>
-        <p>Free</p>
+        {<p>{subtotal < 500 ? "₹ 40" : "Free"}</p>}
       </div>
       <div className="flex justify-between text-gray-800 font-medium py-3 uppercas">
         <p className="font-semibold">Total</p>
-        <p>₹1280</p>
+        {
+          <p>
+            ₹
+            {subtotal >= 500 ? subtotal.toFixed(2) : (subtotal + 40).toFixed(2)}
+          </p>
+        }
       </div>
       <div className="flex items-center mb-4 mt-2">
         <input
