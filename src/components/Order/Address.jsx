@@ -5,8 +5,12 @@ import Checkout from "./Checkout";
 import { fetchUser } from "../../utils/Auth";
 const ADDRESS_APIURL = "https://localhost:4002/api/Address";
 const Address = () => {
+  const [selectedAddress, setSelectedAddress] = useState(0);
+  const handleAddressChange = (event) => {
+    setSelectedAddress(event.target.value);
+  };
+
   let user = fetchUser().email;
-  console.log(fetchUser());
   const [address, setAddress] = useState({
     user_id: user,
     address_id: random(),
@@ -30,9 +34,7 @@ const Address = () => {
       ...address,
       [e.target.name]: value,
     });
-    console.log(address);
   };
-
 
   async function fetchCategoryData() {
     try {
@@ -50,9 +52,9 @@ const Address = () => {
   useEffect(() => {
     fetchCategoryData();
   }, []);
+  //console.log(selectedAddress);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(JSON.stringify(address));
     try {
       const response = await fetch(ADDRESS_APIURL, {
         method: "POST",
@@ -67,7 +69,6 @@ const Address = () => {
         throw new Error("Failed to add product");
       }
       const responseData = await response.json();
-      console.log("Address Added", responseData);
       handleClickAnm();
       fetchCategoryData();
       // Clear form after successful submission
@@ -116,7 +117,11 @@ const Address = () => {
           <h4 className="text-gray-800 font-medium mb-2">
             Select Previous Address
           </h4>
-          <select className="input-box">
+          <select
+            className="input-box"
+            value={selectedAddress}
+            onChange={handleAddressChange}
+          >
             <option value="">Select an address</option>
             {getAddress.length > 0 &&
               getAddress.map((addr) => (
@@ -274,7 +279,7 @@ const Address = () => {
           </div>
         </form>
       </div>
-      <Checkout />
+      <Checkout selectedAddress={selectedAddress} />
     </div>
   );
 };
