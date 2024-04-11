@@ -84,6 +84,7 @@ const Navbar = () => {
             show={showLogin}
             setLoginSucc={setLoginSucc}
             onClose={handleClosePopup}
+            isSeller={false}
           />
         </div>
       </div>

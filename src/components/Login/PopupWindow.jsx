@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Login from "./Login";
 import Signup from "./Signup";
 
-const PopupWindow = ({ show, onClose, setLoginSucc }) => {
+const PopupWindow = ({ show, onClose, setLoginSucc, isSeller }) => {
   const [showLogin, setShowLogin] = useState(true); // State to manage login form visibility
   const popupRef = useRef(null);
 
@@ -24,13 +24,9 @@ const PopupWindow = ({ show, onClose, setLoginSucc }) => {
     };
   }, [show, onClose]);
 
-  const toggleForm = () => {
-    setShowLogin(!showLogin);
-  };
-
   const handleLoginSuccess = () => {
     setLoginSucc(true);
-    onClose(); 
+    onClose();
   };
 
   return (
@@ -40,11 +36,19 @@ const PopupWindow = ({ show, onClose, setLoginSucc }) => {
           ref={popupRef}
           className="max-w-lg w-4/12 mx-auto shadow px-6 py-7 rounded overflow-hidden bg-white relative"
         >
-          {showLogin ? (
-            <Login toggleForm={toggleForm} onLoginSuccess={handleLoginSuccess} /> 
+          {!isSeller ? (
+            showLogin ? (
+              <Login
+                toggleForm={() => setShowLogin(!showLogin)}
+                onLoginSuccess={handleLoginSuccess}
+              />
+            ) : (
+              <Signup toggleForm={() => setShowLogin(!showLogin)} />
+            )
           ) : (
-            <Signup toggleForm={toggleForm} />
+            <Signup isSeller={isSeller} />
           )}
+
           {/* Close button */}
           <button
             onClick={onClose}
