@@ -11,6 +11,10 @@ const ProductList = ({
   minPrice,
   maxPrice,
 }) => {
+
+  
+
+
   const [products, setProducts] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
@@ -62,6 +66,7 @@ const ProductList = ({
       if (response.success) {
         setAlertMsg(response.message);
         setAlertMsgType("success");
+       
       } else {
         setAlertMsg(response.message);
         setAlertMsgType("NA");
