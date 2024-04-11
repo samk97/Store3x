@@ -116,7 +116,9 @@ const Checkout = (props) => {
     date.setDate(date.getDate() + 2);
     setDelDate(date.toISOString());
   };
+  //update data in cart
 
+  //
   const handleCheckout = async (paymentId) => {
     getCurrentDate();
     const orderData = {
@@ -141,12 +143,37 @@ const Checkout = (props) => {
         orderData
       );
       console.log("Order inserted successfully(Payment Id):", paymentId);
-      // Handle any further actions after successful insertion, e.g., redirection to a thank you page
+      handleBuy(orderData.order_id);
     } catch (error) {
       console.error("Error inserting order:", error.response.data);
       // Handle error scenario, e.g., display an error message to the user
     }
+
     console.log(orderData);
+  };
+  //console.log(cartProduct);
+  const handleBuy = async (orderId) => {
+    try {
+      // Map each cart item to a promise representing the axios request
+      const promises = cartProduct.map(async (cartItem) => {
+        const buyData = {
+          order_id: orderId,
+          product_id: cartItem.product_id,
+          quantity: cartItem.quantity,
+        };
+        console.log(buyData);
+        const response = await axios.post(
+          "https://localhost:4002/Buy/AddtoBuy",
+          buyData
+        );
+        console.log("Inserted product:", response.data);
+      });
+      await Promise.all(promises);
+
+      console.log("All products inserted successfully.");
+    } catch (error) {
+      console.error("Error inserting products:", error);
+    }
   };
 
   return (
