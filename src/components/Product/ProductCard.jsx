@@ -9,47 +9,48 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../UI/Alert";
 
+
+
 const ProductCard = ({
   title,
   price,
   addToCartHandler,
   bgImage,
   rating,
+  addToWishlistHandler,
   discount_percent,
   productId,
 }) => {
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleAddToCart = () => {
-    setShowAlert(true);
-  };
+  
+ 
 
   return (
     <div className="bg-white shadow rounded overflow-hidden group">
       <div className="relative">
-        <Link to={`product/${productId}`}>
+        
           <img src={bgImage} alt={title} className="w-full h-60" />
 
           <div
             className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
           justify-center gap-2 opacity-0 group-hover:opacity-100 transition"
           >
-            <a
-              href="#"
+           <Link to={`product/${productId}`}
               className="text-white text-lg w-9 h-8 rounded-full bg-red-700 flex items-center justify-center hover:bg-gray-800 transition"
               title="view product"
             >
               <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </a>
-            <a
-              href="#"
+            </Link>
+            <button
+              onClick={addToWishlistHandler}
               className="text-white text-lg w-9 h-8 rounded-full bg-red-700 flex items-center justify-center hover:bg-gray-800 transition"
               title="add to wishlist"
             >
               <FontAwesomeIcon icon={faHeart} />
-            </a>
+            </button>
           </div>
-        </Link>
+        
       </div>
       <div className="pt-4 pb-3 px-4">
         <a href="#">

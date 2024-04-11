@@ -1,8 +1,8 @@
-// ProductList.js
 import React, { useEffect, useState } from "react";
 import ProductCard from "../Product/ProductCard";
 import { fetchData } from "../../utils/Shop";
 import { addToCartHandler } from "../../utils/Cart";
+import { addToWishlistHandler } from "../../utils/Wishlist";
 import Alert from "../UI/Alert";
 
 const ProductList = ({
@@ -72,6 +72,27 @@ const ProductList = ({
     }
   };
 
+  const handleAddToWishlist = async (productId) => {
+    try {
+      const response = await addToWishlistHandler(productId);
+      setShowAlert(true);
+     
+
+      if (response.success) {
+        setAlertMsg(response.message);
+        setAlertMsgType("success");
+      } else {
+        setAlertMsg(response.message);
+        setAlertMsgType("NA");
+      }
+       
+    } catch (error) {
+      setAlertMsg(error.message);
+      setAlertMsgType("fail");
+    }
+
+  };
+
   return (
     <>
       {showAlert && (
@@ -93,6 +114,7 @@ const ProductList = ({
             rating={product.rating}
             discount_percent={product.discount_percent}
             addToCartHandler={() => handleAddToCart(product.product_id)}
+            addToWishlistHandler={() => handleAddToWishlist(product.product_id)}
           />
         ))}
       </div>

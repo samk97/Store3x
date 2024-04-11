@@ -31,6 +31,7 @@ function App() {
         <Route path="address" element={<Address />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
+        <Route path="order" element={<OrderHistory />} />
         <Route element={<PublicRoutes />}>
           <Route path="profile" element={<Profile />} />
         </Route>
