@@ -8,13 +8,15 @@ import HomeLayout from "./components/Home/Home";
 import ShopLayout from "./components/Layouts/ShopLayout";
 import Dashboard from "./components/Admin/Dashboard";
 import AdSidebar from "./components/Admin/Sidebar";
-import ProductHandle from "./components/Admin/ProductHandle";
-import AddProduct from "./components/Admin/AddProduct";
+import ProductHandle from "./components/Admin/NewLayout/ProductHandle";
+import AddProduct from "./components/Admin/NewLayout/AddProduct";
 import Profile from "./components/Profile/Profile";
 import Address from "./components/Order/Address";
 import PublicRoutes from "./routes/public";
 import Ecommerce from "./components/Admin/NewLayout/Ecommerce";
 import SellerProfile from "./components/Profile/Profile";
+import About from "./components/Home/About";
+import Contact from "./components/Home/Contact";
 import OrderHistory from "./components/Order/OrderHistory";
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         </Route>
         <Route path="wishlist" element={<Wishlist />} />
         <Route path="address" element={<Address />} />
+        <Route path="about" element={<About />} />
+        <Route path="contact" element={<Contact />} />
         <Route path="order" element={<OrderHistory />} />
         <Route element={<PublicRoutes />}>
           <Route path="profile" element={<Profile />} />

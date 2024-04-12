@@ -1,9 +1,9 @@
 import React from "react";
-import AdminHeader from './AdminHeader';
+import AdminHeader from "./AdminHeader";
 import Sidebar from "./Sidebar";
 import CardDataStats from "./CardDataStats";
 import ChartOne from "./Chart/ChartOne";
-import ProductHandle from "./ProductHandle";
+import ProductHandle from "./NewLayout/ProductHandle";
 const Dashboard = () => {
   return (
     <div>

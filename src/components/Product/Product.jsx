@@ -1,33 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBagShopping,
-  faHeart,
-  faMagnifyingGlass,
-  faStar,
-} from "@fortawesome/free-solid-svg-icons";
-import Product1 from "../../assets/images/products/product1.jpg";
-import Product2 from "../../assets/images/products/product2.jpg";
-import Product3 from "../../assets/images/products/product3.jpg";
-import Product4 from "../../assets/images/products/product4.jpg";
-import Product5 from "../../assets/images/products/product5.jpg";
-import Product6 from "../../assets/images/products/product6.jpg";
-import {
-  faFacebookF,
-  faInstagram,
-  faTwitter,
-} from "@fortawesome/free-brands-svg-icons";
+import {faBagShopping,faHeart,faMagnifyingGlass,faStar,} from "@fortawesome/free-solid-svg-icons";
+import {faFacebookF,faInstagram,faTwitter,} from "@fortawesome/free-brands-svg-icons";
 import ProductCard from "./ProductCard";
+import { addToCartHandler } from "../../utils/Cart";
+import { addToWishlistHandler } from "../../utils/Wishlist";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../../utils/Product";
 import { fetchCategoriesById } from "../../utils/Category";
+import Alert from "../UI/Alert";
 
 const Product = () => {
+  
+
   let { productId } = useParams();
   const [product, setProduct] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [price, setPrice] = useState();
   const [discountedPrice, setDiscountedPrice] = useState();
+    const [showAlert, setShowAlert] = useState(false);
+    const [alertMsg, setAlertMsg] = useState("");
+    const [alertMsgType, setAlertMsgType] = useState("");
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -50,6 +43,46 @@ const Product = () => {
 
     fetchProduct();
   }, [productId]);
+
+   const handleAddToCart = async () => {
+     try {
+       const response = await addToCartHandler(productId); // Using productId from outer scope
+       setShowAlert(true);
+
+       if (response.success) {
+         setAlertMsg(response.message);
+         setAlertMsgType("success");
+       } else {
+         setAlertMsg(response.message);
+         setAlertMsgType("NA");
+       }
+       console.log(response);
+     } catch (error) {
+       setAlertMsg(error.message);
+       setAlertMsgType("fail");
+     }
+   };
+
+   const handleAddToWishlist = async () => {
+     try {
+       const response = await addToWishlistHandler(productId); // Using productId from outer scope
+       setShowAlert(true);
+
+       if (response.success) {
+         setAlertMsg(response.message);
+         setAlertMsgType("success");
+       } else {
+         setAlertMsg(response.message);
+         setAlertMsgType("NA");
+       }
+       console.log(response);
+     } catch (error) {
+       setAlertMsg(error.message);
+       setAlertMsgType("fail");
+     }
+   };
+
+
 
   return (
     <>
@@ -98,18 +131,18 @@ const Product = () => {
           <p className="mt-4 text-gray-600">{product.description}</p>
 
           <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
-            <a
-              href="#"
+            <button
+              onClick={handleAddToCart}
               className="bg-red-700 border border-red-700 text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-red-700 transition"
             >
               <FontAwesomeIcon icon={faBagShopping} /> Add to cart
-            </a>
-            <a
-              href="#"
+            </button>
+            <button
+              onClick={handleAddToWishlist}
               className="border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-red-700 transition"
             >
               <FontAwesomeIcon icon={faHeart} /> Wishlist
-            </a>
+            </button>
           </div>
           <div className="flex gap-3 mt-4">
             <a
@@ -199,6 +232,13 @@ const Product = () => {
           <ProductCard />
         </div>
       </div>
+      {showAlert && (
+        <Alert
+          setShowAlert={setShowAlert}
+          messageType="success"
+          message="Item added to cart !"
+        />
+      )}
       {/* ./related product */}
     </>
   );

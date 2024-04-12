@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Dashboard from "./Dashboard";
-import AdminHeader from "./AdminHeader";
-import Sidebar from "./Sidebar";
-import { random } from "../../utils/Seller";
+import Dashboard from "../Dashboard";
+import AdminHeader from "../AdminHeader";
+import Sidebar from "../Sidebar";
+import { random } from "../../../utils/Seller";
 import Swal from "sweetalert2";
 import { fetchUser } from "../../utils/Auth";
 
@@ -112,6 +112,20 @@ const AddProduct = () => {
       timer: 1500,
     });
   };
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  const [otherCategory, setOtherCategory] = useState("");
+
+  const handleChangeNew = (event) => {
+    const { name, value } = event.target;
+    if (name === "category_id") {
+      if (value === "other") {
+        setOtherCategory("");
+      }
+      setSelectedCategoryId(value);
+    }
+  };
+
   return (
     <>
       <AdminHeader />
@@ -221,7 +235,7 @@ const AddProduct = () => {
                   name="category_id"
                   type="number"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  onChange={handleChange}
+                  onChange={handleChangeNew}
                 >
                   {category.length > 0 &&
                     category.map((cat) => (
@@ -233,7 +247,17 @@ const AddProduct = () => {
                         {cat.category_name}
                       </option>
                     ))}
+                  <option>other</option>
                 </select>
+                {selectedCategoryId === "other" && (
+                  <input
+                    type="text"
+                    value={otherCategory}
+                    onChange={(e) => setOtherCategory(e.target.value)}
+                    placeholder="Enter other category"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 mt-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  />
+                )}
               </div>
 
               <div>
