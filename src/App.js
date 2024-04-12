@@ -37,7 +37,6 @@ function App() {
         </Route>
       </Route>
       <Route path="dashboard" element={<Dashboard />} />
-      {/* <Route path="ad-sidebar" element={<AdSidebar />} /> */}
       <Route path="product_handle" element={<ProductHandle />} />
       <Route path="add-product" element={<AddProduct />} />
       <Route path="seller-profile" element={<SellerProfile />} />

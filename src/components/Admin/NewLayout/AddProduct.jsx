@@ -4,11 +4,12 @@ import AdminHeader from "../AdminHeader";
 import Sidebar from "../Sidebar";
 import { random } from "../../../utils/Seller";
 import Swal from "sweetalert2";
+import { fetchUser } from "../../utils/Auth";
 
 const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
 
 const AddProduct = () => {
-  let sellerId = "seller123";
+  let sellerId = fetchUser().email;
   const [formData, setFormData] = useState({
     product_id: random(),
     name: "",

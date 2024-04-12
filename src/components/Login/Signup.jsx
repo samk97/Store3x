@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { signup } from "../../utils/Auth";
 import Alert from "../UI/Alert";
 
-const Signup = ({ toggleForm }) => {
+const Signup = ({ toggleForm,isSeller }) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);
   const [alertMsgType, setAlertMsgType] = useState(null);
@@ -42,7 +42,7 @@ const Signup = ({ toggleForm }) => {
         lname: lname,
         email: e.target.elements.email.value,
         password: e.target.elements.password.value,
-        user_type: 1,
+        user_type : isSeller ? 2 : 1,
       };
   
       const response = await signup(formData);
