@@ -4,6 +4,7 @@ import { fetchData } from "../../utils/Shop";
 import { addToCartHandler } from "../../utils/Cart";
 import { addToWishlistHandler } from "../../utils/Wishlist";
 import Alert from "../UI/Alert";
+import Pagination from "./Pagination";
 
 const ProductList = ({
   categoriesFilter,
@@ -16,6 +17,8 @@ const ProductList = ({
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(9);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -76,7 +79,6 @@ const ProductList = ({
     try {
       const response = await addToWishlistHandler(productId);
       setShowAlert(true);
-     
 
       if (response.success) {
         setAlertMsg(response.message);
@@ -85,13 +87,22 @@ const ProductList = ({
         setAlertMsg(response.message);
         setAlertMsgType("NA");
       }
-       
     } catch (error) {
       setAlertMsg(error.message);
       setAlertMsgType("fail");
     }
-
   };
+
+  // Calculate indexes of the items to display for the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredProducts.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -103,8 +114,8 @@ const ProductList = ({
         />
       )}
       <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
-        {/* Sort products before mapping */}
-        {sortProducts(filteredProducts, sortingOption).map((product) => (
+        {/* Sort and paginate products before mapping */}
+        {sortProducts(currentItems, sortingOption).map((product) => (
           <ProductCard
             key={product.product_id}
             productId={product.product_id}
@@ -117,6 +128,14 @@ const ProductList = ({
             addToWishlistHandler={() => handleAddToWishlist(product.product_id)}
           />
         ))}
+      </div>
+      {/* Pagination */}
+      <div className="pt-5">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(filteredProducts.length / itemsPerPage)}
+          onPageChange={paginate}
+        />
       </div>
     </>
   );
