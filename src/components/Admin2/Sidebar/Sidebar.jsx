@@ -30,7 +30,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     };
     document.addEventListener("click", clickHandler);
     return () => document.removeEventListener("click", clickHandler);
-    
   });
 
   // close if the esc key is pressed
@@ -99,15 +98,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
             <ul className="mb-6 flex flex-col gap-2">
               <li
-                className={`hover:bg-gray-200 border-red-700 hover:border-b-4 hover:text-red-700 rounded-r-full ${
-                  pathname.includes("/Dashboard")
-                    ? "bg-graydark dark:bg-meta-4"
+                className={`hover:bg-gray-200  ${
+                  pathname === "/Dashboard"
+                    ? "text-red-700 text-xl border-r-4 border-red-700"
                     : ""
                 }`}
               >
                 <NavLink
                   to="/Dashboard"
-                  isActive={() => pathname.includes("/Dashboard")}
                   className="group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                 >
                   <RxDashboard />
@@ -115,9 +113,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 </NavLink>
               </li>
               <li
-                className={`hover:bg-gray-200 border-red-700 hover:border-b-4 hover:text-red-700 rounded-r-full ${
-                  pathname.includes("/Dashboard/Product_handle")
-                    ? "bg-graydark dark:bg-meta-4"
+                className={`hover:bg-gray-200   ${
+                  pathname === "/Dashboard/Product_handle"
+                    ? "text-red-700 text-xl border-r-4 border-red-700"
                     : ""
                 }`}
               >

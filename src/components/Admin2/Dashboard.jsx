@@ -5,9 +5,6 @@ import ChartThree from "./Charts/ChartThree";
 import ChartTwo from "./Charts/ChartTwo";
 import ChatCard from "./Chat/ChatCard";
 import TableOne from "./Tables/TableOne";
-import DefaultLayout from "./DashboardLayout";
-import { faEye } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 const Dashboard = () => {

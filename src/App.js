@@ -16,7 +16,7 @@ import About from "./components/Home/About";
 import Contact from "./components/Home/Contact";
 import OrderHistory from "./components/Order/OrderHistory";
 import DashboardLayout from "./components/Admin2/DashboardLayout";
-import Dashboard2 from "./components/Admin2/Dashboard2";
+import Dashboard2 from "./components/Admin2/Dashboard";
 function App() {
   return (
     <Routes>
