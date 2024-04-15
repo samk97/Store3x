@@ -1,29 +1,26 @@
-import React from "react";
 import { Link } from "react-router-dom";
-
+import UserOne from "../../../assets/images/avatar.png";
+import UserTwo from "../../../assets/images/avatar.png";
 const chatData = [
   {
-    id: 1,
-    avatar: "",
-    name: "User One",
-    text: "Hello there!",
-    time: 5,
-    textCount: 0,
-    color: "green",
+    avatar: UserOne,
+    name: "Devid Heilo",
+    text: "How are you?",
+    time: 12,
+    textCount: 3,
+    color: "#10B981",
   },
   {
-    id: 2,
-    avatar: "",
-    name: "User Two",
-    text: "Hey, how are you?",
-    time: 10,
-    textCount: 2,
-    color: "blue",
-  },
-  // Add more chat data as needed
+    avatar: UserTwo,
+    name: "Henry Fisher",
+    text: "Waiting for you!",
+    time: 12,
+    textCount: 0,
+    color: "#DC3545",
+  }
 ];
 
-const ChatCard = ({ chatData }) => {
+const ChatCard = () => {
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white py-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
       <h4 className="mb-6 px-7.5 text-xl font-semibold text-black dark:text-white">
@@ -31,11 +28,11 @@ const ChatCard = ({ chatData }) => {
       </h4>
 
       <div>
-        {chatData.map((chat) => (
+        {chatData.map((chat, key) => (
           <Link
             to="/"
             className="flex items-center gap-5 py-3 px-7.5 hover:bg-gray-3 dark:hover:bg-meta-4"
-            key={chat.id} // Use a unique identifier as the key
+            key={key}
           >
             <div className="relative h-14 w-14 rounded-full">
               <img src={chat.avatar} alt="User" />
@@ -73,12 +70,4 @@ const ChatCard = ({ chatData }) => {
   );
 };
 
-const App = () => {
-  return (
-    <div className="App">
-      <ChatCard chatData={chatData} />
-    </div>
-  );
-};
-
-export default App;
+export default ChatCard;

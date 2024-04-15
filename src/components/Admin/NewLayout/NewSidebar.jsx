@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation, Link } from "react-router-dom";
-import Logo from "./images/logo/logo.svg";
-import logo from "../../../assets/images/logo.png";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
@@ -18,14 +16,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-white-700 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute border-r-4 pl-4 items-start gap-10  left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-white-700 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
       {/* SIDEBAR HEADER */}
       <div className="flex items-center justify-between gap-2 pt-5 px-6 py-5.5 lg:py-6.5">
         <NavLink to="/">
-          <img src={logo} alt="Logo" className="w-52" />
+          <img src="" alt="Logo" className="w-52" />
         </NavLink>
 
         <button
@@ -54,7 +52,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       <ul className="list-none pt-5">
         <li>
           <Link
-            to="/ecommerce"
+            to="/dashboard"
             className="flex items-center p-2 text-white-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
           >
             <svg

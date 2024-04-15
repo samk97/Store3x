@@ -1,23 +1,24 @@
-import React from "react";
+
+import BrandOne from '../../../assets/images/logo.png';
+import BrandTwo from '../../../assets/images/logo.png';
 
 const brandData = [
   {
-    logo: "",
-    name: "Brand One",
-    visitors: 100,
-    revenues: "100,000",
-    sales: 50,
-    conversion: 5,
+    logo: BrandOne,
+    name: 'Google',
+    visitors: 3.5,
+    revenues: '5,768',
+    sales: 590,
+    conversion: 4.8,
   },
   {
-    logo: "",
-    name: "Brand Two",
-    visitors: 150,
-    revenues: "200,000",
-    sales: 75,
-    conversion: 6,
-  },
-  // Add more brand data as needed
+    logo: BrandTwo,
+    name: 'Twitter',
+    visitors: 2.2,
+    revenues: '4,635',
+    sales: 467,
+    conversion: 4.3,
+  }
 ];
 
 const TableOne = () => {
@@ -60,8 +61,8 @@ const TableOne = () => {
           <div
             className={`grid grid-cols-3 sm:grid-cols-5 ${
               key === brandData.length - 1
-                ? ""
-                : "border-b border-stroke dark:border-strokedark"
+                ? ''
+                : 'border-b border-stroke dark:border-strokedark'
             }`}
             key={key}
           >

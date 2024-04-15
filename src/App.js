@@ -6,18 +6,17 @@ import Wishlist from "./components/Wishlist/Wishlist";
 import Layout from "./components/Layouts/Layout";
 import HomeLayout from "./components/Home/Home";
 import ShopLayout from "./components/Layouts/ShopLayout";
-import Dashboard from "./components/Admin/Dashboard";
-import AdSidebar from "./components/Admin/Sidebar";
-import ProductHandle from "./components/Admin/NewLayout/ProductHandle";
-import AddProduct from "./components/Admin/NewLayout/AddProduct";
+import ProductHandle from "./components/Admin2/ProductHandle/ProductHandle";
+import AddProduct from "./components/Admin2/ProductHandle/AddProduct";
 import Profile from "./components/Profile/Profile";
 import Address from "./components/Order/Address";
 import PublicRoutes from "./routes/public";
-import Ecommerce from "./components/Admin/NewLayout/Ecommerce";
 import SellerProfile from "./components/Profile/Profile";
 import About from "./components/Home/About";
 import Contact from "./components/Home/Contact";
 import OrderHistory from "./components/Order/OrderHistory";
+import DashboardLayout from "./components/Admin2/DashboardLayout";
+import Dashboard2 from "./components/Admin2/Dashboard2";
 function App() {
   return (
     <Routes>
@@ -36,12 +35,14 @@ function App() {
           <Route path="profile" element={<Profile />} />
         </Route>
       </Route>
-      <Route path="dashboard" element={<Dashboard />} />
-      <Route path="product_handle" element={<ProductHandle />} />
-      <Route path="add-product" element={<AddProduct />} />
-      <Route path="seller-profile" element={<SellerProfile />} />
 
-      <Route path="ecommerce" element={<Ecommerce />} />
+     
+      <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route index element={<Dashboard2 />} />
+        <Route path="product_handle" element={<ProductHandle />} />
+        <Route path="add-product" element={<AddProduct />} />
+        <Route path="seller-profile" element={<SellerProfile />} />
+      </Route>
     </Routes>
   );
 }
