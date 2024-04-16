@@ -41,10 +41,8 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    // Add event listener to handle clicks outside of showResults
     document.addEventListener("click", handleClickOutside);
     return () => {
-      // Remove event listener when component unmounts
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
@@ -52,10 +50,6 @@ const Header = () => {
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
     setShowResults(event.target.value !== "");
-  };
-
-  const handleSearch = () => {
-    console.log("Searching for:", searchText);
   };
 
   const handleCart = () => {
@@ -71,17 +65,12 @@ const Header = () => {
     logout();
   };
 
-  const handleLoginButtonClick = () => {
-    setShowLogin(true);
-  };
-
   const handleClickOutside = (event) => {
     if (
       searchRef.current &&
       !searchRef.current.contains(event.target) &&
       event.target.id !== "search"
     ) {
-      console.log("Closing search results");
       setShowResults(false);
     }
 
@@ -90,7 +79,6 @@ const Header = () => {
       !cartRef.current.contains(event.target) &&
       event.target.id !== "cart"
     ) {
-      console.log("Closing cart popup");
       setCartPopupOpen(false);
     }
   };
@@ -115,10 +103,7 @@ const Header = () => {
             className="w-full border border-red-700 border-r-0 pl-12 py-3 pr-3 rounded-l-md focus:outline-none hidden md:flex"
             placeholder="search"
           />
-          <button
-            onClick={handleSearch}
-            className="bg-red-700 border border-red-700 text-white px-8 rounded-r-md hover:bg-transparent hover:text-red-700 transition hidden md:flex items-center justify-center"
-          >
+          <button className="bg-red-700 border border-red-700 text-white px-8 rounded-r-md hover:bg-transparent hover:text-red-700 transition hidden md:flex items-center justify-center">
             Search
           </button>
 
@@ -207,8 +192,8 @@ const Header = () => {
                 />
                 <span className="ml-6  text-sm">Orders</span>
               </Link>
-              <button
-                onClick={handleLoginButtonClick}
+              <Link
+                to="/dashboard"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
               >
                 <FontAwesomeIcon
@@ -216,7 +201,7 @@ const Header = () => {
                   className="w-5 h-5 object-contain"
                 />
                 <span className="ml-6  text-sm">Seller Account</span>
-              </button>
+              </Link>
               <a
                 href="#"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"

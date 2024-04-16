@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signup } from "../../utils/Auth";
 import Alert from "../UI/Alert";
 
-const Signup = ({ toggleForm,isSeller }) => {
+const Signup = ({ toggleForm }) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState(null);
   const [alertMsgType, setAlertMsgType] = useState(null);
+  const [isSeller, setIsSeller] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,7 +14,7 @@ const Signup = ({ toggleForm,isSeller }) => {
       const fullName = e.target.elements.name.value;
       const [fname, ...lnameArr] = fullName.split(" ");
       const lname = lnameArr.join(" ");
-                
+
       const password1 = e.target.elements.password.value;
       const password2 = e.target.elements.confirm.value;
 
@@ -22,7 +23,6 @@ const Signup = ({ toggleForm,isSeller }) => {
         setShowAlert(true);
         return;
       }
-      
 
       const email = e.target.elements.email.value;
       if (!fullName || !email || !password1) {
@@ -36,30 +36,30 @@ const Signup = ({ toggleForm,isSeller }) => {
         setShowAlert(true);
         return;
       }
-  
+
       const formData = {
         fname: fname,
         lname: lname,
         email: e.target.elements.email.value,
         password: e.target.elements.password.value,
-        user_type : isSeller ? 2 : 1,
+        user_type: isSeller ? 2 : 1,
       };
-  
+
       const response = await signup(formData);
       setShowAlert(true);
       console.log(response);
-  
+
       if (response.success) {
         setAlertMsg(response.message);
         setAlertMsgType("success");
       } else {
-         console.log(response.message)
+        console.log(response.message);
         setAlertMsg(response.message);
         setAlertMsgType("fail");
       }
     } catch (error) {
       setAlertMsg(error.message);
-      setAlertMsgType("fail"); 
+      setAlertMsgType("fail");
     }
   };
 
@@ -67,6 +67,11 @@ const Signup = ({ toggleForm,isSeller }) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
+
+
+  useEffect(()=>{
+    console.log(isSeller);
+  },[isSeller])
 
   return (
     <>
@@ -130,14 +135,16 @@ const Signup = ({ toggleForm,isSeller }) => {
               name="aggrement"
               id="aggrement"
               className="text-red-700 focus:ring-0 rounded-sm cursor-pointer"
+              onChange={(e) => setIsSeller(e.target.checked)}
             />
+
             <label
               htmlFor="aggrement"
               className="text-gray-600 ml-3 cursor-pointer"
             >
-              I have read and agree to the{" "}
+              Signup As a{" "}
               <a href="#" className="text-red-700">
-                terms &amp; conditions
+                Seller
               </a>
             </label>
           </div>
@@ -151,7 +158,6 @@ const Signup = ({ toggleForm,isSeller }) => {
           </button>
         </div>
       </form>
-      
 
       <p className="mt-4 text-center text-gray-600">
         Already have an account?{" "}

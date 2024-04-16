@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Login from "./Login";
 import Signup from "./Signup";
 
-const PopupWindow = ({ show, onClose, setLoginSucc, isSeller }) => {
+const PopupWindow = ({ show, onClose, setLoginSucc }) => {
   const [showLogin, setShowLogin] = useState(true); // State to manage login form visibility
   const popupRef = useRef(null);
 
@@ -36,7 +36,7 @@ const PopupWindow = ({ show, onClose, setLoginSucc, isSeller }) => {
           ref={popupRef}
           className="max-w-lg w-4/12 mx-auto shadow px-6 py-7 rounded overflow-hidden bg-white relative"
         >
-          {!isSeller ? (
+          {
             showLogin ? (
               <Login
                 toggleForm={() => setShowLogin(!showLogin)}
@@ -45,9 +45,7 @@ const PopupWindow = ({ show, onClose, setLoginSucc, isSeller }) => {
             ) : (
               <Signup toggleForm={() => setShowLogin(!showLogin)} />
             )
-          ) : (
-            <Signup isSeller={isSeller} />
-          )}
+          }
 
           {/* Close button */}
           <button
