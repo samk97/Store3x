@@ -114,7 +114,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               </li>
               <li
                 className={`hover:bg-gray-200   ${
-                  pathname === "/Dashboard/Product_handle"
+                  (pathname === "/Dashboard/Product_handle" || pathname ==="Dashboard/add-product")
                     ? "text-red-700 text-xl border-r-4 border-red-700"
                     : ""
                 }`}

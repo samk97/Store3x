@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faBagShopping,faHeart,faMagnifyingGlass,faStar,} from "@fortawesome/free-solid-svg-icons";
-import {faFacebookF,faInstagram,faTwitter,} from "@fortawesome/free-brands-svg-icons";
+import {
+  faBagShopping,
+  faHeart,
+  faMagnifyingGlass,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faFacebookF,
+  faInstagram,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
 import ProductCard from "./ProductCard";
 import { addToCartHandler } from "../../utils/Cart";
 import { addToWishlistHandler } from "../../utils/Wishlist";
@@ -9,18 +18,31 @@ import { useParams } from "react-router-dom";
 import { getProductById } from "../../utils/Product";
 import { fetchCategoriesById } from "../../utils/Category";
 import Alert from "../UI/Alert";
+import { fetchData } from "../../utils/Shop";
 
 const Product = () => {
-  
-
+  const [products, setProducts] = useState([]);
   let { productId } = useParams();
   const [product, setProduct] = useState([]);
   const [categoryName, setCategoryName] = useState("");
+  const [categoryId, setCategoryId] = useState();
   const [price, setPrice] = useState();
   const [discountedPrice, setDiscountedPrice] = useState();
-    const [showAlert, setShowAlert] = useState(false);
-    const [alertMsg, setAlertMsg] = useState("");
-    const [alertMsgType, setAlertMsgType] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertMsgType, setAlertMsgType] = useState("");
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const listData = await fetchData();
+        setProducts(listData);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -31,6 +53,7 @@ const Product = () => {
 
         const categoryData = await fetchCategoriesById(response.category_id);
         setCategoryName(categoryData.category_name);
+        setCategoryId(response.category_id);
 
         const discount = (response.discount_percent / 100) * response.price;
         const discountedPrice = response.price - discount;
@@ -44,45 +67,43 @@ const Product = () => {
     fetchProduct();
   }, [productId]);
 
-   const handleAddToCart = async () => {
-     try {
-       const response = await addToCartHandler(productId); // Using productId from outer scope
-       setShowAlert(true);
+  const handleAddToCart = async () => {
+    try {
+      const response = await addToCartHandler(productId); // Using productId from outer scope
+      setShowAlert(true);
 
-       if (response.success) {
-         setAlertMsg(response.message);
-         setAlertMsgType("success");
-       } else {
-         setAlertMsg(response.message);
-         setAlertMsgType("NA");
-       }
-       console.log(response);
-     } catch (error) {
-       setAlertMsg(error.message);
-       setAlertMsgType("fail");
-     }
-   };
+      if (response.success) {
+        setAlertMsg(response.message);
+        setAlertMsgType("success");
+      } else {
+        setAlertMsg(response.message);
+        setAlertMsgType("NA");
+      }
+      console.log(response);
+    } catch (error) {
+      setAlertMsg(error.message);
+      setAlertMsgType("fail");
+    }
+  };
 
-   const handleAddToWishlist = async () => {
-     try {
-       const response = await addToWishlistHandler(productId); // Using productId from outer scope
-       setShowAlert(true);
+  const handleAddToWishlist = async () => {
+    try {
+      const response = await addToWishlistHandler(productId); // Using productId from outer scope
+      setShowAlert(true);
 
-       if (response.success) {
-         setAlertMsg(response.message);
-         setAlertMsgType("success");
-       } else {
-         setAlertMsg(response.message);
-         setAlertMsgType("NA");
-       }
-       console.log(response);
-     } catch (error) {
-       setAlertMsg(error.message);
-       setAlertMsgType("fail");
-     }
-   };
-
-
+      if (response.success) {
+        setAlertMsg(response.message);
+        setAlertMsgType("success");
+      } else {
+        setAlertMsg(response.message);
+        setAlertMsgType("NA");
+      }
+      console.log(response);
+    } catch (error) {
+      setAlertMsg(error.message);
+      setAlertMsgType("fail");
+    }
+  };
 
   return (
     <>
@@ -226,10 +247,25 @@ const Product = () => {
           Related products
         </h2>
         <div className="grid grid-cols-4 gap-6">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {products
+            .filter((product) => product.category_id === categoryId) // Filter products by category_id
+            .slice(0, 4) // Slice the filtered products to show only the first 4
+            .map((product) => (
+              <div key={product.productId}>
+                {/* Add conditional check */}
+                {product && (
+                  <ProductCard
+                    title={product.name}
+                    price={product.price}
+                    addToCartHandler={() => handleAddToCart(product.productId)}
+                    bgImage={product.image_url}
+                    rating={product.rating}
+                    discount_percent={product.discount_percent}
+                    productId={product.productId}
+                  />
+                )}
+              </div>
+            ))}
         </div>
       </div>
       {showAlert && (
