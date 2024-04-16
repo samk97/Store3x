@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import PopupWindow from "../Login/PopupWindow";
-import { fetchUser, logout } from "../../utils/Auth";
+import { fetchUser } from "../../utils/Auth";
 
 const Navbar = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -31,6 +31,8 @@ const Navbar = () => {
       setLoggedIn(false);
       setUser(null);
     }
+    
+    
   }, [loginSucc]);
 
   return (

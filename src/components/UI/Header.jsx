@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Logo from "../../assets/images/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cart from "../Cart/Cart";
-import PopupWindow from "../Login/PopupWindow";
 import { Link } from "react-router-dom";
 import { logout } from "../../utils/Auth";
 import {
@@ -16,6 +15,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { fetchData } from "../../utils/Shop";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [cartPopupOpen, setCartPopupOpen] = useState(false);
@@ -25,8 +25,8 @@ const Header = () => {
   const searchRef = useRef(null);
   const cartRef = useRef(null);
 
-  const [showLogin, setShowLogin] = useState(false);
-  const [loginSucc, setLoginSucc] = useState(false);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user_type = useSelector((state) => state.auth.user_type);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -57,7 +57,6 @@ const Header = () => {
   };
 
   const handleClosePopup = () => {
-    setShowLogin(false);
     setShowResults(false);
   };
 
@@ -192,16 +191,19 @@ const Header = () => {
                 />
                 <span className="ml-6  text-sm">Orders</span>
               </Link>
-              <Link
-                to="/dashboard"
-                className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
-              >
-                <FontAwesomeIcon
-                  icon={faStore}
-                  className="w-5 h-5 object-contain"
-                />
-                <span className="ml-6  text-sm">Seller Account</span>
-              </Link>
+              {user_type === 2 && (
+                <Link
+                  to="/dashboard"
+                  className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
+                >
+                  <FontAwesomeIcon
+                    icon={faStore}
+                    className="w-5 h-5 object-contain"
+                  />
+                  <span className="ml-6 text-sm">Seller Account</span>
+                </Link>
+              )}
+
               <a
                 href="#"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
@@ -212,7 +214,8 @@ const Header = () => {
                 />
                 <span className="ml-6  text-sm">setting</span>
               </a>
-              <button
+              {isLoggedIn && (
+                <button
                 onClick={handleLogout}
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
               >
@@ -222,16 +225,13 @@ const Header = () => {
                 />
                 <span className="ml-6  text-sm">Logout</span>
               </button>
+              )}
+
+              
             </div>
           </div>
         </div>
       </div>
-      <PopupWindow
-        show={showLogin}
-        setLoginSucc={setLoginSucc}
-        onClose={() => setShowLogin(false)}
-        isSeller={true}
-      />
     </header>
   );
 };

@@ -1,4 +1,6 @@
 import axios from "axios";
+import { setLoggedInUser, logoutUser } from "../redux/slices/authSlice";
+import store from "../redux/Store";
 
 const URL_AUTH = process.env.Auth_API_URL || "http://localhost:4001";
 
@@ -43,13 +45,14 @@ export const signup = async (formData) => {
   }
 };
 
-
 export const logout = async () => {
   try {
     await axios.post(`${URL_AUTH}/logout`, {}, { withCredentials: true });
     document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
     window.location.href = "/";
+
+    store.dispatch(logoutUser());
   } catch (error) {
     console.error("Logout failed:", error);
   }
@@ -62,6 +65,12 @@ export const fetchUser = () => {
   if (token) {
     const tokenValue = token.split("=")[1];
     const decodedToken = JSON.parse(atob(tokenValue.split(".")[1]));
+    store.dispatch(
+      setLoggedInUser({
+        user: decodedToken.email,
+        user_type: decodedToken.user_type,
+      })
+    );
     return decodedToken;
   }
   return "";
