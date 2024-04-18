@@ -265,7 +265,7 @@ const Product = () => {
                     bgImage={product.image_url}
                     rating={product.rating}
                     discount_percent={product.discount_percent}
-                    productId={product.productId}
+                    productId={product.product_id}
                   />
                 )}
               </div>
