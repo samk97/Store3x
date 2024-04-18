@@ -120,16 +120,18 @@ const Checkout = (props) => {
 
   //
   const handleCheckout = async (paymentId) => {
+
+    console.log("Inside handleCheckout");
     getCurrentDate();
     const orderData = {
       order_id: random(),
       buyer_id: fetchUser().email,
-      card_id: 101,
+      card_id: 1,
       total_price: subtotal + (subtotal < 500 ? 40 : 0),
       order_date: currentDate,
       tax: 1,
       shipping_price: subtotal < 500 ? 40 : 0,
-      delivery_address_id: props.selectedAddress,
+      delivery_address_id: parseInt(props.selectedAddress, 10),
       delivery_date: delDate,
       order_status: "C",
       quantity: 3,
@@ -137,21 +139,32 @@ const Checkout = (props) => {
     };
 
     try {
-      // Make a POST request to your backend API
+      console.log("Before axios.post");
       const response = await axios.post(
         "https://localhost:4002/api/Orders",
-        orderData
+        orderData,
+        {
+          validateStatus: function (status) {
+            return status >= 200 && status < 500;
+          },
+        }
       );
-      console.log("Order inserted successfully(Payment Id):", paymentId);
-      handleBuy(orderData.order_id);
+      console.log("After axios.post");
+  
+      if (response) {
+        console.log("Order inserted successfully(Payment Id):", paymentId);
+        handleBuy(orderData.order_id);
+      } else {
+        console.log("No response from server");
+      }
     } catch (error) {
-      console.error("Error inserting order:", error.response.data);
-      // Handle error scenario, e.g., display an error message to the user
+      console.error("Error inserting order:", error.response ? error.response.data : error.message);
     }
-
-    console.log(orderData);
+  
+    console.log("Ye print ho reha re baba", orderData);
   };
   //console.log(cartProduct);
+
   const handleBuy = async (orderId) => {
     try {
       // Map each cart item to a promise representing the axios request

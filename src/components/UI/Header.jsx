@@ -161,7 +161,11 @@ const Header = () => {
             {cartPopupOpen && <Cart />}
           </div>
 
-          <div className=" relative text-center text-gray-700 hover:text-red-700 transition group">
+          <div
+            className={`relative text-center text-gray-700  hover:text-red-700  transition group ${
+              isLoggedIn ? "" : "pointer-events-none"
+            }`}
+          >
             <div className="text-2xl">
               <FontAwesomeIcon icon={faUser} />
             </div>
@@ -216,18 +220,16 @@ const Header = () => {
               </a>
               {isLoggedIn && (
                 <button
-                onClick={handleLogout}
-                className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
-              >
-                <FontAwesomeIcon
-                  icon={faSignOutAlt}
-                  className="w-5 h-5 object-contain"
-                />
-                <span className="ml-6  text-sm">Logout</span>
-              </button>
+                  onClick={handleLogout}
+                  className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
+                >
+                  <FontAwesomeIcon
+                    icon={faSignOutAlt}
+                    className="w-5 h-5 object-contain"
+                  />
+                  <span className="ml-6  text-sm">Logout</span>
+                </button>
               )}
-
-              
             </div>
           </div>
         </div>

@@ -3,7 +3,6 @@ import React from "react";
 
 const SortingOptions = ({ setSortingOption }) => {
   const handleSortingChange = (event) => {
-    
     setSortingOption(event.target.value);
   };
 

@@ -1,10 +1,9 @@
 import React from "react";
 import Bg from "../../assets/images/banner-bg.jpg";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
-  const handleButtonClick = () => {
-    console.log("Button clicked");
-  };
+  
 
   return (
     <div
@@ -22,14 +21,13 @@ const Banner = () => {
           odio
         </p>
         <div className="mt-12">
-          <button
-            type="button"
-            onClick={handleButtonClick}
+          <Link
+            to="/shop"
             className="check bg-red-700 border border-red-700 text-white px-8 py-3 font-medium 
               rounded-md hover:bg-transparent hover:text-red-700"
           >
             Shop Now
-          </button>
+          </Link>
         </div>
       </div>
     </div>

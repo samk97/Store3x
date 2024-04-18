@@ -21,7 +21,7 @@ const Shop = () => {
       <div className="col-span-3">
         <div className="flex items-center mb-4">
           <SortingOptions setSortingOption={setSortingOption} />
-          <DisplayOptions />
+          {/* <DisplayOptions /> */}
         </div>
         <ProductList
           categoriesFilter={categoriesFilter}
