@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import AdminHeader from "../../Admin/AdminHeader";
-import Sidebar from "../../Admin/Sidebar";
 import { random } from "../../../utils/Seller";
 import Swal from "sweetalert2";
-import { fetchUser } from "../../../utils/Auth";
+import { useSelector } from "react-redux";
 
 const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
 
 const AddProduct = () => {
-  let sellerId = fetchUser().email;
+  let sellerId = useSelector((state) => state.auth.user);
   const [formData, setFormData] = useState({
     product_id: random(),
     name: "",

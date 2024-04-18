@@ -8,15 +8,18 @@ import {
   handleDeleteItem,
 } from "../../utils/Cart";
 
+import { useSelector } from "react-redux";
+
 const Cart = () => {
   const [cartProduct, setCartProduct] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
   const [subtotal, setSubtotal] = useState(0);
+  let user = useSelector((state) => state.auth.user);
 
   const refreshCart = () => {
-    UserCartItems()
+    UserCartItems(user)
       .then((data) => {
         if (data.length > 0) {
           return fetchCartProductData(data);
@@ -44,7 +47,7 @@ const Cart = () => {
 
   const handleDeleteAndUpdateCart = async (productId) => {
     try {
-      await handleDeleteItem(productId);
+      await handleDeleteItem(user, productId);
       setAlertMsg("Item deleted from cart successfully !!!");
       setShowAlert(true);
       setAlertMsgType("success");

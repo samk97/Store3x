@@ -4,16 +4,19 @@ import { fetchUser } from "../../utils/Auth";
 import { fetchCartProductData, UserCartItems } from "../../utils/Cart";
 import { random } from "../../utils/Seller";
 
+import { useSelector } from "react-redux";
+
 const Checkout = (props) => {
   console.log(props);
   const [user, setUser] = useState(null);
   const [cartProduct, setCartProduct] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
+  let usr = useSelector((state) => state.auth.user);
 
   const refreshCart = () => {
     let fetchedData; // Define a variable to hold fetched data
 
-    UserCartItems()
+    UserCartItems(usr)
       .then((data) => {
         fetchedData = data; // Store fetched data in a variable accessible in the next then block
         if (data.length > 0) {

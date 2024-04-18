@@ -5,7 +5,7 @@ import { addToCartHandler } from "../../utils/Cart";
 import { addToWishlistHandler } from "../../utils/Wishlist";
 import Alert from "../UI/Alert";
 import Pagination from "./Pagination";
-
+import { useSelector } from "react-redux";
 const ProductList = ({
   categoriesFilter,
   sortingOption,
@@ -23,6 +23,7 @@ const ProductList = ({
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(9);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -63,7 +64,7 @@ const ProductList = ({
 
   const handleAddToCart = async (productId) => {
     try {
-      const response = await addToCartHandler(productId);
+      const response = await addToCartHandler(user,productId);
       setShowAlert(true);
 
       if (response.success) {
@@ -82,7 +83,7 @@ const ProductList = ({
 
   const handleAddToWishlist = async (productId) => {
     try {
-      const response = await addToWishlistHandler(productId);
+      const response = await addToWishlistHandler(user,productId);
       setShowAlert(true);
 
       if (response.success) {

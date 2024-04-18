@@ -3,9 +3,9 @@ import { fetchUser } from "./Auth";
 const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
 const cartApiUrl = process.env.REACT_APP_CART_API_URL;
 
-let user = fetchUser().email;
 
-export const UserCartItems = () => {
+
+export const UserCartItems = (user) => {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch(cartApiUrl + "/" + user);
@@ -34,7 +34,7 @@ export const fetchCartProductData = (cartData) => {
   );
 };
 
-export const addToCartHandler = async (product_id, quantity = 1) => {
+export const addToCartHandler = async (user,product_id, quantity = 1) => {
   const url = `${cartApiUrl}/AddToCart`;
 
   const data = {
@@ -69,7 +69,7 @@ export const addToCartHandler = async (product_id, quantity = 1) => {
   }
 };
 
-export const handleDeleteItem = async (product_id) => {
+export const handleDeleteItem = async (user,product_id) => {
   try {
     const response = await fetch(
       `${cartApiUrl}/DeleteFromCart?buyerId=${user}&productId=${product_id}`,

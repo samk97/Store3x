@@ -20,6 +20,8 @@ import { fetchCategoriesById } from "../../utils/Category";
 import Alert from "../UI/Alert";
 import { fetchData } from "../../utils/Shop";
 
+import { useSelector } from "react-redux";
+
 const Product = () => {
   const [products, setProducts] = useState([]);
   let { productId } = useParams();
@@ -31,6 +33,8 @@ const Product = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
+
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -69,7 +73,7 @@ const Product = () => {
 
   const handleAddToCart = async () => {
     try {
-      const response = await addToCartHandler(productId); // Using productId from outer scope
+      const response = await addToCartHandler(user, productId); // Using productId from outer scope
       setShowAlert(true);
 
       if (response.success) {

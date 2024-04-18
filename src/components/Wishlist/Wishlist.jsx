@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../UI/Alert";
+import { useSelector } from "react-redux";
 
 import {
   getUserWishListItems,
@@ -14,11 +15,12 @@ const Wishlist = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
+  let user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const items = await getUserWishListItems();
+        const items = await getUserWishListItems(user);
         const productData = await fetchWishlistProductData(items);
         const wishlistWithProductData = items.map((item, index) => ({
           ...item,
@@ -35,7 +37,7 @@ const Wishlist = () => {
 
   const handleDelete = async (productId) => {
     try {
-      const success = await handleDeleteItem(productId);
+      const success = await handleDeleteItem(user,productId);
       if (success) {
         // Remove the deleted item from wishlistItems state
         setWishlistItems((prevItems) =>

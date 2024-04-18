@@ -4,13 +4,15 @@ import ProductCard from "../Product/ProductCard";
 import { fetchData } from "../../utils/Shop";
 import { addToCartHandler } from "../../utils/Cart";
 import Alert from "../UI/Alert";
+import { useSelector } from "react-redux";
 
 const Recomendation = () => {
   const [products, setProducts] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]); 
+ let user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -26,7 +28,7 @@ const Recomendation = () => {
 
   const handleAddToCart = async (productId) => {
     try {
-      const response = await addToCartHandler(productId);
+      const response = await addToCartHandler(user,productId);
       setShowAlert(true);
       console.log(response);
 

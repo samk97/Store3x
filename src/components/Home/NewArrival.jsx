@@ -3,6 +3,7 @@ import { useState,useEffect } from "react";
 import { fetchData } from "../../utils/Shop";
 import { addToCartHandler } from "../../utils/Cart";
 import Alert from "../UI/Alert";
+import { useSelector } from "react-redux";
 
 const NewArrival=()=>{
 
@@ -11,6 +12,7 @@ const NewArrival=()=>{
  const [alertMsg, setAlertMsg] = useState("");
  const [alertMsgType, setAlertMsgType] = useState("");
  const [filteredProducts, setFilteredProducts] = useState([]);
+ let user = useSelector((state) => state.auth.user);
 
  useEffect(() => {
    const fetchProducts = async () => {
@@ -26,7 +28,7 @@ const NewArrival=()=>{
 
  const handleAddToCart = async (productId) => {
    try {
-     const response = await addToCartHandler(productId);
+     const response = await addToCartHandler(user,productId);
      setShowAlert(true);
      console.log(response);
 
@@ -62,7 +64,7 @@ const NewArrival=()=>{
               key={product.productId} // Assuming productId is unique
               title={product.name}
               price={product.price}
-              addToCartHandler={() => addToCartHandler(product.productId)}
+              addToCartHandler={() => handleAddToCart(product.productId)}
               bgImage={product.image_url}
               rating={product.rating}
               discount_percent={product.discount_percent}

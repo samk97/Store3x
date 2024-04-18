@@ -2,9 +2,9 @@ import axios from "axios";
 import { fetchUser } from "./Auth";
 const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
 const wishlistApiUrl = process.env.REACT_APP_WISHLIST_API_URL;
-let user = fetchUser().email;
 
-export const getUserWishListItems = async () => {
+
+export const getUserWishListItems = async (user) => {
      return new Promise(async (resolve, reject) => {
        try {
          const response = await fetch(wishlistApiUrl + "/" + user);
@@ -36,7 +36,7 @@ export const fetchWishlistProductData =(wishlist)=>{
 };
 
 
-export const addToWishlistHandler = async (product_id, quantity = 1) => {
+export const addToWishlistHandler = async (user,product_id, quantity = 1) => {
   const url = `${wishlistApiUrl}/addToWishlist`;
 
   const data = {
@@ -72,7 +72,7 @@ export const addToWishlistHandler = async (product_id, quantity = 1) => {
 };
 
 
-export const handleDeleteItem = async (product_id) => {
+export const handleDeleteItem = async (user,product_id) => {
   try {
     const response = await fetch(
       `${wishlistApiUrl}/DeleteFromWishList?buyerId=${user}&productId=${product_id}`,

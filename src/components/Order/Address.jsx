@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { random } from "../../utils/Seller";
 import Swal from "sweetalert2";
 import Checkout from "./Checkout";
-import { fetchUser } from "../../utils/Auth";
+import { useSelector } from "react-redux";
 const ADDRESS_APIURL = "https://localhost:4002/api/Address";
 const Address = () => {
   const [selectedAddress, setSelectedAddress] = useState(0);
@@ -10,7 +10,7 @@ const Address = () => {
     setSelectedAddress(event.target.value);
   };
 
-  let user = fetchUser().email;
+  let user = useSelector((state) => state.auth.user);
   const [address, setAddress] = useState({
     user_id: user,
     address_id: random(),
