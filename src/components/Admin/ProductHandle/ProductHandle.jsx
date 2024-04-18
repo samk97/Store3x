@@ -3,9 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Swal from "sweetalert2";
 import { faTrashAlt, faEdit, faAdd } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 
 const ProductHandle = () => {
-  let user = "seller123";
+  let user = useSelector((state) => state.auth.user);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -139,7 +141,7 @@ const ProductHandle = () => {
                   <td className="px-6 py-4">{product.color}</td>
                   <td className="px-6 py-4">{product.discount_percent}</td>
                   <td className="px-6 py-4">{product.category_id}</td>
-                  <td className="px-6 py-4">{product.available_units}</td>
+                  <td className="px-6 py-4">{product.in_stock}</td>
                   <td className="px-6 py-4">{product.rating}</td>
                   <td className="px-6 py-4">{product.review_count}</td>
                   <td className="px-6 py-4">₹{product.price}</td>

@@ -6,8 +6,8 @@ import Wishlist from "./components/Wishlist/Wishlist";
 import Layout from "./components/Layouts/Layout";
 import HomeLayout from "./components/Home/Home";
 import ShopLayout from "./components/Layouts/ShopLayout";
-import ProductHandle from "./components/Admin2/ProductHandle/ProductHandle";
-import AddProduct from "./components/Admin2/ProductHandle/AddProduct";
+import ProductHandle from "./components/Admin/ProductHandle/ProductHandle";
+import AddProduct from "./components/Admin/ProductHandle/AddProduct";
 import Profile from "./components/Profile/Profile";
 import Address from "./components/Order/Address";
 import PublicRoutes from "./routes/public";
@@ -15,8 +15,8 @@ import SellerProfile from "./components/Profile/Profile";
 import About from "./components/Home/About";
 import Contact from "./components/Home/Contact";
 import OrderHistory from "./components/Order/OrderHistory";
-import DashboardLayout from "./components/Admin2/DashboardLayout";
-import Dashboard2 from "./components/Admin2/Dashboard";
+import DashboardLayout from "./components/Admin/DashboardLayout";
+import Dashboard2 from "./components/Admin/Dashboard";
 function App() {
   return (
     <Routes>
