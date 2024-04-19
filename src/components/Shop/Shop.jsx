@@ -4,6 +4,7 @@ import SortingOptions from "./SortingOption";
 import DisplayOptions from "./DisplayOption";
 import ProductList from "./ProductList";
 import Sidebar from "./Sidebar";
+import { ScrollTop } from "../../utils/ScrollTop";
 
 const Shop = () => {
   const [categoriesFilter, setCategoriesFilter] = useState([]);
@@ -12,6 +13,9 @@ const Shop = () => {
   const [maxPrice, setMaxPrice] = useState("");
 
   return (
+    <>
+    
+    <ScrollTop/>
     <div className="container grid md:grid-cols-4 grid-cols-2 gap-6 pt-4 pb-16 items-start">
       <Sidebar
         setCategoriesFilter={setCategoriesFilter}
@@ -31,6 +35,7 @@ const Shop = () => {
         />
       </div>
     </div>
+    </>
   );
 };
 

@@ -37,7 +37,7 @@ const Wishlist = () => {
 
   const handleDelete = async (productId) => {
     try {
-      const success = await handleDeleteItem(user,productId);
+      const success = await handleDeleteItem(user, productId);
       if (success) {
         // Remove the deleted item from wishlistItems state
         setWishlistItems((prevItems) =>
@@ -61,63 +61,73 @@ const Wishlist = () => {
 
   return (
     <>
-      <div className="col-span-9 space-y-4 p-10">
-        {wishlistItems.map((item, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-between border gap-6 p-4 border-gray-200 rounded"
-          >
-            <div className="w-28">
-              <img
-                src={item.productData.image_url}
-                alt={item.productData.name}
-                className="w-full"
-              />
-            </div>
-            <div className="w-1/3">
-              <h2 className="text-gray-800 text-xl font-medium uppercase">
-                {item.productData.name}
-              </h2>
-              <p className="text-gray-500 text-sm">
-                Availability:{" "}
-                <span
-                  className={`text-${
-                    item.productData.availability ? "green" : "red"
-                  }-600`}
-                >
-                  {item.productData.availability ? "In Stock" : "Out of Stock"}
-                </span>
-              </p>
-            </div>
-            <div className="text-red-700 text-lg font-semibold">
-              ${item.productData.price}
-            </div>
-            <a
-              href="#"
-              className={`${
-                item.productData.availability
-                  ? "bg-red-700 hover:bg-transparent hover:text-red-700"
-                  : "cursor-not-allowed bg-red-400"
-              } px-6 py-2 text-center text-sm text-white border border-red-700 rounded transition uppercase font-roboto font-medium`}
-            >
-              {item.productData.availability ? "Add to Cart" : "Out of Stock"}
-            </a>
+      {wishlistItems.length > 0 ? (
+        <div className="col-span-9 space-y-4 p-10">
+          {wishlistItems.map((item, index) => (
             <div
-              className="text-gray-600 cursor-pointer hover:text-red-700"
-              onClick={() => handleDelete(item.product_id)}
+              key={index}
+              className="flex items-center justify-between border gap-6 p-4 border-gray-200 rounded"
             >
-              <FontAwesomeIcon icon={faTrash} />
+              <div className="w-28">
+                <img
+                  src={item.productData.image_url}
+                  alt={item.productData.name}
+                  className="w-full"
+                />
+              </div>
+              <div className="w-1/3">
+                <h2 className="text-gray-800 text-xl font-medium uppercase">
+                  {item.productData.name}
+                </h2>
+                <p className="text-gray-500 text-sm">
+                  Availability:{" "}
+                  <span
+                    className={`text-${
+                      item.productData.availability ? "green" : "red"
+                    }-600`}
+                  >
+                    {item.productData.availability
+                      ? "In Stock"
+                      : "Out of Stock"}
+                  </span>
+                </p>
+              </div>
+              <div className="text-red-700 text-lg font-semibold">
+                ${item.productData.price}
+              </div>
+              <a
+                href="#"
+                className={`${
+                  item.productData.availability
+                    ? "bg-red-700 hover:bg-transparent hover:text-red-700"
+                    : "cursor-not-allowed bg-red-400"
+                } px-6 py-2 text-center text-sm text-white border border-red-700 rounded transition uppercase font-roboto font-medium`}
+              >
+                {item.productData.availability ? "Add to Cart" : "Out of Stock"}
+              </a>
+              <div
+                className="text-gray-600 cursor-pointer hover:text-red-700"
+                onClick={() => handleDelete(item.product_id)}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </div>
             </div>
+          ))}
+          {showAlert && (
+            <Alert
+              setShowAlert={setShowAlert}
+              messageType={alertMsgType}
+              message={alertMsg}
+            />
+          )}
+        </div>
+      ) : (
+        <div className="col-span-9 space-y-4 p-10 ">
+          <div className="flex items-center justify-between border shadow-lg gap-6 p-4 border-gray-200 rounded">
+           <h2 className="items-center"> Your Wishlist is empty !!!</h2>
           </div>
-        ))}
-        {showAlert && (
-          <Alert
-            setShowAlert={setShowAlert}
-            messageType={alertMsgType}
-            message={alertMsg}
-          />
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 };

@@ -21,6 +21,7 @@ import Alert from "../UI/Alert";
 import { fetchData } from "../../utils/Shop";
 
 import { useSelector } from "react-redux";
+import { ScrollTop } from "../../utils/ScrollTop";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -109,8 +110,11 @@ const Product = () => {
     }
   };
 
+ 
+
   return (
     <>
+      <ScrollTop dep={productId} />
       <div className="container grid grid-cols-2 gap-6">
         <div>
           <img src={product.image_url} alt="product" className="w-full" />
@@ -252,7 +256,7 @@ const Product = () => {
         </h2>
         <div className="grid grid-cols-4 gap-6">
           {products
-            .filter((product) => product.category_id === categoryId) // Filter products by category_id
+            .filter((product) => product.category_id === categoryId && product.product_id!=productId) // Filter products by category_id
             .slice(0, 4) // Slice the filtered products to show only the first 4
             .map((product) => (
               <div key={product.productId}>
