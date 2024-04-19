@@ -9,6 +9,6 @@ export const fetchData = async () => {
   } catch (error) {
     console.error("Error fetching products:", error);
   }
-  return "";
+  return null;
 };
 

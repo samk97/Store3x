@@ -120,7 +120,7 @@ const ProductList = ({
         />
       )}
       <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
-        {/* Sort and paginate products before mapping */}
+        
         {sortProducts(currentItems, sortingOption).map((product) => (
           <ProductCard
             key={product.product_id}
@@ -135,7 +135,7 @@ const ProductList = ({
           />
         ))}
       </div>
-      {/* Pagination */}
+      
       <div className="pt-5">
         <Pagination
           currentPage={currentPage}

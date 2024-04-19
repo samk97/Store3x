@@ -18,7 +18,7 @@ const Layout = () => {
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           
           <main>
-            <div className="mx-auto max-w-screen-2x bg-blue-gray-100 p-4 md:p-6 2xl:p-10">
+            <div className="mx-auto bg max-w-screen-2x bg-blue-gray-100 p-4 md:p-6 2xl:p-10" style={{backgroundColor: 'rgb(241,245,249)'}}>
             <Outlet/>
             </div>
           </main>
