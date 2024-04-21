@@ -3,14 +3,17 @@ import React from "react";
 const Contact = () => {
   return (
     <>
-      <section className="relative z-10 overflow-hidden bg-white py-20 dark:bg-dark lg:py-[120px]">
+      <section className="relative z-10 pt-5 overflow-hidden bg-white  dark:bg-dark ">
+        <div className="w-full flex justify-center text-2xl font-bold">
+          <span className="mb-4 block  text-primary">
+            Contact Us
+          </span>
+        </div>
         <div className="container">
           <div className="-mx-4 flex flex-wrap lg:justify-between">
             <div className="w-full px-4 lg:w-1/2 xl:w-6/12">
               <div className="mb-12 max-w-[570px] lg:mb-0">
-                <span className="mb-4 block text-base font-semibold text-primary">
-                  Contact Us
-                </span>
+                
                 <h2 className="mb-6 text-[32px] font-bold uppercase text-dark dark:text-white sm:text-[40px] lg:text-[36px] xl:text-[40px]">
                   GET IN TOUCH WITH US
                 </h2>

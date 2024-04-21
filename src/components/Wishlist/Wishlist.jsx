@@ -61,6 +61,9 @@ const Wishlist = () => {
 
   return (
     <>
+      <div className="w-full pt-5 flex justify-center text-2xl font-bold">
+        <h1>Your Wishlist</h1>
+      </div>
       {wishlistItems.length > 0 ? (
         <div className="col-span-9 space-y-4 p-10">
           {wishlistItems.map((item, index) => (
@@ -123,8 +126,8 @@ const Wishlist = () => {
         </div>
       ) : (
         <div className="col-span-9 space-y-4 p-10 ">
-          <div className="flex items-center justify-between border shadow-lg gap-6 p-4 border-gray-200 rounded">
-           <h2 className="items-center"> Your Wishlist is empty !!!</h2>
+          <div className="flex items-center justify-center border shadow-lg gap-6 p-4 border-gray-200 rounded">
+            <h2 className="items-center"> Your Wishlist is empty !!!</h2>
           </div>
         </div>
       )}

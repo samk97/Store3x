@@ -203,7 +203,43 @@ const Sidebar = ({ setCategoriesFilter, setMinPrice, setMaxPrice }) => {
                   4000 - 8000
                 </label>
               </div>
-              {/* Add more ranges as needed */}
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="text-primary focus:ring-0 rounded-sm cursor-pointer"
+                  onChange={(e) =>
+                    handlePriceRangeChange(8000, 12000, e.target.checked)
+                  }
+                />
+                <label className="text-gray-600 ml-3 cursor-pointer">
+                  8000 - 12000
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="text-primary focus:ring-0 rounded-sm cursor-pointer"
+                  onChange={(e) =>
+                    handlePriceRangeChange(12000, 20000, e.target.checked)
+                  }
+                />
+                <label className="text-gray-600 ml-3 cursor-pointer">
+                  12000 - 20000
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="text-primary focus:ring-0 rounded-sm cursor-pointer"
+                  onChange={(e) =>
+                    handlePriceRangeChange(20000, Infinity, e.target.checked)
+                  }
+                />
+                <label className="text-gray-600 ml-3 cursor-pointer">
+                  More than 20000
+                </label>
+              </div>
+              {/* Add even more ranges as needed */}
             </div>
           </div>
         </div>

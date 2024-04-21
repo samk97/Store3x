@@ -49,7 +49,7 @@ export const addToCartHandler = async (user,product_id, quantity = 1) => {
     if (response.status === 201) {
       return {
         success: true,
-        message: "Item Added Successfully !!!",
+        message: "Item Added Successfully in Cart !!!",
       };
     } else {
       return {

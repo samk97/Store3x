@@ -6,22 +6,23 @@ import { addToWishlistHandler } from "../../utils/Wishlist";
 import Alert from "../UI/Alert";
 import Pagination from "./Pagination";
 import { useSelector } from "react-redux";
+
 const ProductList = ({
   categoriesFilter,
   sortingOption,
   minPrice,
   maxPrice,
 }) => {
-
-  
-
-
   const [products, setProducts] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(
+    localStorage.getItem("currentPage")
+      ? parseInt(localStorage.getItem("currentPage"))
+      : 1
+  );
   const [itemsPerPage] = useState(9);
   const user = useSelector((state) => state.auth.user);
 
@@ -62,15 +63,25 @@ const ProductList = ({
     }
   };
 
+  useEffect(() => {
+    // Save current page to local storage when it changes
+    localStorage.setItem("currentPage", currentPage.toString());
+  }, [currentPage]);
+
+  useEffect(() => {
+    // Retrieve current page from local storage when component mounts
+    const savedPage = localStorage.getItem("currentPage");
+    setCurrentPage(savedPage ? parseInt(savedPage) : 1);
+  }, []);
+
   const handleAddToCart = async (productId) => {
     try {
-      const response = await addToCartHandler(user,productId);
+      const response = await addToCartHandler(user, productId);
       setShowAlert(true);
 
       if (response.success) {
         setAlertMsg(response.message);
         setAlertMsgType("success");
-       
       } else {
         setAlertMsg(response.message);
         setAlertMsgType("NA");
@@ -83,7 +94,7 @@ const ProductList = ({
 
   const handleAddToWishlist = async (productId) => {
     try {
-      const response = await addToWishlistHandler(user,productId);
+      const response = await addToWishlistHandler(user, productId);
       setShowAlert(true);
 
       if (response.success) {
@@ -108,10 +119,12 @@ const ProductList = ({
   );
 
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
-    <>
+    <div className="container pb-16">
       {showAlert && (
         <Alert
           setShowAlert={setShowAlert}
@@ -119,8 +132,7 @@ const ProductList = ({
           message={alertMsg}
         />
       )}
-      <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
-        
+      <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
         {sortProducts(currentItems, sortingOption).map((product) => (
           <ProductCard
             key={product.product_id}
@@ -135,7 +147,7 @@ const ProductList = ({
           />
         ))}
       </div>
-      
+
       <div className="pt-5">
         <Pagination
           currentPage={currentPage}
@@ -143,7 +155,7 @@ const ProductList = ({
           onPageChange={paginate}
         />
       </div>
-    </>
+    </div>
   );
 };
 

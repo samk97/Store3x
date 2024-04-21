@@ -19,6 +19,8 @@ const Navbar = () => {
     setShowLogin(false);
   };
 
+  
+
   useEffect(() => {
     const checkUser = fetchUser();
     if (checkUser) {
@@ -29,6 +31,8 @@ const Navbar = () => {
       setLoggedIn(false);
       setUser(null);
     }
+    
+    
   }, [loginSucc]);
 
   return (
@@ -38,6 +42,7 @@ const Navbar = () => {
           <span className="text-white">
             <FontAwesomeIcon icon={faBars} />
           </span>
+          
         </div>
         <div className="flex items-center justify-between flex-grow md:pl-12 py-5">
           <div className="flex items-center space-x-6 capitalize">
@@ -66,7 +71,7 @@ const Navbar = () => {
           </div>
           {loggedIn ? (
             <p className="text-gray-200 hover:text-white transition capitalize">
-              Welcome, {user.fname}
+             Welcome, {user.fname} 
             </p>
           ) : (
             <button

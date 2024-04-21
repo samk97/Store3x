@@ -54,7 +54,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-50 flex h-screen w-72.5 border-r-2 flex-col overflow-y-hidden shadow-xl bg-gray-100 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
+      className={`absolute left-0 top-0 z-50 flex h-screen w-72.5 border-r-2 flex-col overflow-y-hidden shadow-xl bg-gray-50 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -114,8 +114,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               </li>
               <li
                 className={`hover:bg-gray-200   ${
-                  pathname === "/Dashboard/Product_handle" ||
-                  pathname === "Dashboard/add-product"
+                  (pathname === "/Dashboard/Product_handle" || pathname ==="Dashboard/add-product")
                     ? "text-red-700 text-xl border-r-4 border-red-700"
                     : ""
                 }`}

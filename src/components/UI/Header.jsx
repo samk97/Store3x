@@ -118,16 +118,16 @@ const Header = () => {
                     key={product.product_id}
                     onClick={handleClosePopup}
                   >
-                    <div className="flex mb-4 border-b-2 p-1">
+                    <div className="flex mb-4 border-b-2 p-1 hover:bg-gray-100">
                       <img
                         src={product.image_url}
                         alt={product.name}
                         className="w-16 h-16 inline-block mr-2"
                       />
                       <div className="inline-block">
-                        <p className="font-semibold">{product.name}</p>
+                        <p className="text-black">{product.name}</p>
                         <p>{product.description}</p>
-                        <p className="text-red-700">{product.price}</p>
+                        <p className="text-red-700">₹ {product.price}</p>
                       </div>
                     </div>
                   </Link>
