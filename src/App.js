@@ -10,14 +10,19 @@ import ProductHandle from "./components/Admin/ProductHandle/ProductHandle";
 import AddProduct from "./components/Admin/ProductHandle/AddProduct";
 import Profile from "./components/Profile/Profile";
 import Address from "./components/Order/Address";
-import PublicRoutes from "./routes/public";
 import SellerProfile from "./components/Profile/Profile";
 import About from "./components/Home/About";
 import Contact from "./components/Home/Contact";
 import OrderHistory from "./components/Order/OrderHistory";
 import DashboardLayout from "./components/Admin/DashboardLayout";
 import Dashboard2 from "./components/Admin/Dashboard";
+import Error from "./components/Error/Error";
+import { useSelector } from "react-redux";
+
 function App() {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user_type = useSelector((state) => state.auth.user_type);
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -31,18 +36,18 @@ function App() {
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
         <Route path="order" element={<OrderHistory />} />
-        <Route element={<PublicRoutes />}>
-          <Route path="profile" element={<Profile />} />
-        </Route>
+        <Route path="profile" element={<Profile />} />
       </Route>
 
-     
       <Route path="/dashboard" element={<DashboardLayout />}>
         <Route index element={<Dashboard2 />} />
         <Route path="product_handle" element={<ProductHandle />} />
         <Route path="add-product" element={<AddProduct />} />
         <Route path="seller-profile" element={<SellerProfile />} />
       </Route>
+
+      {/* Catch-all route for handling invalid URLs */}
+      <Route path="*" element={<Error />} />
     </Routes>
   );
 }

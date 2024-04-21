@@ -1,36 +1,52 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Error = () => {
+  const navigate = useNavigate();
+
+  const handleGoBackToHomepage = () => {
+    console.log("Clicked!!");
+    navigate("/");
+  };
   return (
-    <>
-      {/* component */}
-      <div className="lg:px-24 lg:py-24 md:py-20 md:px-44 px-4 py-24 items-center flex justify-center flex-col-reverse lg:flex-row md:gap-28 gap-16">
-        <div className="xl:pt-24 w-full xl:w-1/2 relative pb-12 lg:pb-0">
-          <div className="relative">
-            <div className="absolute">
-              <div className="">
-                <h1 className="my-2 text-gray-800 font-bold text-2xl">
-                  Looks like you've found the doorway to the great nothing
-                </h1>
-                <p className="my-2 text-gray-800">
-                  Sorry about that! Please visit our hompage to get where you
-                  need to go.
-                </p>
-                <button className="sm:w-full lg:w-auto my-2 border rounded md py-4 px-8 text-center bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-opacity-50">
-                  Take me there!
-                </button>
-              </div>
-            </div>
-            <div>
-              <img src="https://i.ibb.co/G9DC8S0/404-2.png" />
-            </div>
-          </div>
-        </div>
-        <div>
-          <img src="https://i.ibb.co/ck1SGFJ/Group.png" />
-        </div>
+    <div className="flex items-center flex-col justify-center lg:flex-row py-28 px-6 md:px-24 md:py-20 lg:py-32 gap-16 lg:gap-28">
+      <div className="w-full lg:w-1/2">
+        <img
+          className="hidden lg:block"
+          src="https://i.ibb.co/v30JLYr/Group-192-2.png"
+          alt=""
+        />
+        <img
+          className="hidden md:block lg:hidden"
+          src="https://i.ibb.co/c1ggfn2/Group-193.png"
+          alt=""
+        />
+        <img
+          className="md:hidden"
+          src="https://i.ibb.co/8gTVH2Y/Group-198.png"
+          alt=""
+        />
       </div>
-    </>
+      <div className="w-full lg:w-1/2">
+        <h1 className="py-4 text-3xl lg:text-4xl font-extrabold text-gray-800">
+          Looks like you've found the doorway to the great nothing
+        </h1>
+        <p className="py-4 text-base text-gray-800">
+          The content you’re looking for doesn’t exist. Either it was removed,
+          or you mistyped the link.
+        </p>
+        <p className="py-2 text-base text-gray-800">
+          Sorry about that! Please visit our hompage to get where you need to
+          go.
+        </p>
+        <button
+          onClick={handleGoBackToHomepage}
+          className="w-full lg:w-auto my-4 border rounded-md px-1 sm:px-16 py-5 bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-700 focus:ring-opacity-50"
+        >
+          Go back to Homepage
+        </button>
+      </div>
+    </div>
   );
 };
 
