@@ -16,7 +16,6 @@ import { logout } from "../../../utils/Auth";
 import { useSelector } from "react-redux";
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const user_type = useSelector((state) => state.auth.user_type);
 
   const handleLogout = () => {
     logout();
