@@ -72,9 +72,27 @@ const Product = () => {
     fetchProduct();
   }, [productId]);
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (productId) => {
     try {
-      const response = await addToCartHandler(user, productId); // Using productId from outer scope
+      const response = await addToCartHandler(user, productId);
+      setShowAlert(true);
+      console.log(response);
+
+      if (response.success) {
+        setAlertMsg(response.message);
+        setAlertMsgType("success");
+      } else {
+        setAlertMsg(response.message);
+        setAlertMsgType("NA");
+      }
+    } catch (error) {
+      setAlertMsg(error.message);
+      setAlertMsgType("fail");
+    }
+  };
+  const handleAddToWishlist = async (productId) => {
+    try {
+      const response = await addToWishlistHandler(user, productId);
       setShowAlert(true);
 
       if (response.success) {
@@ -84,33 +102,11 @@ const Product = () => {
         setAlertMsg(response.message);
         setAlertMsgType("NA");
       }
-      console.log(response);
     } catch (error) {
       setAlertMsg(error.message);
       setAlertMsgType("fail");
     }
   };
-
-  const handleAddToWishlist = async () => {
-    try {
-      const response = await addToWishlistHandler(productId); // Using productId from outer scope
-      setShowAlert(true);
-
-      if (response.success) {
-        setAlertMsg(response.message);
-        setAlertMsgType("success");
-      } else {
-        setAlertMsg(response.message);
-        setAlertMsgType("NA");
-      }
-      console.log(response);
-    } catch (error) {
-      setAlertMsg(error.message);
-      setAlertMsgType("fail");
-    }
-  };
-
- 
 
   return (
     <>
@@ -256,21 +252,27 @@ const Product = () => {
         </h2>
         <div className="grid grid-cols-4 gap-6">
           {products
-            .filter((product) => product.category_id === categoryId && product.product_id!=productId) // Filter products by category_id
+            .filter(
+              (product) =>
+                product.category_id === categoryId &&
+                product.product_id != productId
+            ) // Filter products by category_id
             .slice(0, 4) // Slice the filtered products to show only the first 4
             .map((product) => (
               <div key={product.productId}>
                 {/* Add conditional check */}
                 {product && (
                   <ProductCard
-                    title={product.name}
-                    price={product.price}
-                    addToCartHandler={() => handleAddToCart(product.productId)}
-                    bgImage={product.image_url}
-                    rating={product.rating}
-                    discount_percent={product.discount_percent}
-                    productId={product.product_id}
-                  />
+                  key={product.productId} // Assuming productId is unique
+                  title={product.name}
+                  price={product.price}
+                  addToCartHandler={() => handleAddToCart(product.product_id)}
+                  addToWishlistHandler={() => handleAddToWishlist(product.product_id)}
+                  bgImage={product.image_url}
+                  rating={product.rating}
+                  discount_percent={product.discount_percent}
+                  productId={product.product_id}
+                />
                 )}
               </div>
             ))}
@@ -279,8 +281,8 @@ const Product = () => {
       {showAlert && (
         <Alert
           setShowAlert={setShowAlert}
-          messageType="success"
-          message="Item added to cart !"
+          messageType={alertMsgType}
+          message={alertMsg}
         />
       )}
       {/* ./related product */}
