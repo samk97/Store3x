@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { fetchUser } from "../../utils/Auth";
+import { getOrderItems } from "../../utils/Order";
+import { Link } from "react-router-dom";
 
 const OrderHistory = () => {
   const [orderIds, setOrderIds] = useState([]);
-  const [buy, setBuy] = useState([]);
   const [products, setProducts] = useState([]);
   const user = fetchUser().email;
   const [openIndex, setOpenIndex] = useState(null);
@@ -17,35 +18,6 @@ const OrderHistory = () => {
           `https://localhost:4002/buyer/${user}`
         );
         setOrderIds(orderIdsResponse.data);
-
-        // Fetch buy data
-        const buyData = await Promise.all(
-          orderIdsResponse.data.map(async (orderItem) => {
-            const response = await axios.get(
-              `https://localhost:4002/Buy/${orderItem.order_id}`
-            );
-            return response.data;
-          })
-        );
-        setBuy(buyData);
-
-        // Fetch products
-        const productsData = await Promise.all(
-          buyData.map(async (orderItemArray) => {
-            const productsInOrder = await Promise.all(
-              orderItemArray.map(async (orderItem) => {
-                const response = await axios.get(
-                  `https://localhost:4003/Products/${orderItem.product_id}`
-                );
-                return response.data;
-              })
-            );
-            return productsInOrder;
-          })
-        );
-        setProducts(productsData);
-
-        console.log("All data fetched successfully.");
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -53,12 +25,31 @@ const OrderHistory = () => {
 
     fetchData();
   }, []);
-  console.log("ids", orderIds);
-  console.log("product", products);
-  console.log("buy", buy);
+
+  const fetchAndHandleOrderItems = async (orderId) => {
+    try {
+      const orderItems = await getOrderItems(orderId);
+      console.log("Order Items:", orderItems);
+      setProducts(orderItems);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  const toggleCardAndFetchOrderItems = async (index, orderId) => {
+    // First toggle the card
+    toggleCard(index);
+
+    try {
+      // Fetch and handle order items
+      const productDetailsArray = await fetchAndHandleOrderItems(orderId);
+      console.log("Product Details Array:", productDetailsArray);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const toggleCard = (index) => {
-    setOpenIndex((prevIndex) => (prevIndex === index ? null : index)); // Toggle card by index
+    setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
   };
   return (
     <>
@@ -108,7 +99,9 @@ const OrderHistory = () => {
                 {/* Expand/Collapse Icon */}
                 <div
                   className="cursor-pointer"
-                  onClick={() => toggleCard(index)}
+                  onClick={() =>
+                    toggleCardAndFetchOrderItems(index, orderId.order_id)
+                  }
                 >
                   {openIndex === index ? (
                     <svg
@@ -147,70 +140,76 @@ const OrderHistory = () => {
               {openIndex === index && (
                 <div className="w-full border-t px-3 min-[400px]:px-6">
                   {/* this is card start */}
-                  <div className="flex flex-col lg:flex-row items-center py-6 gap-6 w-full">
-                    <div className="img-box max-lg:w-full">
-                      <img
-                        src="https://images.pexels.com/photos/709552/pexels-photo-709552.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="Diamond Watch image"
-                        className="aspect-square w-full lg:max-w-[140px]"
-                      />
-                    </div>
-                    <div className="flex flex-row items-center w-full ">
-                      <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
-                        <div className="flex items-center">
-                          <div className="">
-                            <h2 className="font-semibold text-xl leading-8 text-black mb-3 ">
-                              Product Name
-                            </h2>
-                            <p className="font-normal text-lg leading-8 text-gray-500 mb-3">
+
+                  {products.map((product) => (
+                    <Link
+                      to={`/shop/product/${product.product_id}`}
+                      className="flex flex-col lg:flex-row items-center py-4 border-b gap-6 w-full hover:bg-gray-100"
+                    >
+                      <div className="img-box max-lg:w-full">
+                        <img
+                          src={product.image_url}
+                          alt="Diamond Watch image"
+                          className="aspect-square w-full lg:max-w-[140px]"
+                        />
+                      </div>
+                      <div className="flex flex-row items-center w-full ">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
+                          <div className="flex items-center">
+                            <div className="">
+                              <h2 className="font-semibold text-xl leading-8 text-black mb-3 ">
+                                {product.name}
+                              </h2>
+                              {/* <p className="font-normal text-lg leading-8 text-gray-500 mb-3">
                               Seller Id
-                            </p>
-                            <div className="flex items-center  ">
-                              <p className="font-medium text-base leading-7 text-black pr-4 mr-4 border-r border-gray-200">
+                            </p> */}
+                              <div className="flex items-center  ">
+                                {/* <p className="font-medium text-base leading-7 text-black pr-4 mr-4 border-r border-gray-200">
                                 Size:{" "}
                                 <span className="text-gray-500">Regular</span>
-                              </p>
-                              <p className="font-medium text-base leading-7 text-black ">
-                                Qty: <span className="text-gray-500">1</span>
-                              </p>
+                              </p> */}
+                                <p className="font-medium text-base leading-7 text-black ">
+                                  Qty: <span className="text-gray-500">1</span>
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="grid grid-cols-5">
-                          <div className="col-span-5 lg:col-span-1 flex items-center max-lg:mt-3">
-                            <div className="flex gap-3 lg:block">
-                              <p className="font-medium text-sm leading-7 text-black">
-                                price
-                              </p>
-                              <p className="lg:mt-4 font-medium text-sm leading-7 text-indigo-600">
-                                ₹100
-                              </p>
+                          <div className="grid grid-cols-5">
+                            <div className="col-span-5 lg:col-span-1 flex items-center max-lg:mt-3">
+                              <div className="flex gap-3 lg:block">
+                                <p className="font-medium text-sm leading-7 text-black">
+                                  price
+                                </p>
+                                <p className="lg:mt-4 font-medium text-sm leading-7 text-indigo-600">
+                                  ₹{product.price}
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                          <div className="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3 ">
-                            <div className="flex gap-3 lg:block">
-                              <p className="font-medium text-sm leading-7 text-black">
-                                Status
-                              </p>
-                              <p className="font-medium text-sm leading-6 py-0.5 px-3 whitespace-nowrap rounded-full lg:mt-3 bg-indigo-50 text-indigo-600">
-                                Dispatched
-                              </p>
+                            <div className="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3 ">
+                              <div className="flex gap-3 lg:block">
+                                <p className="font-medium text-sm leading-7 text-black">
+                                  Status
+                                </p>
+                                <p className="font-medium text-sm leading-6 py-0.5 px-3 whitespace-nowrap rounded-full lg:mt-3 bg-indigo-50 text-indigo-600">
+                                  Dispatched
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                          <div className="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3">
-                            <div className="flex gap-3 lg:block">
-                              <p className="font-medium text-sm whitespace-nowrap leading-6 text-black">
-                                Expected Delivery Time
-                              </p>
-                              <p className="font-medium text-base whitespace-nowrap leading-7 lg:mt-3 text-emerald-500">
-                                23rd March 2021
-                              </p>
+                            <div className="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3">
+                              <div className="flex gap-3 lg:block">
+                                <p className="font-medium text-sm whitespace-nowrap leading-6 text-black">
+                                  Expected Delivery Time
+                                </p>
+                                <p className="font-medium text-base whitespace-nowrap leading-7 lg:mt-3 text-emerald-500">
+                                  23rd March 2021
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </Link>
+                  ))}
                   {/*card end*/}
                 </div>
               )}

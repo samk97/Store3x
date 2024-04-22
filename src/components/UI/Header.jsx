@@ -263,7 +263,7 @@ const Header = () => {
                 </Link>
               )}
 
-              <a
+              {/* <a
                 href="#"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
                 onClick={handleClosePopup}
@@ -273,7 +273,7 @@ const Header = () => {
                   className="w-5 h-5 object-contain"
                 />
                 <span className="ml-6 text-sm">Setting</span>
-              </a>
+              </a> */}
               {isLoggedIn && (
                 <button
                   onClick={handleLogout}
