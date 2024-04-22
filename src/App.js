@@ -40,7 +40,7 @@ function App() {
           <Route path="product/:productId" element={<Product />} />
         </Route>
         <Route path="wishlist" element={<Wishlist />} />
-        <Route path="address" element={<Address />} />
+        <Route path="checkout" element={<Address />} />
         <Route path="about" element={<About />} />
         <Route path="contact" element={<Contact />} />
         <Route path="order" element={<OrderHistory />} />

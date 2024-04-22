@@ -106,7 +106,7 @@ const Cart = () => {
 
             <div className="flex justify-center gap-5">
               <Link
-                to="address"
+                to="checkout"
                 className="px-3 py-1 text-sm text-white bg-red-700 border border-red-700 rounded hover:bg-transparent hover:text-red-700 transition uppercase font-roboto font-medium"
               >
                 Checkout Now

@@ -3,19 +3,20 @@ import axios from "axios";
 import { fetchUser } from "../../utils/Auth";
 import { fetchCartProductData, UserCartItems } from "../../utils/Cart";
 import { random } from "../../utils/Seller";
-
+ 
 import { useSelector } from "react-redux";
-
+ 
 const Checkout = (props) => {
   console.log(props);
+ 
   const [user, setUser] = useState(null);
   const [cartProduct, setCartProduct] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
   let usr = useSelector((state) => state.auth.user);
-
+ 
   const refreshCart = () => {
     let fetchedData; // Define a variable to hold fetched data
-
+ 
     UserCartItems(usr)
       .then((data) => {
         fetchedData = data; // Store fetched data in a variable accessible in the next then block
@@ -46,7 +47,7 @@ const Checkout = (props) => {
     );
     setSubtotal(total);
   };
-
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,7 +61,7 @@ const Checkout = (props) => {
     refreshCart();
     fetchData();
   }, []);
-
+ 
   const CheckoutHandler = async () => {
     try {
       const { data } = await axios.post(
@@ -82,7 +83,7 @@ const Checkout = (props) => {
         handler: function (response) {
           handleCheckout(response.razorpay_payment_id);
         },
-
+ 
         callback_url: "http://localhost:3000/order",
         prefill: {
           name: user ? `${user.fname} ${user.lname}` : "",
@@ -101,7 +102,7 @@ const Checkout = (props) => {
           },
         },
       };
-
+ 
       // Initialize Razorpay
       const razor = new window.Razorpay(options);
       razor.open();
@@ -109,7 +110,7 @@ const Checkout = (props) => {
       console.error("Error during checkout:", error);
     }
   };
-
+ 
   //order
   const [currentDate, setCurrentDate] = useState(null);
   const [delDate, setDelDate] = useState(null);
@@ -120,10 +121,10 @@ const Checkout = (props) => {
     setDelDate(date.toISOString());
   };
   //update data in cart
-
+ 
   //
   const handleCheckout = async (paymentId) => {
-
+ 
     console.log("Inside handleCheckout");
     getCurrentDate();
     const orderData = {
@@ -140,7 +141,7 @@ const Checkout = (props) => {
       quantity: 3,
       payment_id: paymentId,
     };
-
+ 
     try {
       console.log("Before axios.post");
       const response = await axios.post(
@@ -153,7 +154,7 @@ const Checkout = (props) => {
         }
       );
       console.log("After axios.post");
-  
+ 
       if (response) {
         console.log("Order inserted successfully(Payment Id):", paymentId);
         handleBuy(orderData.order_id);
@@ -163,11 +164,11 @@ const Checkout = (props) => {
     } catch (error) {
       console.error("Error inserting order:", error.response ? error.response.data : error.message);
     }
-  
+ 
     console.log("Ye print ho reha re baba", orderData);
   };
   //console.log(cartProduct);
-
+ 
   const handleBuy = async (orderId) => {
     try {
       // Map each cart item to a promise representing the axios request
@@ -185,13 +186,13 @@ const Checkout = (props) => {
         console.log("Inserted product:", response.data);
       });
       await Promise.all(promises);
-
+ 
       console.log("All products inserted successfully.");
     } catch (error) {
       console.error("Error inserting products:", error);
     }
   };
-
+ 
   return (
     <div className="col-span-4 border border-gray-200 p-4 rounded">
       <h4 className="text-gray-800 text-lg mb-4 font-medium uppercase">
@@ -227,31 +228,25 @@ const Checkout = (props) => {
           </p>
         }
       </div>
-      <div className="flex items-center mb-4 mt-2">
-        <input
-          type="checkbox"
-          name="aggrement"
-          id="aggrement"
-          className="text-red-700 focus:ring-0 rounded-sm cursor-pointer w-3 h-3"
-        />
-        <label
-          htmlFor="aggrement"
-          className="text-gray-600 ml-3 cursor-pointer text-sm"
-        >
-          I agree to the{" "}
-          <a href="#" className="text-red-700">
-            terms &amp; conditions
-          </a>
-        </label>
-      </div>
+     
       <button
         onClick={CheckoutHandler}
-        className="block w-full py-3 px-4 text-center text-white bg-red-700 border border-red-700 rounded-md hover:bg-transparent hover:text-red-700 transition font-medium"
+        onMouseEnter={() => {
+          if (!props.selectedAddress) {
+            alert("Please select an address");
+          }
+        }}
+        className={`block w-full py-3 px-4 text-center text-white bg-red-700 border border-red-700 rounded-md ${
+          !props.selectedAddress
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:bg-transparent hover:text-red-700 transition font-medium"
+        }`}
+        disabled={!props.selectedAddress}
       >
-        Place order
+        {!props.selectedAddress?<p>Please select an Address to place order</p>:<p>Place Order</p>}
       </button>
     </div>
   );
 };
-
+ 
 export default Checkout;

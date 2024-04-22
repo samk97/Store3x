@@ -47,18 +47,18 @@ const Header = () => {
     }
   };
   const handleClickOutsideDropdown = (event) => {
-    if (!event.target.closest('.dropdown-container')) {
+    if (!event.target.closest(".dropdown-container")) {
       setIsDropdownOpen(false);
     }
   };
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutsideDropdown);
-    
+
     return () => {
       document.removeEventListener("click", handleClickOutsideDropdown);
     };
-  }, [])
+  }, []);
 
   const handleClosePopup = () => {
     setIsDropdownOpen(false);
@@ -108,7 +108,6 @@ const Header = () => {
       setAlertMsgType("fail");
     }
   };
-  
 
   const handleLogout = () => {
     logout();
@@ -130,7 +129,6 @@ const Header = () => {
     ) {
       setCartPopupOpen(false);
     }
-    
   };
 
   return (
@@ -209,12 +207,12 @@ const Header = () => {
               <FontAwesomeIcon icon={faShoppingCart} />
             </div>
             <div className="text-xs leading-3">Cart</div>
-            {cartPopupOpen && <Cart />}
+            {cartPopupOpen && <Cart  />}
           </div>
 
           <div
-          className={`relative text-center  text-gray-700 hover:text-red-700 transition group dropdown-container`}
-        >
+            className={`relative text-center  text-gray-700 hover:text-red-700 transition group dropdown-container`}
+          >
             <div className="text-2xl" onClick={handleToggleDropdown}>
               <FontAwesomeIcon icon={faUser} />
             </div>
