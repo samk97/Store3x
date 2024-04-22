@@ -1,9 +1,6 @@
 import axios from "axios";
-import { fetchUser } from "./Auth";
 const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
 const cartApiUrl = process.env.REACT_APP_CART_API_URL;
-
-
 
 export const UserCartItems = (user) => {
   return new Promise(async (resolve, reject) => {
@@ -34,7 +31,12 @@ export const fetchCartProductData = (cartData) => {
   );
 };
 
-export const addToCartHandler = async (user,product_id, quantity = 1) => {
+export const addToCartHandler = async (user, product_id, quantity = 1) => {
+  if (!user)
+    return {
+      success: false,
+      message: "You are not logged In, Please login !!!",
+    };
   const url = `${cartApiUrl}/AddToCart`;
 
   const data = {
@@ -69,7 +71,12 @@ export const addToCartHandler = async (user,product_id, quantity = 1) => {
   }
 };
 
-export const handleDeleteItem = async (user,product_id) => {
+export const handleDeleteItem = async (user, product_id) => {
+  if (!user)
+    return {
+      success: false,
+      message: "You are not logged In, Please login !!!",
+    };
   try {
     const response = await fetch(
       `${cartApiUrl}/DeleteFromCart?buyerId=${user}&productId=${product_id}`,

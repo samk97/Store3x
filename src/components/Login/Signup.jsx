@@ -87,7 +87,7 @@ const Signup = ({ toggleForm }) => {
               type="text"
               name="name"
               id="name"
-              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-400"
+              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-200"
               placeholder="Amit Kumar"
             />
           </div>
@@ -99,7 +99,7 @@ const Signup = ({ toggleForm }) => {
               type="text"
               name="email"
               id="email"
-              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-400"
+              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-200"
               placeholder="youremail.@domain.com"
             />
           </div>
@@ -111,7 +111,7 @@ const Signup = ({ toggleForm }) => {
               type="password"
               name="password"
               id="password"
-              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-400"
+              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-200"
               placeholder="*******"
             />
           </div>
@@ -123,7 +123,7 @@ const Signup = ({ toggleForm }) => {
               type="password"
               name="confirm"
               id="confirm"
-              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-400"
+              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-200"
               placeholder="*******"
             />
           </div>

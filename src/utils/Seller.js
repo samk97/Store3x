@@ -9,6 +9,11 @@ export function random() {
 }
 
 export const getAllProductsForSeller = async (sellerId) => {
+  if(!sellerId)
+  return {
+    success: false,
+    message: "You are not logged In, Please login !!!",
+  };
   const apiUrl = `${sellerApiUrl}/products/${sellerId}`;
 
   try {

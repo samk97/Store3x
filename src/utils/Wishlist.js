@@ -3,40 +3,41 @@ import { fetchUser } from "./Auth";
 const productsApiUrl = process.env.REACT_APP_PRODUCTS_API_URL;
 const wishlistApiUrl = process.env.REACT_APP_WISHLIST_API_URL;
 
-
 export const getUserWishListItems = async (user) => {
-     return new Promise(async (resolve, reject) => {
-       try {
-         const response = await fetch(wishlistApiUrl + "/" + user);
-         const data = await response.json();
-         console.log(data);
-         resolve(data);
-         
-       } catch (error) {
-         reject(error);
-       }
-     });
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch(wishlistApiUrl + "/" + user);
+      const data = await response.json();
+      console.log(data);
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
 
-
-export const fetchWishlistProductData =(wishlist)=>{
-       return Promise.all(
-         wishlist.map(async (item) => {
-           try {
-             const productResponse = await axios.get(
-               productsApiUrl + "/" + item.product_id
-             );
-             return productResponse.data;
-           } catch (error) {
-             console.error("Error fetching cart products:", error);
-             throw error; // Propagate the error to Promise.all
-           }
-         })
-       );
+export const fetchWishlistProductData = (wishlist) => {
+  return Promise.all(
+    wishlist.map(async (item) => {
+      try {
+        const productResponse = await axios.get(
+          productsApiUrl + "/" + item.product_id
+        );
+        return productResponse.data;
+      } catch (error) {
+        console.error("Error fetching cart products:", error);
+        throw error; // Propagate the error to Promise.all
+      }
+    })
+  );
 };
 
-
-export const addToWishlistHandler = async (user,product_id, quantity = 1) => {
+export const addToWishlistHandler = async (user, product_id, quantity = 1) => {
+  if(!user)
+  return {
+    success: false,
+    message: "You are not logged In, Please login !!!",
+  };
   const url = `${wishlistApiUrl}/addToWishlist`;
 
   const data = {
@@ -71,8 +72,7 @@ export const addToWishlistHandler = async (user,product_id, quantity = 1) => {
   }
 };
 
-
-export const handleDeleteItem = async (user,product_id) => {
+export const handleDeleteItem = async (user, product_id) => {
   try {
     const response = await fetch(
       `${wishlistApiUrl}/DeleteFromWishList?buyerId=${user}&productId=${product_id}`,

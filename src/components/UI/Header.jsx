@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Cart from "../Cart/Cart";
 import { Link } from "react-router-dom";
 import { logout } from "../../utils/Auth";
+import Alert from "./Alert";
 import {
   faSignOutAlt,
   faCog,
@@ -16,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { fetchData } from "../../utils/Shop";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [cartPopupOpen, setCartPopupOpen] = useState(false);
@@ -25,8 +27,43 @@ const Header = () => {
   const searchRef = useRef(null);
   const cartRef = useRef(null);
 
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertMsgType, setAlertMsgType] = useState("");
+  const navigate = useNavigate();
+
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user_type = useSelector((state) => state.auth.user_type);
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleToggleDropdown = () => {
+    if (isLoggedIn) {
+      setIsDropdownOpen(!isDropdownOpen);
+    } else {
+      setShowAlert(true);
+      setAlertMsg("You are not logged In, Please login !!!");
+      setAlertMsgType("fail");
+    }
+  };
+  const handleClickOutsideDropdown = (event) => {
+    if (!event.target.closest('.dropdown-container')) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutsideDropdown);
+    
+    return () => {
+      document.removeEventListener("click", handleClickOutsideDropdown);
+    };
+  }, [])
+
+  const handleClosePopup = () => {
+    setIsDropdownOpen(false);
+    setShowResults(false);
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -53,12 +90,25 @@ const Header = () => {
   };
 
   const handleCart = () => {
-    setCartPopupOpen((prevState) => !prevState);
+    if (isLoggedIn) {
+      setCartPopupOpen((prevState) => !prevState);
+    } else {
+      setShowAlert(true);
+      setAlertMsg("You are not logged In, Please login !!!");
+      setAlertMsgType("fail");
+    }
   };
 
-  const handleClosePopup = () => {
-    setShowResults(false);
+  const handleWishlist = () => {
+    if (isLoggedIn) {
+      navigate("/wishlist");
+    } else {
+      setShowAlert(true);
+      setAlertMsg("You are not logged In, Please login !!!");
+      setAlertMsgType("fail");
+    }
   };
+  
 
   const handleLogout = () => {
     logout();
@@ -80,6 +130,7 @@ const Header = () => {
     ) {
       setCartPopupOpen(false);
     }
+    
   };
 
   return (
@@ -140,15 +191,15 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-4">
-          <Link to="wishlist">
-            <div className="relative text-center text-gray-700 hover:text-red-700 transition">
-              <div className="text-2xl">
-                <FontAwesomeIcon icon={faHeart} />
-              </div>
-              <div className="text-xs leading-3">Wishlist</div>
+          <button
+            className="relative text-center text-gray-700 hover:text-red-700 transition focus:outline-none"
+            onClick={handleWishlist}
+          >
+            <div className="text-2xl">
+              <FontAwesomeIcon icon={faHeart} />
             </div>
-          </Link>
-
+            <div className="text-xs leading-3">Wishlist</div>
+          </button>
           <div
             className="relative text-center text-gray-700 hover:text-red-700 transition"
             onClick={handleCart}
@@ -162,43 +213,47 @@ const Header = () => {
           </div>
 
           <div
-            className={`relative text-center text-gray-700  hover:text-red-700  transition group ${
-              isLoggedIn ? "" : "pointer-events-none"
-            }`}
-          >
-            <div className="text-2xl">
+          className={`relative text-center  text-gray-700 hover:text-red-700 transition group dropdown-container`}
+        >
+            <div className="text-2xl" onClick={handleToggleDropdown}>
               <FontAwesomeIcon icon={faUser} />
             </div>
-            <div className="text-xs leading-3">Account</div>
+            <div className="text-xs leading-3" onClick={handleToggleDropdown}>
+              Account
+            </div>
 
             <div
-              className="absolute right-0 bg-white px-2 rounded-md  border-t-2  border-gray-800 z-50 shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible"
-              onClick={handleClosePopup}
+              className={`absolute right-0 bg-white px-2 rounded-md border-t-2 border-gray-800 z-50 shadow-md py-3 divide-y divide-gray-300 divide-dashed transition duration-300 ${
+                isDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
+              }`}
             >
               <Link
                 to="/profile"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
+                onClick={handleClosePopup}
               >
                 <FontAwesomeIcon
                   icon={faUser}
                   className="w-5 h-5 object-contain"
                 />
-                <span className="ml-6  text-sm">Profile</span>
+                <span className="ml-6 text-sm">Profile</span>
               </Link>
               <Link
                 to="/order"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
+                onClick={handleClosePopup}
               >
                 <FontAwesomeIcon
                   icon={faClipboardList}
                   className="w-5 h-5 object-contain"
                 />
-                <span className="ml-6  text-sm">Orders</span>
+                <span className="ml-6 text-sm">Orders</span>
               </Link>
               {user_type === 2 && (
                 <Link
                   to="/dashboard"
                   className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
+                  onClick={handleClosePopup}
                 >
                   <FontAwesomeIcon
                     icon={faStore}
@@ -211,12 +266,13 @@ const Header = () => {
               <a
                 href="#"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
+                onClick={handleClosePopup}
               >
                 <FontAwesomeIcon
                   icon={faCog}
                   className="w-5 h-5 object-contain"
                 />
-                <span className="ml-6  text-sm">setting</span>
+                <span className="ml-6 text-sm">Setting</span>
               </a>
               {isLoggedIn && (
                 <button
@@ -227,13 +283,21 @@ const Header = () => {
                     icon={faSignOutAlt}
                     className="w-5 h-5 object-contain"
                   />
-                  <span className="ml-6  text-sm">Logout</span>
+                  <span className="ml-6 text-sm">Logout</span>
                 </button>
               )}
             </div>
           </div>
         </div>
       </div>
+
+      {showAlert && (
+        <Alert
+          setShowAlert={setShowAlert}
+          messageType={alertMsgType}
+          message={alertMsg}
+        />
+      )}
     </header>
   );
 };

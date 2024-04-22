@@ -47,7 +47,7 @@ const Login = ({ toggleForm, onLoginSuccess }) => {
               onChange={(e) => setEmail(e.target.value)}
               name="email"
               id="email"
-              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-400"
+              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-200"
               placeholder="youremail.@domain.com"
             />
           </div>
@@ -61,7 +61,7 @@ const Login = ({ toggleForm, onLoginSuccess }) => {
               onChange={(e) => setPassword(e.target.value)}
               name="password"
               id="password"
-              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-400"
+              className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-red-700 placeholder-gray-200"
               placeholder="*******"
             />
           </div>
