@@ -145,10 +145,12 @@ const Product = () => {
           <div className="space-y-2">
             <p className="text-gray-800 font-semibold space-x-2">
               <span>Availability: </span>
-              {product.available_units > 0 ? (
-                <span className="text-green-600">In Stock</span>
+              {product.in_stock > 0 ? (
+                <span className="text-green-600">
+                  In Stock ({product.in_stock})
+                </span>
               ) : (
-                <span className="text-green-600">Out of Stock</span>
+                <span className="text-red-600">Out of Stock</span>
               )}
             </p>
 
@@ -171,10 +173,16 @@ const Product = () => {
           <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
             <button
               onClick={handleAddToCart2}
-              className="bg-red-700 border border-red-700 text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-red-700 transition"
+              className={`bg-red-700 border border-red-700 text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-red-700 transition ${
+                product.in_stock < 1
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-transparent hover:text-red-700 transition font-medium"
+              }`}
+              disabled={product.in_stock < 1}
             >
-              <FontAwesomeIcon icon={faBagShopping} /> Add to cart
+              Add to Cart
             </button>
+
             <button
               onClick={handleAddToWishlist2}
               className="border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-red-700 transition"

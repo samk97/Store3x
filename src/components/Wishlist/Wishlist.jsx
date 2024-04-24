@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../UI/Alert";
+import { addToCartHandler } from "../../utils/Cart";
+
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setwishSize } from "../../redux/slices/wishSlice";
+import { setcartSize } from "../../redux/slices/cartSlice";
 
 import {
   getUserWishListItems,
@@ -19,6 +22,7 @@ const Wishlist = () => {
   const [alertMsgType, setAlertMsgType] = useState("");
   let user = useSelector((state) => state.auth.user);
   const wish_size = useSelector((state) => state.wish.wish_size);
+  const cart_size = useSelector((state) => state.cart.cart_size);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -64,6 +68,25 @@ const Wishlist = () => {
     }
   };
 
+  const handleAddToCart = async (productId) => {
+    try {
+      const response = await addToCartHandler(user, productId);
+      setShowAlert(true);
+
+      if (response.success) {
+        setAlertMsg(response.message);
+        setAlertMsgType("success");
+        dispatch(setcartSize({ cart_size: cart_size + 1 }));
+      } else {
+        setAlertMsg(response.message);
+        setAlertMsgType("NA");
+      }
+    } catch (error) {
+      setAlertMsg(error.message);
+      setAlertMsgType("fail");
+    }
+  };
+
   return (
     <>
       <div className="w-full pt-5 flex justify-center text-2xl font-bold">
@@ -91,28 +114,35 @@ const Wishlist = () => {
                   Availability:{" "}
                   <span
                     className={`text-${
-                      item.productData.availability ? "green" : "red"
+                      item.productData.in_stock ? "green" : "red"
                     }-600`}
                   >
                     {item.productData.availability
-                      ? "In Stock"
-                      : "Out of Stock"}
+                      ? "Out of Stock"
+                      : "In Stock"}
                   </span>
                 </p>
               </div>
               <div className="text-red-700 text-lg font-semibold">
-                ${item.productData.price}
+                ₹{item.productData.price}
               </div>
+              
               <a
                 href="#"
                 className={`${
-                  item.productData.availability
+                  item.productData.in_stock
                     ? "bg-red-700 hover:bg-transparent hover:text-red-700"
                     : "cursor-not-allowed bg-red-400"
                 } px-6 py-2 text-center text-sm text-white border border-red-700 rounded transition uppercase font-roboto font-medium`}
+                onClick={() => {
+                  if (item.productData.in_stock) {
+                    handleAddToCart(item.product_id);
+                  }
+                }}
               >
-                {item.productData.availability ? "Add to Cart" : "Out of Stock"}
+                {item.productData.in_stock ? "Add to Cart" : "Out of Stock"}
               </a>
+
               <div
                 className="text-gray-600 cursor-pointer hover:text-red-700"
                 onClick={() => handleDelete(item.product_id)}
