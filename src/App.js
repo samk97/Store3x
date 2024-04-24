@@ -47,7 +47,8 @@ function App() {
       .catch((error) => {
         console.error("Error fetching user cart items:", error);
       });
-
+  }, [usr]);
+  useEffect(() => {
     getUserWishListItems(usr)
       .then((data) => {
         dispatch(setwishSize({ wish_size: data.length > 0 ? data.length : 0 }));
