@@ -18,7 +18,6 @@ import {
 import { fetchData } from "../../utils/Shop";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { UserCartItems } from "../../utils/Cart";
 
 const Header = () => {
   const [cartPopupOpen, setCartPopupOpen] = useState(false);
@@ -36,6 +35,7 @@ const Header = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user_type = useSelector((state) => state.auth.user_type);
   const cart_size = useSelector((state) => state.cart.cart_size);
+  const wish_size = useSelector((state) => state.wish.wish_size);
 
   useEffect(() => {
     console.log(cart_size);
@@ -203,6 +203,11 @@ const Header = () => {
               <FontAwesomeIcon icon={faHeart} />
             </div>
             <div className="text-xs leading-3">Wishlist</div>
+            {wish_size > 0 && (
+              <div className="absolute -right-1 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-red-700 text-white text-xs">
+                {wish_size}
+              </div>
+            )}
           </button>
           <div
             className="relative text-center text-gray-700 hover:text-red-700 transition"

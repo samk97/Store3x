@@ -21,10 +21,11 @@ import { useSelector } from "react-redux";
 import { UserCartItems } from "./utils/Cart";
 import { useDispatch } from "react-redux";
 import { setcartSize } from "./redux/slices/cartSlice";
+import { getUserWishListItems } from "./utils/Wishlist";
+import { setwishSize } from "./redux/slices/wishSlice";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
   let usr = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
@@ -42,6 +43,14 @@ function App() {
     UserCartItems(usr)
       .then((data) => {
         dispatch(setcartSize({ cart_size: data.length > 0 ? data.length : 0 }));
+      })
+      .catch((error) => {
+        console.error("Error fetching user cart items:", error);
+      });
+
+    getUserWishListItems(usr)
+      .then((data) => {
+        dispatch(setwishSize({ wish_size: data.length > 0 ? data.length : 0 }));
       })
       .catch((error) => {
         console.error("Error fetching user cart items:", error);

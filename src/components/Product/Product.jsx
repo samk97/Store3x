@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setcartSize } from "../../redux/slices/cartSlice";
 import { ScrollTop } from "../../utils/ScrollTop";
+import { setwishSize } from "../../redux/slices/wishSlice";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -36,6 +37,7 @@ const Product = () => {
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
   const cart_size = useSelector((state) => state.cart.cart_size);
+  const wish_size = useSelector((state) => state.wish.wish_size);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
 
@@ -108,6 +110,7 @@ const Product = () => {
       if (response.success) {
         setAlertMsg(response.message);
         setAlertMsgType("success");
+        dispatch(setwishSize({ wish_size: wish_size + 1 }));
       } else {
         setAlertMsg(response.message);
         setAlertMsgType("NA");

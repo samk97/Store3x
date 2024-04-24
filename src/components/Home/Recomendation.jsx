@@ -8,6 +8,7 @@ import Alert from "../UI/Alert";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setcartSize } from "../../redux/slices/cartSlice";
+import { setwishSize } from "../../redux/slices/wishSlice";
 
 const Recomendation = () => {
   const [products, setProducts] = useState([]);
@@ -16,6 +17,7 @@ const Recomendation = () => {
   const [alertMsgType, setAlertMsgType] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const cart_size = useSelector((state) => state.cart.cart_size);
+  const wish_size = useSelector((state) => state.wish.wish_size);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   useEffect(() => {
@@ -57,6 +59,7 @@ const Recomendation = () => {
       if (response.success) {
         setAlertMsg(response.message);
         setAlertMsgType("success");
+        dispatch(setwishSize({ wish_size: wish_size + 1 }));
       } else {
         setAlertMsg(response.message);
         setAlertMsgType("NA");

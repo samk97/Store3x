@@ -4,9 +4,11 @@ import { fetchData } from "../../utils/Shop";
 import { addToCartHandler } from "../../utils/Cart";
 import { addToWishlistHandler } from "../../utils/Wishlist";
 import Alert from "../UI/Alert";
-import Pagination from "./Pagination";import { useSelector } from "react-redux";
+import Pagination from "./Pagination";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setcartSize } from "../../redux/slices/cartSlice";
+import { setwishSize } from "../../redux/slices/wishSlice";
 
 const ProductList = ({
   categoriesFilter,
@@ -27,6 +29,7 @@ const ProductList = ({
   const [itemsPerPage] = useState(9);
   const user = useSelector((state) => state.auth.user);
   const cart_size = useSelector((state) => state.cart.cart_size);
+  const wish_size = useSelector((state) => state.wish.wish_size);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -67,12 +70,10 @@ const ProductList = ({
   };
 
   useEffect(() => {
-    // Save current page to local storage when it changes
     localStorage.setItem("currentPage", currentPage.toString());
   }, [currentPage]);
 
   useEffect(() => {
-    // Retrieve current page from local storage when component mounts
     const savedPage = localStorage.getItem("currentPage");
     setCurrentPage(savedPage ? parseInt(savedPage) : 1);
   }, []);
@@ -104,6 +105,7 @@ const ProductList = ({
       if (response.success) {
         setAlertMsg(response.message);
         setAlertMsgType("success");
+        dispatch(setwishSize({ wish_size: wish_size + 1 }));
       } else {
         setAlertMsg(response.message);
         setAlertMsgType("NA");
@@ -114,7 +116,6 @@ const ProductList = ({
     }
   };
 
-  // Calculate indexes of the items to display for the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredProducts.slice(

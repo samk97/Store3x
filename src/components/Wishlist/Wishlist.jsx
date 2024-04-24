@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Alert from "../UI/Alert";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setwishSize } from "../../redux/slices/wishSlice";
 
 import {
   getUserWishListItems,
@@ -16,6 +18,8 @@ const Wishlist = () => {
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
   let user = useSelector((state) => state.auth.user);
+  const wish_size = useSelector((state) => state.wish.wish_size);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,6 +50,7 @@ const Wishlist = () => {
         setShowAlert(true);
         setAlertMsg("Item deleted from wishlist successfully.");
         setAlertMsgType("success");
+        dispatch(setwishSize({ wish_size: wish_size > 0 ? wish_size - 1 : 0 }));
       } else {
         setShowAlert(true);
         setAlertMsg("Failed to delete item from wishlist.");
