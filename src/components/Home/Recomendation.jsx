@@ -6,15 +6,18 @@ import { addToCartHandler } from "../../utils/Cart";
 import { addToWishlistHandler } from "../../utils/Wishlist";
 import Alert from "../UI/Alert";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setcartSize } from "../../redux/slices/cartSlice";
 
 const Recomendation = () => {
   const [products, setProducts] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]); 
- let user = useSelector((state) => state.auth.user);
-
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const cart_size = useSelector((state) => state.cart.cart_size);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -36,6 +39,7 @@ const Recomendation = () => {
       if (response.success) {
         setAlertMsg(response.message);
         setAlertMsgType("success");
+        dispatch(setcartSize({ cart_size: cart_size + 1 }));
       } else {
         setAlertMsg(response.message);
         setAlertMsgType("NA");
@@ -80,18 +84,18 @@ const Recomendation = () => {
           <div key={product.productId}>
             {/* Add conditional check */}
             {product && (
-
-                <ProductCard
-                  title={product.name}
-                  price={product.price}
-                  addToCartHandler={() => handleAddToCart(product.product_id)}
-            addToWishlistHandler={() => handleAddToWishlist(product.product_id)}
-                  bgImage={product.image_url}
-                  rating={product.rating}
-                  discount_percent={product.discount_percent}
-                  productId={product.product_id}
-                />
-           
+              <ProductCard
+                title={product.name}
+                price={product.price}
+                addToCartHandler={() => handleAddToCart(product.product_id)}
+                addToWishlistHandler={() =>
+                  handleAddToWishlist(product.product_id)
+                }
+                bgImage={product.image_url}
+                rating={product.rating}
+                discount_percent={product.discount_percent}
+                productId={product.product_id}
+              />
             )}
           </div>
         ))}

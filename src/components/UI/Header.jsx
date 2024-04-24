@@ -18,6 +18,7 @@ import {
 import { fetchData } from "../../utils/Shop";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { UserCartItems } from "../../utils/Cart";
 
 const Header = () => {
   const [cartPopupOpen, setCartPopupOpen] = useState(false);
@@ -34,6 +35,12 @@ const Header = () => {
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user_type = useSelector((state) => state.auth.user_type);
+  const cart_size = useSelector((state) => state.cart.cart_size);
+
+
+  useEffect(()=>{
+    console.log(cart_size)
+  })
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -207,7 +214,12 @@ const Header = () => {
               <FontAwesomeIcon icon={faShoppingCart} />
             </div>
             <div className="text-xs leading-3">Cart</div>
-            {cartPopupOpen && <Cart  />}
+
+            <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-red-700 text-white text-xs">
+              {cart_size}
+            </div>
+
+            {cartPopupOpen && <Cart />}
           </div>
 
           <div

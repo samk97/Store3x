@@ -9,6 +9,8 @@ import {
 } from "../../utils/Cart";
 
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setcartSize } from "../../redux/slices/cartSlice";
 
 const Cart = () => {
   const [cartProduct, setCartProduct] = useState([]);
@@ -17,7 +19,8 @@ const Cart = () => {
   const [alertMsgType, setAlertMsgType] = useState("");
   const [subtotal, setSubtotal] = useState(0);
   let user = useSelector((state) => state.auth.user);
-
+  const cart_size = useSelector((state) => state.cart.cart_size);
+  const dispatch = useDispatch();
   const refreshCart = () => {
     UserCartItems(user)
       .then((data) => {
@@ -51,6 +54,7 @@ const Cart = () => {
       setAlertMsg("Item deleted from cart successfully !!!");
       setShowAlert(true);
       setAlertMsgType("success");
+      dispatch(setcartSize({ cart_size: cart_size > 0 ? cart_size - 1 : 0 }));
     } catch (error) {
       setAlertMsg("Error deleting item from cart !!!");
       setShowAlert(true);

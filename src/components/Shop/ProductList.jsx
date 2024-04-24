@@ -4,8 +4,9 @@ import { fetchData } from "../../utils/Shop";
 import { addToCartHandler } from "../../utils/Cart";
 import { addToWishlistHandler } from "../../utils/Wishlist";
 import Alert from "../UI/Alert";
-import Pagination from "./Pagination";
-import { useSelector } from "react-redux";
+import Pagination from "./Pagination";import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setcartSize } from "../../redux/slices/cartSlice";
 
 const ProductList = ({
   categoriesFilter,
@@ -25,6 +26,8 @@ const ProductList = ({
   );
   const [itemsPerPage] = useState(9);
   const user = useSelector((state) => state.auth.user);
+  const cart_size = useSelector((state) => state.cart.cart_size);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -82,6 +85,7 @@ const ProductList = ({
       if (response.success) {
         setAlertMsg(response.message);
         setAlertMsgType("success");
+        dispatch(setcartSize({ cart_size: cart_size + 1 }));
       } else {
         setAlertMsg(response.message);
         setAlertMsgType("NA");

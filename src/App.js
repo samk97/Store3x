@@ -17,9 +17,16 @@ import DashboardLayout from "./components/Admin/DashboardLayout";
 import Dashboard2 from "./components/Admin/Dashboard";
 import Error from "./components/Error/Error";
 import { fetchUser } from "./utils/Auth";
+import { useSelector } from "react-redux";
+import { UserCartItems } from "./utils/Cart";
+import { useDispatch } from "react-redux";
+import { setcartSize } from "./redux/slices/cartSlice";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
+  let usr = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const checkUser = fetchUser();
@@ -30,6 +37,16 @@ function App() {
       setUser(null);
     }
   }, []);
+
+  useEffect(() => {
+    UserCartItems(usr)
+      .then((data) => {
+        dispatch(setcartSize({ cart_size: data.length > 0 ? data.length : 0 }));
+      })
+      .catch((error) => {
+        console.error("Error fetching user cart items:", error);
+      });
+  }, [usr]);
 
   return (
     <Routes>

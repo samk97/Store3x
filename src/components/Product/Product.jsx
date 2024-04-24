@@ -19,8 +19,9 @@ import { getProductById } from "../../utils/Product";
 import { fetchCategoriesById } from "../../utils/Category";
 import Alert from "../UI/Alert";
 import { fetchData } from "../../utils/Shop";
-
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setcartSize } from "../../redux/slices/cartSlice";
 import { ScrollTop } from "../../utils/ScrollTop";
 
 const Product = () => {
@@ -34,7 +35,8 @@ const Product = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertMsgType, setAlertMsgType] = useState("");
-
+  const cart_size = useSelector((state) => state.cart.cart_size);
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
@@ -81,6 +83,7 @@ const Product = () => {
       if (response.success) {
         setAlertMsg(response.message);
         setAlertMsgType("success");
+        dispatch(setcartSize({ cart_size: cart_size + 1 }));
       } else {
         setAlertMsg(response.message);
         setAlertMsgType("NA");
@@ -90,6 +93,13 @@ const Product = () => {
       setAlertMsgType("fail");
     }
   };
+  const handleAddToCart2 = () => {
+    handleAddToCart(product.product_id);
+  };
+  const handleAddToWishlist2 = () => {
+    handleAddToWishlist(product.product_id);
+  };
+
   const handleAddToWishlist = async (productId) => {
     try {
       const response = await addToWishlistHandler(user, productId);
@@ -157,13 +167,13 @@ const Product = () => {
 
           <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
             <button
-              onClick={handleAddToCart}
+              onClick={handleAddToCart2}
               className="bg-red-700 border border-red-700 text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-red-700 transition"
             >
               <FontAwesomeIcon icon={faBagShopping} /> Add to cart
             </button>
             <button
-              onClick={handleAddToWishlist}
+              onClick={handleAddToWishlist2}
               className="border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-red-700 transition"
             >
               <FontAwesomeIcon icon={faHeart} /> Wishlist
@@ -263,16 +273,18 @@ const Product = () => {
                 {/* Add conditional check */}
                 {product && (
                   <ProductCard
-                  key={product.productId} // Assuming productId is unique
-                  title={product.name}
-                  price={product.price}
-                  addToCartHandler={() => handleAddToCart(product.product_id)}
-                  addToWishlistHandler={() => handleAddToWishlist(product.product_id)}
-                  bgImage={product.image_url}
-                  rating={product.rating}
-                  discount_percent={product.discount_percent}
-                  productId={product.product_id}
-                />
+                    key={product.productId} // Assuming productId is unique
+                    title={product.name}
+                    price={product.price}
+                    addToCartHandler={() => handleAddToCart(product.product_id)}
+                    addToWishlistHandler={() =>
+                      handleAddToWishlist(product.product_id)
+                    }
+                    bgImage={product.image_url}
+                    rating={product.rating}
+                    discount_percent={product.discount_percent}
+                    productId={product.product_id}
+                  />
                 )}
               </div>
             ))}
