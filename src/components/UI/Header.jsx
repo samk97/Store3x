@@ -37,10 +37,9 @@ const Header = () => {
   const user_type = useSelector((state) => state.auth.user_type);
   const cart_size = useSelector((state) => state.cart.cart_size);
 
-
-  useEffect(()=>{
-    console.log(cart_size)
-  })
+  useEffect(() => {
+    console.log(cart_size);
+  });
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -214,11 +213,11 @@ const Header = () => {
               <FontAwesomeIcon icon={faShoppingCart} />
             </div>
             <div className="text-xs leading-3">Cart</div>
-
-            <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-red-700 text-white text-xs">
-              {cart_size}
-            </div>
-
+            {cart_size > 0 && (
+              <div className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-red-700 text-white text-xs">
+                {cart_size}
+              </div>
+            )}
             {cartPopupOpen && <Cart />}
           </div>
 
