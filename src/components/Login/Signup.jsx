@@ -62,16 +62,15 @@ const Signup = ({ toggleForm }) => {
       setAlertMsgType("fail");
     }
   };
-
+  //change
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
-
-  useEffect(()=>{
+  useEffect(() => {
     console.log(isSeller);
-  },[isSeller])
+  }, [isSeller]);
 
   return (
     <>
