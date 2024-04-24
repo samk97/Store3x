@@ -82,7 +82,7 @@ const Recomendation = () => {
       <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">
         Recommended for you
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {products.slice(0, 8).map((product) => (
           <div key={product.productId}>
             {/* Add conditional check */}

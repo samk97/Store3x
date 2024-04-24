@@ -73,7 +73,7 @@ const Cart = () => {
   return (
     <>
       <div
-        className="absolute top-15 right-0 w-96 bg-white shadow-sm p-2 px-4 rounded-md border border-t-2  border-gray-800 z-50"
+        className="absolute top-15 right-0 w-96 bg-white shadow-sm p-2 px-4 rounded-md border border-t-2  border-gray-800 z-50 "
         onClick={handleCartClick}
       >
         <div className="w-full pb-2 flex justify-center text-2xl font-bold">
