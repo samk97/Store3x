@@ -110,18 +110,18 @@ const Wishlist = () => {
                 <h2 className="text-gray-800 text-xl font-medium uppercase">
                   {item.productData.name}
                 </h2>
-                <p className="text-gray-500 text-sm">
+                {/* <p className="text-gray-500 text-sm">
                   Availability:{" "}
                   <span
                     className={`text-${
                       item.productData.in_stock ? "green" : "red"
                     }-600`}
                   >
-                    {item.productData.availability
+                    {item.productData.in_stock
                       ? "Out of Stock"
                       : "In Stock"}
                   </span>
-                </p>
+                </p> */}
               </div>
               <div className="text-red-700 text-lg font-semibold">
                 ₹{item.productData.price}

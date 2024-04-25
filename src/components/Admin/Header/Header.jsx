@@ -84,7 +84,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
               <div className="text-xs leading-3">Account</div>
 
               <div className="absolute right-0 bg-white px-2 rounded-md  border-t-2  border-gray-800 z-50 shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
-                <Link
+                {/* <Link
                   to="/dashboard/seller-profile"
                   className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
                 >
@@ -93,7 +93,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                     className="w-5 h-5 object-contain"
                   />
                   <span className="ml-6  text-sm">Profile</span>
-                </Link>
+                </Link> */}
 
                 <Link
                   to="/"
@@ -106,7 +106,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                   <span className="ml-6 text-sm">User Account</span>
                 </Link>
 
-                <a
+                {/* <a
                   href="#"
                   className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
                 >
@@ -115,7 +115,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                     className="w-5 h-5 object-contain"
                   />
                   <span className="ml-6  text-sm">setting</span>
-                </a>
+                </a> */}
                 {isLoggedIn && (
                   <button
                     onClick={handleLogout}

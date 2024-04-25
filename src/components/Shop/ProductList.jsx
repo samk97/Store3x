@@ -137,6 +137,7 @@ const ProductList = ({
           message={alertMsg}
         />
       )}
+      
       <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6">
         {sortProducts(currentItems, sortingOption).map((product) => (
           <ProductCard

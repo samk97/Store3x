@@ -12,7 +12,7 @@ const Banner = () => {
     >
       <div className="container">
         <h1 className="text-6xl text-gray-800 font-medium mb-4 capitalize">
-          best collection for <br /> home decoration
+        Lorem, ipsum dolor  <br />met consectetur adipisicing elit
         </h1>
         <p>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam{" "}

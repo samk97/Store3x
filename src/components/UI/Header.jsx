@@ -241,7 +241,7 @@ const Header = () => {
                 isDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
               }`}
             >
-              <Link
+              {/* <Link
                 to="/profile"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"
                 onClick={handleClosePopup}
@@ -251,7 +251,7 @@ const Header = () => {
                   className="w-5 h-5 object-contain"
                 />
                 <span className="ml-6 text-sm">Profile</span>
-              </Link>
+              </Link> */}
               <Link
                 to="/order"
                 className="flex items-center px-6 py-3 text-gray-700 hover:text-red-700 transition"

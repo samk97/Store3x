@@ -22,7 +22,7 @@ const Category = () => {
             href="#"
             className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
           >
-            Bedroom
+           Electronics
           </a>
         </div>
         <div className="relative rounded-sm overflow-hidden group">
@@ -35,7 +35,7 @@ const Category = () => {
             href="#"
             className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
           >
-            Mattrass
+            Home Appliances
           </a>
         </div>
         <div className="relative rounded-sm overflow-hidden group">
@@ -48,7 +48,7 @@ const Category = () => {
             href="#"
             className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
           >
-            Outdoor
+            Electronics
           </a>
         </div>
         <div className="relative rounded-sm overflow-hidden group">
@@ -61,7 +61,7 @@ const Category = () => {
             href="#"
             className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
           >
-            Sofa
+            Home Appliances
           </a>
         </div>
         <div className="relative rounded-sm overflow-hidden group">
@@ -74,7 +74,7 @@ const Category = () => {
             href="#"
             className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
           >
-            Living Room
+            Electronics
           </a>
         </div>
         <div className="relative rounded-sm overflow-hidden group">
@@ -87,7 +87,7 @@ const Category = () => {
             href="#"
             className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
           >
-            Kitchen
+            Home Appliances
           </a>
         </div>
       </div>

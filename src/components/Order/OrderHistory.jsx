@@ -91,9 +91,9 @@ const OrderHistory = () => {
                 <button className="rounded-full py-3 px-7 font-semibold text-sm leading-7 text-white bg-red-600 max-lg:mt-5 shadow-sm shadow-transparent transition-all duration-500 hover:bg-red-700 hover:shadow-red-400">
                   Cancel Order
                 </button>
-                <button className="rounded-full py-3 px-7 font-semibold text-sm leading-7 text-white bg-gray-600 max-lg:mt-5 shadow-sm shadow-transparent transition-all duration-500 hover:bg-red-700 hover:shadow-red-400">
+                {/* <button className="rounded-full py-3 px-7 font-semibold text-sm leading-7 text-white bg-gray-600 max-lg:mt-5 shadow-sm shadow-transparent transition-all duration-500 hover:bg-red-700 hover:shadow-red-400">
                   Track Your Order
-                </button>
+                </button> */}
               </div>
               <div className="w-full pb-2 flex flex-col lg:flex-row items-center justify-center ">
                 {/* Expand/Collapse Icon */}
